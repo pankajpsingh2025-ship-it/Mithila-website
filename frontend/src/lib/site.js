@@ -17,16 +17,19 @@ export const WA = {
 };
 
 export const IMG = {
-  logo: "/real/logo.jpg",
+  logo: "/real/logo.png",
   khajuriSingle: "/real/khajuri_single.jpg",
   pouches: "/real/pouches.jpg",
   giftbags: "/real/giftbags.jpg",
   packs: "/real/packs.jpg",
-  hero: "/real/khajuri_seven.jpg",
-  stack: "/real/khajuri_stack.jpg",
-  wide: "/real/khajuri_seven.jpg",
-  broken: "/real/khajuri_broken.jpg",
-  chai: "/real/chai_dip.jpg",
+  hero: "/real/approved_flatlay.jpg",
+  flatlay: "/real/approved_flatlay.jpg",
+  stack: "/real/approved_stack.jpg",
+  wide: "/real/approved_flatlay.jpg",
+  broken: "/real/approved_stack.jpg",
+  chai: "/real/approved_chai.jpg",
+  cookieWhole: "/gen/cookie_whole.png",
+  cookieCracked: "/gen/cookie_cracked.png",
 };
 
 export const TRUST = [
@@ -70,6 +73,7 @@ export const PRODUCTS = [
     id: "gift-large",
     name: "Gift Box — Large",
     price: "1,199",
+    priceNum: 1199,
     tag: "Best for gifting",
     kraft: true,
     desc: "The full heritage experience. Premium Mithila art gift bag, hand-packed.",
@@ -80,6 +84,7 @@ export const PRODUCTS = [
     id: "gift-small",
     name: "Gift Box — Small",
     price: "699",
+    priceNum: 699,
     tag: "A thoughtful gesture",
     kraft: true,
     desc: "Same craftsmanship, smaller size. Perfect for a thoughtful gesture.",
@@ -90,6 +95,7 @@ export const PRODUCTS = [
     id: "family-1kg",
     name: "Family Pack — 1kg",
     price: "999",
+    priceNum: 999,
     tag: "Best value",
     kraft: false,
     desc: "A full kilogram for the household. Best value for daily enjoyment.",
@@ -100,6 +106,7 @@ export const PRODUCTS = [
     id: "regular-500",
     name: "Regular Pack — 500gm",
     price: "499",
+    priceNum: 499,
     tag: "The first taste",
     kraft: false,
     desc: "The perfect first taste, or your everyday chiya companion.",

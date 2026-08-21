@@ -1,8 +1,9 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, ShoppingBag, Minus, Plus } from "lucide-react";
 import { PRODUCTS } from "../../lib/site";
 import { Reveal } from "./motion";
+import { useCart } from "../../context/CartContext";
 
 const ProductCard = ({ p, index }) => {
   const rx = useMotionValue(0);
@@ -11,6 +12,8 @@ const ProductCard = ({ p, index }) => {
   const sry = useSpring(ry, { stiffness: 200, damping: 18 });
   const rotateX = useTransform(srx, (v) => `${v}deg`);
   const rotateY = useTransform(sry, (v) => `${v}deg`);
+  const { addItem } = useCart();
+  const [qty, setQty] = useState(1);
 
   const onMove = (e) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -51,15 +54,32 @@ const ProductCard = ({ p, index }) => {
             </div>
           </div>
           <p className="mt-3 text-sm leading-relaxed text-ink/65">{p.desc}</p>
+
+          <div className="mt-5 flex items-center justify-between gap-3">
+            <div className="flex items-center rounded-full border border-maroon/20">
+              <button type="button" onClick={() => setQty((q) => Math.max(1, q - 1))} className="p-2 text-maroon" data-testid={`product-dec-${p.id}`}><Minus className="w-3.5 h-3.5" /></button>
+              <span className="w-8 text-center text-sm" data-testid={`product-qty-${p.id}`}>{qty}</span>
+              <button type="button" onClick={() => setQty((q) => Math.min(99, q + 1))} className="p-2 text-maroon" data-testid={`product-inc-${p.id}`}><Plus className="w-3.5 h-3.5" /></button>
+            </div>
+            <span className="text-xs text-ink/50">NPR {p.priceNum * qty}</span>
+          </div>
+
+          <button
+            onClick={() => addItem(p, qty)}
+            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-maroon px-5 py-3.5 text-sm font-medium text-paper transition-colors duration-300 hover:bg-heritage"
+            data-testid={`product-add-${p.id}`}
+          >
+            <ShoppingBag className="w-4 h-4" /> Add to Cart
+          </button>
           <a
             href={p.href}
             target="_blank"
             rel="noreferrer"
-            className="mt-6 inline-flex items-center justify-between gap-2 rounded-full bg-maroon px-5 py-3.5 text-sm font-medium text-paper transition-colors duration-300 hover:bg-heritage"
+            className="mt-2 inline-flex items-center justify-center gap-1.5 text-xs text-ink/55 hover:text-golddeep transition-colors"
             data-testid={`product-order-${p.id}`}
           >
-            Order on WhatsApp
-            <ArrowUpRight className="w-4 h-4" />
+            or order on WhatsApp
+            <ArrowUpRight className="w-3.5 h-3.5" />
           </a>
         </div>
       </motion.div>
