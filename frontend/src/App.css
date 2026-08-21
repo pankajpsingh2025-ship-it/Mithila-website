@@ -1,0 +1,84 @@
+/* Mithila.Foods — global site styles */
+
+html {
+    scroll-behavior: auto;
+}
+
+body {
+    background-color: #FAF1DE;
+    color: #2A1608;
+    overflow-x: hidden;
+}
+
+.App {
+    background-color: #FAF1DE;
+}
+
+/* Lenis smooth scroll */
+html.lenis,
+html.lenis body {
+    height: auto;
+}
+.lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+    overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+    pointer-events: none;
+}
+
+/* Typographic details */
+.font-heading {
+    font-family: "Fraunces", ui-serif, Georgia, serif;
+    letter-spacing: -0.02em;
+}
+
+::selection {
+    background: #4A1F0D;
+    color: #FAF1DE;
+}
+
+/* Warm paper grain texture */
+.paper-texture {
+    background-image: radial-gradient(rgba(74, 31, 13, 0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+}
+
+.logo-multiply {
+    mix-blend-mode: multiply;
+}
+
+/* Clipped arch frame for feature imagery */
+.arch-frame {
+    border-radius: 50% 50% 12px 12px / 30% 30% 12px 12px;
+    overflow: hidden;
+}
+
+.blob-frame {
+    border-radius: 62% 38% 46% 54% / 55% 48% 52% 45%;
+    overflow: hidden;
+}
+
+/* Hide default scrollbar aesthetic */
+::-webkit-scrollbar {
+    width: 10px;
+}
+::-webkit-scrollbar-track {
+    background: #F3E2C2;
+}
+::-webkit-scrollbar-thumb {
+    background: #C17B3A;
+    border-radius: 8px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.001ms !important;
+        transition-duration: 0.001ms !important;
+    }
+}

@@ -1,0 +1,161 @@
+{
+  "project_context": {
+    "brand_name": "Mithila.Foods",
+    "tagline": "The only heritage Mithila brand in Kathmandu",
+    "product": "Khajuri (traditional Mithila/Terai fried savory-sweet snack)",
+    "location": "Bouddha-6, Kathmandu",
+    "aesthetic": "Warm, earthy, heritage/artisanal. Never dark or moody. Award-worthy 3D aesthetic."
+  },
+  "typography": {
+    "headings": {
+      "family": "Fraunces, serif",
+      "weights": ["400", "600"],
+      "usage": "H1, H2, H3, large manifesto numbers, editorial marquee.",
+      "guidelines": "Use fluid typography sizes (e.g., clamp). Very tight tracking for large headings. Never use standard sans-serif for headings."
+    },
+    "body": {
+      "family": "Work Sans, sans-serif",
+      "weights": ["300", "400", "500"],
+      "usage": "Paragraphs, UI elements, small tags, CTA buttons.",
+      "guidelines": "Loose line-height (leading-relaxed) for readability. Moderate tracking."
+    }
+  },
+  "colors": {
+    "primary": {
+      "deepMaroon": "#4A1F0D",
+      "darkInk": "#2A1608"
+    },
+    "accents": {
+      "warmGold": "#E0972A",
+      "brightGold": "#F4B84A",
+      "deepGold": "#C4791B",
+      "heritageGreen": "#3B5C34"
+    },
+    "neutrals": {
+      "kraftBrown": "#C17B3A",
+      "cream": "#F3E2C2",
+      "creamLight": "#FAF1DE",
+      "paperWhite": "#FFFDF8"
+    }
+  },
+  "visual_enhancers": {
+    "textures": "Madhubani folk-art line work (sun face, peacock, lotus, tree of life, triangle border). Use as extremely subtle SVG overlays or borders with opacity 10-20% in Deep Maroon or Kraft Brown.",
+    "shapes": "Clipped frames (e.g., archways, pill shapes) for images. No harsh 90-degree corners on feature imagery.",
+    "depth": "Implement a 2.5D parallax depth effect using staggered layers, large soft drop shadows (warm tinted, e.g., rgba(74, 31, 13, 0.1)), and blurred background elements.",
+    "glassmorphism": "Warm glassmorphism. Avoid cold icy glass. Use `bg-creamLight/60 backdrop-blur-xl border-white/20`."
+  },
+  "layouts": {
+    "general": "Mobile-first responsive. Avoid standard Bootstrap grids. Use 'The Swiss Grid' mixed with 'The Bento Grid' for asymmetry.",
+    "spacing": "Extremely generous padding (`py-24` to `py-32` between sections).",
+    "alignment": "Optical alignment. Left-align text blocks, but feel free to stagger elements across the grid."
+  },
+  "grids": {
+    "bento": "Asymmetrical, e.g., grid-cols-12 where elements span 4, 8, or 6 columns overlapping."
+  },
+  "motion": {
+    "libraries": ["framer-motion", "@studio-freight/react-lenis"],
+    "choreography": "Smooth momentum scrolling (lenis). Elements enter via staggered fade-ins and subtle upward translations. Hero text uses line-by-line masked reveals. Parallax on images.",
+    "3d_aesthetic": "Use framer-motion `useScroll` and `useTransform` to move foreground image layers faster than background ones. Add subtle 3D tilt on product cards using `framer-motion`."
+  },
+  "accessibility": {
+    "contrast": "Ensure minimum 4.5:1 ratio for standard text. Test Dark Ink against Cream Light.",
+    "motion": "Respect `prefers-reduced-motion` for complex parallax.",
+    "testing": "All interactive elements MUST include a `data-testid` attribute (kebab-case, role-based)."
+  },
+  "media": {
+    "image_treatment": "Spotlight effect, warm lighting, masked/clipped frames (archways). Images should never feel 'dropped in'—they must feel integrated into the page geometry."
+  },
+  "3d_libraries_and_steps": {
+    "libraries": "framer-motion",
+    "steps": [
+      "1. Instead of heavy WebGL/Three.js, achieve the requested '3D aesthetic' by using 2.5D layering with framer-motion.",
+      "2. Separate hero images into foreground (product), midground (text), and background (texture/color).",
+      "3. Use `useScroll` from framer-motion to track scroll progress.",
+      "4. Apply `useTransform` to shift the foreground on the Y-axis at a 1.5x speed multiplier, midground at 1.0x, and background at 0.5x.",
+      "5. Apply a 3D tilt effect on hover for product cards (`rotateX`, `rotateY` mapped to mouse position)."
+    ]
+  },
+  "component_path": {
+    "guidelines": "Use standard HTML/Tailwind for marketing layout structures. DO NOT use rigid Shadcn cards for the main marketing sections, only for complex UI (e.g. Accordion/FAQ)."
+  },
+  "image_urls": [
+    {
+      "category": "Hero Parallax Imagery",
+      "url": "https://images.unsplash.com/photo-1778448806503-f01d2971ccfe?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwyfHx0cmFkaXRpb25hbCUyMGluZGlhbiUyMHN3ZWV0JTIwZm9vZCUyMG1hY3JvJTIwd2FybXxlbnwwfHx8fDE3ODczMDc5MDh8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Golden sweet pastry (Khajuri representation) to be masked/clipped and layered in the hero section for 3D parallax."
+    },
+    {
+      "category": "Ingredients Cinematic Macros",
+      "url": "https://images.pexels.com/photos/3040873/pexels-photo-3040873.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Close up of vibrant whole spices. Used for the floating ingredients scroll-through."
+    },
+    {
+      "category": "Products Grid",
+      "url": "https://images.unsplash.com/photo-1778448806608-4b2d5817eff2?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1MDV8MHwxfHNlYXJjaHwxfHx0cmFkaXRpb25hbCUyMGluZGlhbiUyMHN3ZWV0JTIwZm9vZCUyMG1hY3JvJTIwd2FybXxlbnwwfHx8fDE3ODczMDc5MDh8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Warm lit traditional sweets for product cards showcasing Khajuri variations."
+    },
+    {
+      "category": "Lifestyle Chai Moment",
+      "url": "https://images.pexels.com/photos/37867755/pexels-photo-37867755.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Street vendor pouring hot chai tea. Used as a full-width immersive background."
+    }
+  ],
+  "sections_breakdown": [
+    {
+      "name": "Kinetic Hero",
+      "details": "On-load masked reveal. Text animates line-by-line. Parallax floating Khajuri product against Paper White background with subtle Madhubani sun face."
+    },
+    {
+      "name": "Trust Bar Strip",
+      "details": "Continuous Framer Motion marquee: 'The only heritage Mithila brand in Kathmandu'. Deep Maroon background, Bright Gold text."
+    },
+    {
+      "name": "Our Story Manifesto",
+      "details": "Numbered chapters. Massive Fraunces numerals. Staggered fade-up text on scroll."
+    },
+    {
+      "name": "Ingredients Scroll-Through",
+      "details": "9 ingredient cinematic macros (using the spices image). Use scroll-linked scale/Y-transforms."
+    },
+    {
+      "name": "Products Grid",
+      "details": "4 cards (offset grid). Hover: 3D tilt. CTA: WhatsApp deep-link in Heritage Green."
+    },
+    {
+      "name": "Lifestyle Chai",
+      "details": "Full-width parallax. Warm glassmorphism overlay for text."
+    },
+    {
+      "name": "B2B / Stock",
+      "details": "Split section: Corporate & Bulk Gifting vs Stock at Café. Kraft Brown background."
+    },
+    {
+      "name": "Delivery & Payment",
+      "details": "Two-column grid, Work Sans for clear readability."
+    },
+    {
+      "name": "FAQ",
+      "details": "5 items, Framer Motion AnimatePresence accordion. Madhubani triangle border accents."
+    },
+    {
+      "name": "Footer & Closing CTA",
+      "details": "Dark Ink background. Massive Fraunces typography. Paper White text. WhatsApp Order CTA."
+    }
+  ],
+  "instructions_to_main_agent": [
+    "Build as a single-page scrolling website (.js, React).",
+    "Use Framer Motion heavily for the cinematic scrolling, 3D tilt effects, and text reveals.",
+    "Implement Lenis for smooth momentum scrolling at the App root.",
+    "Ensure all fonts and exactly the provided hex colors are used.",
+    "Generate necessary Madhubani SVG patterns (sun face, tree of life) inline or use CSS patterns mimicking them.",
+    "Maintain the warm, earthy aesthetic—do not let the design slip into generic dark-mode or standard SaaS styles."
+  ],
+  "UNIVERSAL_GUIDELINES_FOR_MAIN_AGENT": [
+    "Do not use generic centered layouts or simplistic gradients.",
+    "Create depth through layered design elements with z-index hierarchy.",
+    "Use framer-motion `useScroll` and `useTransform` to create a 2.5D parallax effect.",
+    "DO NOT use pure transparent backgrounds for text-overlays. Use warm glassmorphism.",
+    "All interactive elements MUST have `data-testid` attributes (kebab-case).",
+    "Ensure generous spacing (`py-24` or `py-32`) for an editorial, cinematic feel."
+  ]
+}
