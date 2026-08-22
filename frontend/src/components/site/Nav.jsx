@@ -7,10 +7,9 @@ import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 
 const LINKS = [
-  { label: "Our Story", id: "story" },
-  { label: "Ingredients", id: "ingredients" },
   { label: "Shop", id: "shop" },
-  { label: "Stockists", id: "stock" },
+  { label: "About", id: "story" },
+  { label: "Vendors", id: "vendors" },
   { label: "FAQ", id: "faq" },
 ];
 

@@ -18,18 +18,38 @@ export const WA = {
 
 export const IMG = {
   logo: "/real/logo.png",
-  khajuriSingle: "/real/khajuri_single.jpg",
-  pouches: "/real/pouches.jpg",
-  giftbags: "/real/giftbags.jpg",
-  packs: "/real/packs.jpg",
-  hero: "/real/approved_flatlay.jpg",
-  flatlay: "/real/approved_flatlay.jpg",
-  stack: "/real/approved_stack.jpg",
-  wide: "/real/approved_flatlay.jpg",
-  broken: "/real/approved_stack.jpg",
-  chai: "/real/approved_chai.jpg",
+  // Real / approved product photos (source of truth — never AI-altered)
+  heroSingle: "/brief/a24.png",     // finished baked khajuri, single hero
+  rawDough: "/brief/a13.png",       // raw, unbaked pressed dough
+  rawMold: "/brief/a03.webp",       // wooden mold + raw florets (craftsmanship)
+  broken: "/brief/a22.png",         // baked khajuri broken into two halves (light)
+  texture: "/brief/a23.png",        // extreme crumb/crispness close-up
+  group: "/brief/a20.png",          // group of baked khajuri
+  flatlay: "/brief/a19.png",        // ingredient flat-lay (correct spices)
+  jarHero: "/brief/a18.png",        // tall sealed branded jar (360° hero)
+  jarOpen: "/brief/a16.png",        // open jar, lid off
+  jarCookies: "/brief/a17.png",     // jar with cookies in front
+  pouchWindow: "/brief/a05.webp",   // black stand-up pouch, clear window (inner pack)
+  giftSet: "/brief/a14.png",        // jar + branded gold bag + kraft pouch
+  giftBag: "/brief/a02.webp",       // branded gold gift bag + kraft pouch (lifestyle)
+  lifestyle: "/brief/a04.webp",
+  // Vendor café environments
+  cafeJanakpur: "/brief/a08.png",
+  cafeAkhiJhyal: "/brief/a09.png",
+  cafeChiyaSamaj: "/brief/a10.png",
+  cafeOotalo: "/brief/a11.png",
+  cafeChiyaExpress: "/brief/a12.png",
+  // Transparent PNGs used only for the scroll morph
   cookieWhole: "/gen/cookie_whole.png",
   cookieCracked: "/gen/cookie_cracked.png",
+  // legacy aliases still referenced by some sections
+  pouches: "/brief/a05.webp",
+  giftbags: "/brief/a14.png",
+  packs: "/brief/a15.png",
+  hero: "/brief/a24.png",
+  stack: "/brief/a20.png",
+  chai: "/brief/a10.png",
+  khajuriSingle: "/brief/a24.png",
 };
 
 export const TRUST = [
@@ -56,14 +76,15 @@ export const STORY = {
 
 export const INGREDIENTS = [
   { name: "Semolina", sub: "(suji)", note: "The base of every batch", img: "/gen/ing_semolina.jpg" },
-  { name: "Wheat flour", sub: "", note: "Stone-ground, honest and simple", img: "/gen/ing_wheatflour.jpg" },
   { name: "Ghee", sub: "", note: "Real, pure ghee — never vanaspati", img: "/gen/ing_ghee.jpg" },
   { name: "Jaggery", sub: "(gur)", note: "For real sweetness, not syrup", img: "/gen/ing_jaggery.jpg" },
   { name: "Fresh coconut", sub: "", note: "Fresh, not desiccated or sweetened", img: "/gen/ing_coconut.jpg" },
-  { name: "Peanuts", sub: "", note: "Whole, roasted in-house", img: "/gen/ing_peanuts.jpg" },
   { name: "Almonds", sub: "", note: "A generous handful in every batch", img: "/gen/ing_almonds.jpg" },
   { name: "Cashew", sub: "", note: "Broken by hand, not machine-chopped", img: "/gen/ing_cashew.jpg" },
-  { name: "Ajwain", sub: "(carom seeds)", note: "The quiet, warming finish", img: "/gen/ing_ajwain.jpg" },
+  { name: "Peanuts", sub: "", note: "Whole, roasted in-house", img: "/gen/ing_peanuts.jpg" },
+  { name: "Cardamom", sub: "(elaichi)", note: "Warm, floral aroma", img: "/brief/ing_cardamom.jpg" },
+  { name: "Cloves", sub: "(lwang)", note: "A deep, gentle spice", img: "/brief/ing_cloves.jpg" },
+  { name: "Fennel seeds", sub: "(saunf)", note: "The quiet, sweet finish", img: "/brief/ing_fennel.jpg" },
 ];
 
 export const ALLERGEN = "Contains nuts, dairy, and gluten. Does NOT contain egg.";

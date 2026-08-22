@@ -32,3 +32,12 @@ Build a single-page, cinematic scrolling marketing website for **Mithila.Foods**
 - P1: Swap in user's final logo.png when provided (currently uses shared logo image with multiply blend).
 - P2: Add mobile-nav data-testid parity (nav-link-* mirror) — cosmetic for tests.
 - P2: Optional OG/meta tags + favicon for sharing.
+
+## Update (2026-08 — Cinematic rebuild "ultimateeee")
+Homepage rebuilt as a scroll-driven story using 24 client-approved photos (in /frontend/public/brief):
+- Intro (CinematicIntro): hero → ingredients converge (CORRECT spices only: cardamom, cloves, fennel — ajwain removed) → glass sphere → raw dough (a13/a03) → baked (a24) → break (a22).
+- Shop kept high on the page; product images updated to approved jars/gift-set/pouch/group. Pricing + cart unchanged.
+- Packaging (CinematicOutro): whole khajuri → inner window pouch (a05) → branded Mithila gift bag (a02/a14). Light palette.
+- Vendors (new): jar hero (a18) with scroll rotation on neutral backdrop, then crossfade through 5 real café environments (Janakpur Junction, Chiya Samaj, Ootalo, Chiya Express, Akhi Jhyal) → "Loved by 35+ cafés" → BECOME A VENDOR (WhatsApp stockist).
+- Final CTA (ClosingCTA): full composition (a14) + "Craving khajuri?" + single SHOP NOW (scrolls to shop).
+- Nav links: Shop / About / Vendors / FAQ + Cart + Emergent Google Sign-in.
