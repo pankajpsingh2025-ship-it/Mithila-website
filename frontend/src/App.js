@@ -1,15 +1,18 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import Lenis from "lenis";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./App.css";
+import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { Nav } from "./components/site/Nav";
 import { CartDrawer } from "./components/site/CartDrawer";
+import { AuthCallback } from "./components/site/AuthCallback";
 import Home from "./pages/Home";
 import Checkout from "./pages/Checkout";
 import OrderResult from "./pages/OrderResult";
+import Orders from "./pages/Orders";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -38,21 +41,37 @@ function SmoothScroll() {
   return null;
 }
 
+function AppRouter() {
+  const location = useLocation();
+  // Handle the OAuth return (session_id in URL fragment) BEFORE anything else.
+  if (location.hash?.includes("session_id=")) {
+    return <AuthCallback />;
+  }
+  return (
+    <>
+      <SmoothScroll />
+      <Nav />
+      <CartDrawer />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order/:id" element={<OrderResult />} />
+        <Route path="/orders" element={<Orders />} />
+      </Routes>
+    </>
+  );
+}
+
 function App() {
   return (
     <div className="App">
-      <CartProvider>
-        <BrowserRouter>
-          <SmoothScroll />
-          <Nav />
-          <CartDrawer />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/order/:id" element={<OrderResult />} />
-          </Routes>
-        </BrowserRouter>
-      </CartProvider>
+      <AuthProvider>
+        <CartProvider>
+          <BrowserRouter>
+            <AppRouter />
+          </BrowserRouter>
+        </CartProvider>
+      </AuthProvider>
     </div>
   );
 }

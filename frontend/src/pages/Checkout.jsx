@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import { useAuth } from "../context/AuthContext";
 import { createOrder } from "../lib/api";
 import { IMG } from "../lib/site";
 
@@ -16,12 +17,17 @@ const PAYMENTS = [
 
 export default function Checkout() {
   const { items, subtotal, setQty, removeItem, clear } = useCart();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [zone, setZone] = useState("valley");
   const [method, setMethod] = useState("cod");
   const [form, setForm] = useState({ name: "", phone: "", address: "", note: "" });
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState("");
+
+  useEffect(() => {
+    if (user?.name) setForm((f) => (f.name ? f : { ...f, name: user.name }));
+  }, [user]);
 
   const deliveryFee = zone === "valley" ? 0 : 150;
   const total = subtotal + deliveryFee;

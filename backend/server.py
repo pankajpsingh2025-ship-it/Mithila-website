@@ -1,14 +1,17 @@
-from fastapi import FastAPI, APIRouter, HTTPException
+from fastapi import FastAPI, APIRouter, HTTPException, Request, Response
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import logging
+import httpx
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
 from typing import List, Literal, Optional
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
+
+EMERGENT_SESSION_URL = "https://demobackend.emergentagent.com/auth/v1/env/oauth/session-data"
 
 
 ROOT_DIR = Path(__file__).parent
@@ -64,10 +67,136 @@ class OrderCreate(BaseModel):
     note: Optional[str] = ""
 
 
+class User(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+    user_id: str
+    email: str
+    name: str = ""
+    picture: str = ""
+
+
+# ----- Auth helpers -----
+def _get_session_token(request: Request) -> Optional[str]:
+    token = request.cookies.get("session_token")
+    if not token:
+        auth = request.headers.get("Authorization", "")
+        if auth.startswith("Bearer "):
+            token = auth.split(" ", 1)[1].strip()
+    return token or None
+
+
+async def get_current_user_optional(request: Request) -> Optional[dict]:
+    token = _get_session_token(request)
+    if not token:
+        return None
+    session = await db.user_sessions.find_one({"session_token": token}, {"_id": 0})
+    if not session:
+        return None
+    expires_at = session.get("expires_at")
+    if isinstance(expires_at, str):
+        expires_at = datetime.fromisoformat(expires_at)
+    if expires_at is not None and expires_at.tzinfo is None:
+        expires_at = expires_at.replace(tzinfo=timezone.utc)
+    if expires_at is not None and expires_at < datetime.now(timezone.utc):
+        return None
+    return await db.users.find_one({"user_id": session["user_id"]}, {"_id": 0})
+
+
+async def require_user(request: Request) -> dict:
+    user = await get_current_user_optional(request)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return user
+
+
 # ----- Routes -----
 @api_router.get("/")
 async def root():
     return {"message": "Mithila.Foods API"}
+
+
+# ----- Auth routes (Emergent managed Google OAuth) -----
+@api_router.post("/auth/session")
+async def auth_session(request: Request, response: Response):
+    session_id = request.headers.get("X-Session-ID")
+    if not session_id:
+        try:
+            body = await request.json()
+            session_id = body.get("session_id")
+        except Exception:
+            session_id = None
+    if not session_id:
+        raise HTTPException(status_code=400, detail="Missing session_id")
+
+    async with httpx.AsyncClient(timeout=15) as http:
+        r = await http.get(EMERGENT_SESSION_URL, headers={"X-Session-ID": session_id})
+    if r.status_code != 200:
+        raise HTTPException(status_code=401, detail="Invalid or expired session")
+    data = r.json()
+
+    email = data.get("email")
+    if not email:
+        raise HTTPException(status_code=401, detail="No email in session data")
+
+    existing = await db.users.find_one({"email": email}, {"_id": 0})
+    if existing:
+        user_id = existing["user_id"]
+        await db.users.update_one(
+            {"email": email},
+            {"$set": {"name": data.get("name", existing.get("name", "")),
+                      "picture": data.get("picture", existing.get("picture", ""))}},
+        )
+    else:
+        user_id = f"user_{uuid.uuid4().hex[:12]}"
+        await db.users.insert_one({
+            "user_id": user_id,
+            "email": email,
+            "name": data.get("name", ""),
+            "picture": data.get("picture", ""),
+            "created_at": datetime.now(timezone.utc).isoformat(),
+        })
+
+    session_token = data["session_token"]
+    expires_at = datetime.now(timezone.utc) + timedelta(days=7)
+    await db.user_sessions.insert_one({
+        "user_id": user_id,
+        "session_token": session_token,
+        "expires_at": expires_at.isoformat(),
+        "created_at": datetime.now(timezone.utc).isoformat(),
+    })
+
+    response.set_cookie(
+        key="session_token", value=session_token,
+        httponly=True, secure=True, samesite="none", path="/",
+        max_age=7 * 24 * 3600,
+    )
+    user = await db.users.find_one({"user_id": user_id}, {"_id": 0})
+    return user
+
+
+@api_router.get("/auth/me")
+async def auth_me(request: Request):
+    user = await get_current_user_optional(request)
+    if not user:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+    return user
+
+
+@api_router.post("/auth/logout")
+async def auth_logout(request: Request, response: Response):
+    token = _get_session_token(request)
+    if token:
+        await db.user_sessions.delete_one({"session_token": token})
+    response.delete_cookie("session_token", path="/")
+    return {"ok": True}
+
+
+@api_router.get("/my/orders")
+async def my_orders(request: Request):
+    user = await require_user(request)
+    rows = await db.orders.find({"user_id": user["user_id"]}, {"_id": 0}).to_list(500)
+    rows.sort(key=lambda o: o.get("created_at", ""), reverse=True)
+    return rows
 
 
 @api_router.get("/catalog")
@@ -103,9 +232,11 @@ def _online_gateway_ready(method: str) -> bool:
 
 
 @api_router.post("/orders")
-async def create_order(payload: OrderCreate):
+async def create_order(payload: OrderCreate, request: Request):
     if not payload.items:
         raise HTTPException(400, "Cart is empty")
+
+    current_user = await get_current_user_optional(request)
 
     line_items = []
     subtotal = 0
@@ -137,6 +268,7 @@ async def create_order(payload: OrderCreate):
     order_id = f"MF-{uuid.uuid4().hex[:8].upper()}"
     order = {
         "id": order_id,
+        "user_id": current_user["user_id"] if current_user else None,
         "items": line_items,
         "customer": payload.customer.model_dump(),
         "zone": payload.zone,
