@@ -4,6 +4,7 @@ import { MakeStory } from "../components/site/MakeStory";
 import { Story } from "../components/site/Story";
 import { FloatingIngredients } from "../components/site/FloatingIngredients";
 import { Products } from "../components/site/Products";
+import { Testimonials } from "../components/site/Testimonials";
 import { TrustBar } from "../components/site/TrustBar";
 import { Vendors } from "../components/site/Vendors";
 import { BulkAndStock } from "../components/site/BulkAndStock";
@@ -28,6 +29,8 @@ export default function Home() {
         <FloatingIngredients />
         {/* SHOP */}
         <Products />
+        {/* Customer testimonials (personal) */}
+        <Testimonials />
         {/* Social proof */}
         <TrustBar />
         {/* Café / wholesale */}

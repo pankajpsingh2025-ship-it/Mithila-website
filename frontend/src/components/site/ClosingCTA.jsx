@@ -30,21 +30,28 @@ export const ClosingCTA = () => {
         </Reveal>
 
         <h2 className="font-heading font-light leading-[1] text-maroon text-[clamp(2.4rem,7vw,5rem)]">
-          <MaskLines lines={["Tradition, delivered", "to your doorstep."]} lineClass="text-maroon" />
+          <MaskLines lines={["Bring tradition home."]} lineClass="text-maroon" />
         </h2>
         <Reveal delay={0.15}>
           <p className="mx-auto mt-6 max-w-md text-base sm:text-lg leading-relaxed text-ink/65">
-            Handcrafted khajuri, made with heritage — ready for your everyday.
+            Handcrafted Khajuri. Made with heritage — ready for your everyday.
           </p>
         </Reveal>
         <Reveal delay={0.25}>
-          <div className="mt-10">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={scrollToShop}
               className="group inline-flex items-center gap-3 rounded-full bg-heritage px-10 py-5 text-base font-semibold uppercase tracking-[0.14em] text-paper transition-all duration-300 hover:bg-maroon hover:shadow-[0_20px_50px_-12px_rgba(74,31,13,0.5)]"
               data-testid="closing-shop-btn"
             >
               <ShoppingBag className="h-5 w-5" /> Order Khajuri
+            </button>
+            <button
+              onClick={scrollToShop}
+              className="inline-flex items-center gap-2 rounded-full border border-maroon/25 px-8 py-5 text-sm font-medium uppercase tracking-[0.14em] text-maroon transition-colors hover:bg-maroon hover:text-paper"
+              data-testid="closing-explore-btn"
+            >
+              Explore packs
             </button>
           </div>
         </Reveal>

@@ -110,6 +110,25 @@ export const MAKE_STORY = {
   ],
 };
 
+export const SOCIAL = [
+  { label: "Facebook", key: "facebook", href: "https://www.facebook.com/profile.php?id=61589183761470" },
+  { label: "Instagram", key: "instagram", href: "https://www.instagram.com/mithila.foods/" },
+  { label: "TikTok", key: "tiktok", href: "https://www.tiktok.com/@mithilafoods" },
+];
+
+export const TESTIMONIALS = [
+  { name: "Anisha Shrestha", city: "Kathmandu", quote: "Perfect with evening chiya. The texture is crisp but still feels handmade, and the sweetness is really balanced." },
+  { name: "Sagar Gurung", city: "Pokhara", quote: "Chiya sanga khada ekdam mitho lagyo. Regular biscuit bhanda completely different feel cha, especially texture ra spices." },
+  { name: "Roshani K.C.", city: "Butwal", quote: "घरमा बनाएको traditional snack जस्तो feel आयो। Packaging modern छ तर taste चाहिँ familiar र comforting लाग्यो।" },
+  { name: "Prabin Rai", city: "Dharan", quote: "Honestly loved the texture. Crispy outside, crumbly inside, and the coconut and nuts don't overpower the Khajuri." },
+  { name: "Sabina Adhikari", city: "Chitwan", quote: "Festival ko bela matra khane kura jasto lagthyo, tara yo ta coffee ra chiya sanga normal snack ko lagi pani ekdam ramro raicha." },
+  { name: "Bikash Thapa", city: "Dhangadhi", quote: "स्वाद एकदमै balanced छ। धेरै गुलियो छैन, अनि घिउ र गुडको flavour naturally आउँछ।" },
+  { name: "Kritika Bhandari", city: "Lalitpur", quote: "It feels premium without losing that homemade character. I'd definitely keep this around for guests and tea time." },
+  { name: "Milan Karki", city: "Nepalgunj", quote: "Khajuri pahile ghar tira khayeko yaad ayo. Yo version chai ali refined cha, tara traditional feel ajhai cha." },
+  { name: "Neha Yadav", city: "Janakpur", quote: "Ghar ko taste jasto feel huncha. Especially jaggery, coconut ra spices ko combination malai ekdam man paryo." },
+  { name: "Sujan Limbu", city: "Biratnagar", quote: "बाहिरबाट golden र crisp, भित्रबाट crumbly — texture नै सबैभन्दा मन परेको कुरा हो।" },
+];
+
 // Autoplay bowl choreography — grouped ingredient "pours" using real-texture particle swatches
 export const POUR_GROUPS = [
   { key: "base", label: "Semolina & wheat flour", swatches: ["semolina", "wheatflour"], count: 22, size: [10, 18], at: 0.15 },
