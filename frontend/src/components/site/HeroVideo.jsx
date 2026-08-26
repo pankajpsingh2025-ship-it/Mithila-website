@@ -17,12 +17,16 @@ export const HeroVideo = () => {
     const v = vidRef.current;
     if (!v) return;
     v.muted = true;
-    const p = v.play?.();
-    if (p && p.catch) p.catch(() => {});
-    const onEnd = () => { v.pause(); setCue(true); };
-    v.addEventListener("ended", onEnd);
+    const tryPlay = () => { const p = v.play?.(); if (p && p.catch) p.catch(() => {}); };
+    tryPlay();
+    // pause when hero leaves viewport, resume when it returns (performance)
+    const io = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) tryPlay(); else v.pause(); },
+      { threshold: 0.15 }
+    );
+    io.observe(v);
     const t = setTimeout(() => setCue(true), 5200);
-    return () => { v.removeEventListener("ended", onEnd); clearTimeout(t); };
+    return () => { io.disconnect(); clearTimeout(t); };
   }, []);
 
   return (
@@ -33,6 +37,7 @@ export const HeroVideo = () => {
         src={IMG.heroVideo}
         poster={IMG.heroPoster}
         autoPlay
+        loop
         muted
         playsInline
         preload="auto"
@@ -51,9 +56,10 @@ export const HeroVideo = () => {
           <h1 className="font-heading font-light text-maroon leading-[0.95] text-[clamp(2.4rem,7vw,5.2rem)]">
             Handcrafted Khajuri.<br /><span className="italic text-golddeep">Rooted in tradition.</span>
           </h1>
+          <p className="mx-auto mt-4 max-w-md text-base text-ink/70">A heritage recipe, made for everyday sharing.</p>
           <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
-            <button onClick={() => scrollToId("shop")} className="inline-flex items-center gap-2 rounded-full bg-heritage px-7 py-4 text-sm font-medium text-paper hover:bg-maroon transition-colors" data-testid="hero-shop-btn">
-              <ShoppingBag className="w-5 h-5" /> Shop the khajuri
+            <button onClick={() => scrollToId("shape")} className="inline-flex items-center gap-2 rounded-full bg-heritage px-7 py-4 text-sm font-medium text-paper hover:bg-maroon transition-colors" data-testid="hero-shop-btn">
+              <ShoppingBag className="w-5 h-5" /> Discover Khajuri
             </button>
             <a href={WA.order} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-full border border-maroon/25 px-7 py-4 text-sm font-medium text-maroon hover:bg-maroon hover:text-paper transition-colors">
               <MessageCircle className="w-5 h-5" /> Order on WhatsApp

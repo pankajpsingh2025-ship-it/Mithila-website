@@ -5,14 +5,28 @@ import { MAKE_STORY } from "../../lib/site";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const prefersReduced = () =>
+const reducedMotion = () =>
   typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-const ScrollStage = ({ id, kicker, heading, frames, hint }) => {
+// one continuous stage: 9 frames, 3 phases
+const FRAMES = [
+  ...MAKE_STORY.shape.map((f) => ({ ...f, phase: 0 })),
+  ...MAKE_STORY.bake.map((f) => ({ ...f, phase: 1 })),
+  ...MAKE_STORY.breakOpen.map((f) => ({ ...f, phase: 2 })),
+];
+const PHASES = [
+  { kicker: "Shape it", heading: "Made the traditional way", echo: "/story/shape1.png" },
+  { kicker: "Bake it", heading: "Watch tradition turn golden", echo: "/story/bake3.png" },
+  { kicker: "Break it open", heading: "See what's inside", echo: "/story/break3.png" },
+];
+
+export const MakeStory = () => {
   const root = useRef(null);
   const imgs = useRef([]);
   const caps = useRef([]);
-  const reduced = prefersReduced();
+  const heads = useRef([]);
+  const echoes = useRef([]);
+  const reduced = reducedMotion();
 
   useLayoutEffect(() => {
     if (reduced) return;
@@ -20,94 +34,91 @@ const ScrollStage = ({ id, kicker, heading, frames, hint }) => {
       window.__lenis && window.__lenis.on("scroll", ScrollTrigger.update);
       gsap.set(imgs.current, { opacity: 0, scale: 1.02 });
       gsap.set(imgs.current[0], { opacity: 1, scale: 1 });
-      gsap.set(caps.current, { opacity: 0, y: 10 });
+      gsap.set(caps.current, { opacity: 0, y: 8 });
       gsap.set(caps.current[0], { opacity: 1, y: 0 });
+      gsap.set(heads.current, { opacity: 0, y: 12 });
+      gsap.set(heads.current[0], { opacity: 1, y: 0 });
+      gsap.set(echoes.current, { opacity: 0 });
+      gsap.set(echoes.current[0], { opacity: 0.08 });
 
       const tl = gsap.timeline({
         scrollTrigger: { trigger: root.current, start: "top top", end: "bottom bottom", scrub: 0.7 },
       });
-      const seg = 1;
-      for (let i = 1; i < frames.length; i++) {
-        const at = 0.4 + (i - 1) * seg;
-        tl.to(imgs.current[i], { opacity: 1, scale: 1, duration: seg * 0.8 }, at)
-          .to(imgs.current[i - 1], { opacity: 0, scale: 0.99, duration: seg * 0.8 }, at)
-          .to(caps.current[i], { opacity: 1, y: 0, duration: seg * 0.5 }, at)
-          .to(caps.current[i - 1], { opacity: 0, y: -10, duration: seg * 0.5 }, at);
+
+      for (let i = 1; i < FRAMES.length; i++) {
+        tl.to(imgs.current[i], { opacity: 1, scale: 1, duration: 0.8 }, i)
+          .to(imgs.current[i - 1], { opacity: 0, scale: 0.99, duration: 0.8 }, i)
+          .to(caps.current[i], { opacity: 1, y: 0, duration: 0.5 }, i)
+          .to(caps.current[i - 1], { opacity: 0, y: -8, duration: 0.5 }, i);
+        // phase change on entering frame 3 and 6
+        if (FRAMES[i].phase !== FRAMES[i - 1].phase) {
+          const p = FRAMES[i].phase;
+          tl.to(heads.current[p], { opacity: 1, y: 0, duration: 0.6 }, i)
+            .to(heads.current[p - 1], { opacity: 0, y: -12, duration: 0.6 }, i)
+            .to(echoes.current[p], { opacity: 0.08, duration: 0.8 }, i)
+            .to(echoes.current[p - 1], { opacity: 0, duration: 0.8 }, i);
+        }
       }
     }, root);
     return () => ctx.revert();
-  }, [frames.length, reduced]);
-
-  const height = reduced ? "auto" : `${frames.length * 100 + 30}vh`;
+  }, [reduced]);
 
   if (reduced) {
-    const last = frames[frames.length - 1];
     return (
-      <section id={id} className="relative bg-creamlight paper-texture py-20">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <p className="text-[11px] uppercase tracking-[0.24em] text-golddeep/80">{kicker}</p>
-          <h2 className="font-heading font-light text-maroon text-[clamp(2rem,5vw,3.4rem)] mb-8">{heading}</h2>
-          <img src={last.src} alt={last.cap} className="mx-auto w-[min(70vw,26rem)] rounded-[2rem] drop-shadow-2xl" />
-          <p className="mt-4 text-sm text-ink/60">{last.cap}</p>
+      <section id="shape" className="bg-creamlight paper-texture py-20" data-testid="make-story">
+        <div className="mx-auto max-w-4xl px-6 grid sm:grid-cols-3 gap-6">
+          {[MAKE_STORY.shape[2], MAKE_STORY.bake[2], MAKE_STORY.breakOpen[2]].map((f, i) => (
+            <div key={f.src} className="text-center">
+              <p className="text-[11px] uppercase tracking-[0.22em] text-golddeep/80">{PHASES[i].kicker}</p>
+              <img src={f.src} alt={f.cap} className="mt-3 rounded-2xl drop-shadow-xl" />
+            </div>
+          ))}
         </div>
+        <div id="bake" /><div id="break" />
       </section>
     );
   }
 
+  const mobile = typeof window !== "undefined" && window.innerWidth < 640;
+  const height = mobile ? "210vh" : "290vh";
+
   return (
-    <section id={id} ref={root} className="relative bg-creamlight" style={{ height }} data-testid={`stage-${id}`}>
+    <section id="shape" ref={root} className="relative bg-creamlight" style={{ height }} data-testid="make-story">
+      <span id="bake" className="absolute" style={{ top: "34%" }} />
+      <span id="break" className="absolute" style={{ top: "67%" }} />
       <div className="sticky top-0 h-screen overflow-hidden paper-texture flex items-center justify-center">
+        {/* subtle atmospheric echo (only in this stage) */}
+        {PHASES.map((p, i) => (
+          <img key={p.echo} ref={(el) => (echoes.current[i] = el)} src={p.echo} alt="" aria-hidden="true"
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover scale-125 blur-sm" />
+        ))}
+        <div className="pointer-events-none absolute inset-0 bg-creamlight/70" />
         <div className="pointer-events-none absolute -top-24 -left-24 h-[36rem] w-[36rem] rounded-full bg-white/40 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-24 -right-16 h-[28rem] w-[28rem] rounded-full bg-gold/15 blur-3xl" />
 
+        {/* phase headings */}
         <div className="absolute inset-x-0 top-[13%] z-20 text-center px-6">
-          <p className="text-[11px] uppercase tracking-[0.26em] text-golddeep/80">{kicker}</p>
-          <h2 className="mt-2 font-heading font-light text-maroon text-[clamp(2rem,5.5vw,3.6rem)]">{heading}</h2>
-        </div>
-
-        <div className="relative h-[min(56vh,30rem)] w-full max-w-3xl">
-          {frames.map((f, i) => (
-            <img key={f.src} ref={(el) => (imgs.current[i] = el)} src={f.src} alt={f.cap}
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(72vw,28rem)] rounded-[2rem] drop-shadow-2xl" />
+          {PHASES.map((p, i) => (
+            <div key={p.kicker} ref={(el) => (heads.current[i] = el)} className="absolute inset-x-0">
+              <p className="text-[11px] uppercase tracking-[0.26em] text-golddeep/80">{p.kicker}</p>
+              <h2 className="mt-2 font-heading font-light text-maroon text-[clamp(2rem,5.5vw,3.6rem)]">{p.heading}</h2>
+            </div>
           ))}
         </div>
 
-        <div className="absolute inset-x-0 bottom-[16%] z-20 h-10 text-center px-6">
-          {frames.map((f, i) => (
-            <p key={f.src} ref={(el) => (caps.current[i] = el)} className="absolute inset-x-0 text-sm text-ink/65">{f.cap}</p>
+        {/* the single evolving product */}
+        <div className="relative z-10 h-[min(56vh,30rem)] w-full max-w-3xl">
+          {FRAMES.map((f, i) => (
+            <img key={f.src + i} ref={(el) => (imgs.current[i] = el)} src={f.src} alt={f.cap}
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(72vw,27rem)] rounded-[2rem] drop-shadow-2xl" />
           ))}
         </div>
 
-        {hint && (
-          <div className="absolute inset-x-0 bottom-[7%] text-center text-xs uppercase tracking-[0.24em] text-maroon/55">
-            {hint} <span className="inline-block animate-bounce">↓</span>
-          </div>
-        )}
+        <div className="absolute inset-x-0 bottom-[15%] z-20 h-8 text-center px-6">
+          {FRAMES.map((f, i) => (
+            <p key={f.src + i} ref={(el) => (caps.current[i] = el)} className="absolute inset-x-0 text-sm text-ink/65">{f.cap}</p>
+          ))}
+        </div>
       </div>
     </section>
-  );
-};
-
-export const MakeStory = () => {
-  return (
-    <>
-      <ScrollStage id="shape" kicker="Shape it" heading="Made the traditional way" frames={MAKE_STORY.shape} hint="Scroll to bake" />
-      <ScrollStage id="bake" kicker="Bake it" heading="Golden, in small batches" frames={MAKE_STORY.bake} hint="Scroll to break it open" />
-      <ScrollStage id="break" kicker="Break it open" heading="One honest bite" frames={MAKE_STORY.breakOpen} />
-
-      {/* bridge into the brand story */}
-      <section className="relative bg-cream paper-texture py-28 sm:py-36 text-center overflow-hidden" data-testid="tagline">
-        <div className="pointer-events-none absolute left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/15 blur-3xl" />
-        <div className="relative mx-auto max-w-3xl px-6">
-          <p className="text-[11px] uppercase tracking-[0.26em] text-golddeep/80 mb-4">What you just made</p>
-          <h2 className="font-heading font-light text-maroon leading-[1.02] text-[clamp(2.4rem,7vw,5rem)]">
-            Tradition shouldn't<br /><span className="italic text-golddeep">have a season.</span>
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-base sm:text-lg text-ink/65">
-            A festival favourite from the Terai, made for everyday tea, sharing and gifting — handcrafted in small batches.
-          </p>
-        </div>
-      </section>
-    </>
   );
 };

@@ -46,12 +46,14 @@ export const IMG = {
   heroVideo: "/story/hero.mp4",
   heroPoster: "/story/hero_poster.jpg",
   // legacy aliases still referenced by some sections
-  pouches: "/brief/a05.webp",
-  giftbags: "/brief/a14.png",
-  packs: "/brief/a15.png",
-  hero: "/brief/a24.png",
-  stack: "/brief/a20.png",
+  pouches: "/store/family.png",
+  giftbags: "/store/gift.png",
+  packs: "/store/gift.png",
+  hero: "/story/bake3.png",
+  stack: "/store/regular.webp",
   chai: "/brief/a10.png",
+  vendorJar: "/store/vendor.png",
+  lineup: "/store/lineup.png",
   khajuriSingle: "/brief/a24.png",
 };
 
