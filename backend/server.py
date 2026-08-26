@@ -295,13 +295,25 @@ async def get_order(order_id: str):
 
 app.include_router(api_router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=os.environ.get('CORS_ORIGINS', '*').split(','),
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+_cors = os.environ.get('CORS_ORIGINS', '*').strip()
+if _cors == '*':
+    # Reflect the request origin so credentialed (cookie) requests work
+    # (a literal "*" is rejected by browsers when credentials are included).
+    app.add_middleware(
+        CORSMiddleware,
+        allow_credentials=True,
+        allow_origin_regex=".*",
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+else:
+    app.add_middleware(
+        CORSMiddleware,
+        allow_credentials=True,
+        allow_origins=[o.strip() for o in _cors.split(',') if o.strip()],
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')

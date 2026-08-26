@@ -19,10 +19,10 @@ export const WA = {
 export const IMG = {
   logo: "/real/logo.png",
   // Real / approved product photos (source of truth — never AI-altered)
-  heroSingle: "/brief/a24.png",     // finished baked khajuri, single hero
-  rawDough: "/brief/a13.png",       // raw, unbaked pressed dough
+  heroSingle: "/story/bake3.png",  // authentic finished golden khajuri
+  rawDough: "/story/shape3.jpeg",  // authentic raw, hand-pressed khajuri
   rawMold: "/brief/a03.webp",       // wooden mold + raw florets (craftsmanship)
-  broken: "/brief/a22.png",         // baked khajuri broken into two halves (light)
+  broken: "/story/break3.png",     // authentic khajuri broken open, real interior
   texture: "/brief/a23.png",        // extreme crumb/crispness close-up
   group: "/brief/a20.png",          // group of baked khajuri
   flatlay: "/brief/a19.png",        // ingredient flat-lay (correct spices)
@@ -42,6 +42,9 @@ export const IMG = {
   // Transparent PNGs used only for the scroll morph
   cookieWhole: "/gen/cookie_whole.png",
   cookieCracked: "/gen/cookie_cracked.png",
+  // Hero video (H.264, top-cropped so the embedded logo is gone)
+  heroVideo: "/story/hero.mp4",
+  heroPoster: "/story/hero_poster.jpg",
   // legacy aliases still referenced by some sections
   pouches: "/brief/a05.webp",
   giftbags: "/brief/a14.png",
@@ -76,6 +79,7 @@ export const STORY = {
 
 export const INGREDIENTS = [
   { name: "Semolina", sub: "(suji)", note: "The base of every batch", img: "/gen/ing_semolina.jpg" },
+  { name: "Wheat flour", sub: "", note: "Stone-ground, honest and simple", img: "/gen/ing_wheatflour.jpg" },
   { name: "Ghee", sub: "", note: "Real, pure ghee — never vanaspati", img: "/gen/ing_ghee.jpg" },
   { name: "Jaggery", sub: "(gur)", note: "For real sweetness, not syrup", img: "/gen/ing_jaggery.jpg" },
   { name: "Fresh coconut", sub: "", note: "Fresh, not desiccated or sweetened", img: "/gen/ing_coconut.jpg" },
@@ -85,6 +89,35 @@ export const INGREDIENTS = [
   { name: "Cardamom", sub: "(elaichi)", note: "Warm, floral aroma", img: "/brief/ing_cardamom.jpg" },
   { name: "Cloves", sub: "(lwang)", note: "A deep, gentle spice", img: "/brief/ing_cloves.jpg" },
   { name: "Fennel seeds", sub: "(saunf)", note: "The quiet, sweet finish", img: "/brief/ing_fennel.jpg" },
+];
+
+// Make -> Shape -> Bake -> Break scroll-story frames (real approved photography)
+export const MAKE_STORY = {
+  shape: [
+    { src: "/story/shape1.png", cap: "Dough, pressed into the carved wooden mould" },
+    { src: "/story/shape2.webp", cap: "The traditional Khajuri press" },
+    { src: "/story/shape3.jpeg", cap: "The signature flower ridges, formed by hand" },
+  ],
+  bake: [
+    { src: "/story/bake1.png", cap: "Raw — pale and freshly shaped" },
+    { src: "/story/bake2.png", cap: "Warming to a light gold" },
+    { src: "/story/bake3.png", cap: "Golden, crisp and ready" },
+  ],
+  breakOpen: [
+    { src: "/story/break1.png", cap: "Whole and golden" },
+    { src: "/story/break2.png", cap: "A first, honest crack" },
+    { src: "/story/break3.png", cap: "Crisp outside, rich and crumbly within" },
+  ],
+};
+
+// Autoplay bowl choreography — grouped ingredient "pours" using real-texture particle swatches
+export const POUR_GROUPS = [
+  { key: "base", label: "Semolina & wheat flour", swatches: ["semolina", "wheatflour"], count: 22, size: [10, 18], at: 0.15 },
+  { key: "ghee", label: "Pure ghee", swatches: ["ghee"], count: 10, size: [16, 24], at: 1.25, stream: true },
+  { key: "jaggery", label: "Jaggery", swatches: ["jaggery"], count: 14, size: [14, 22], at: 2.1 },
+  { key: "coconut", label: "Fresh coconut", swatches: ["coconut"], count: 14, size: [12, 20], at: 2.95 },
+  { key: "nuts", label: "Almonds, cashews & peanuts", swatches: ["almonds", "cashew", "peanuts"], count: 15, size: [16, 26], at: 3.8 },
+  { key: "spice", label: "Cardamom, cloves & fennel", swatches: ["cardamom", "cloves", "fennel"], count: 16, size: [8, 14], at: 4.7 },
 ];
 
 export const ALLERGEN = "Contains nuts, dairy, and gluten. Does NOT contain egg.";
