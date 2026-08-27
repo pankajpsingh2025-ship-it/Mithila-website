@@ -111,9 +111,9 @@ export const StickyStory = () => {
 
   return (
     <section id="craft" ref={root} className="relative bg-creamlight" data-testid="sticky-story">
-      <div className="mx-auto grid max-w-7xl px-5 sm:px-8 lg:grid-cols-2 lg:gap-16">
-        {/* sticky product anchor — desktop only */}
-        <div className="hidden lg:block">
+      <div className={`mx-auto grid max-w-7xl px-5 sm:px-8 lg:gap-16 ${reduce ? "" : "lg:grid-cols-2"}`}>
+        {/* sticky product anchor — desktop only, scrubbed motion only */}
+        <div className={reduce ? "hidden" : "hidden lg:block"}>
           <div className="sticky top-0 flex h-screen items-center justify-center">
             <div className="relative aspect-[4/5] w-full max-w-[30rem] overflow-hidden rounded-[2rem] shadow-[0_36px_80px_-30px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10">
               {PANELS.map((p, i) => (
@@ -140,12 +140,12 @@ export const StickyStory = () => {
               data-index={i}
               className="flex flex-col justify-center py-12 lg:min-h-screen lg:py-16"
             >
-              {/* inline image on mobile */}
+              {/* inline image — mobile always; desktop only for reduced motion */}
               <img
                 src={p.img}
                 alt={p.h}
                 loading="lazy"
-                className="mb-6 aspect-[4/3] w-full rounded-[1.5rem] object-cover shadow-[0_24px_60px_-32px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10 lg:hidden"
+                className={`mb-6 aspect-[4/3] w-full rounded-[1.5rem] object-cover shadow-[0_24px_60px_-32px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10 ${reduce ? "max-w-xl" : "lg:hidden"}`}
               />
               <Reveal>
                 <p className="text-[11px] uppercase tracking-[0.24em] text-golddeep">{p.eyebrow}</p>
