@@ -129,23 +129,26 @@ export const MakingStage = () => {
   }, [reduce]);
 
   if (reduce) {
+    const stills = [
+      { src: IMG.makeShape3, ...PHASES[0] },
+      { src: IMG.makeBake4, ...PHASES[1] },
+      { src: IMG.makeBreak2, ...PHASES[2] },
+    ];
     return (
-      <section id="making" className="relative bg-creamlight py-20" data-testid="making-stage">
-        <div className="mx-auto max-w-3xl px-6 text-center">
-          <img
-            src={IMG.makeBreak2}
-            alt="Handcrafted khajuri broken open, showing its crumbly interior"
-            className="mx-auto w-[min(80vw,24rem)] rounded-[2rem] drop-shadow-2xl"
-          />
-          <div className="mt-10 space-y-6">
-            {PHASES.map((p) => (
-              <div key={p.h}>
-                <h2 className="font-heading text-2xl text-maroon">{p.h}</h2>
-                <p className="text-sm text-ink/60">{p.s}</p>
-              </div>
+      <section id="making" className="relative bg-creamlight py-16" data-testid="making-stage">
+        <div className="mx-auto max-w-5xl px-6">
+          <div className="grid gap-8 sm:grid-cols-3">
+            {stills.map((s) => (
+              <figure key={s.h} className="text-center">
+                <img src={s.src} alt={s.h} className="mx-auto w-full rounded-[1.5rem] object-cover drop-shadow-xl" />
+                <figcaption className="mt-4">
+                  <h2 className="font-heading text-xl text-maroon">{s.h}</h2>
+                  <p className="text-sm text-ink/60">{s.s}</p>
+                </figcaption>
+              </figure>
             ))}
           </div>
-          <p className="mt-12 font-heading text-[clamp(1.8rem,5vw,3rem)] font-light text-maroon">
+          <p className="mt-12 text-center font-heading text-[clamp(1.8rem,5vw,3rem)] font-light text-maroon">
             Tradition shouldn't have a season.
           </p>
         </div>
