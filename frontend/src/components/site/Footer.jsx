@@ -18,7 +18,7 @@ const shopLinks = [
 ];
 
 const navLinks = [
-  { label: "Our story", id: "story" },
+  { label: "Our story", id: "craft" },
   { label: "Shop", id: "shop" },
   { label: "Cafés & wholesale", id: "vendors" },
   { label: "Gifting", id: "gifting" },

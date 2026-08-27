@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef } from "react";
+import React, { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { INGREDIENT_GROUPS, ALLERGEN, IMG } from "../../lib/site";
@@ -7,70 +7,102 @@ import { Reveal } from "./motion";
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * Sticky product story (brief §14 + §15) — the ingredient section, told with
- * the Khajuri as a visual anchor.
- *
- * Desktop: the product image is sticky on the left; as the panels on the right
- * scroll past, a scrubbed GSAP timeline crossfades + drifts the image between
- * approved states. No pin (so no leftover viewport).
- * Mobile: a clean stack — each panel carries its own image inline.
+ * MODE 2 — the persistent product-story sequence (spec §18). Replaces the old
+ * separate "story" + "ingredients" blocks with ONE sticky editorial run: the
+ * Khajuri stays as a visual anchor on the left while the copy changes on the
+ * right; a scrubbed GSAP timeline crossfades + drifts the anchor between
+ * approved states (whole -> macro -> detail). No pin, so it releases cleanly.
+ * Mobile: a compact stack with an inline image only where it adds new info.
  */
-const PANELS = [
+const STATES = [
+  {
+    key: "what",
+    eyebrow: "Our story",
+    h: "What is Khajuri?",
+    body:
+      "A handcrafted food from the Mithila and Terai plains — pressed by hand at home for family, for guests, and for celebrations like Chhath. Not the dried date; a savoury-sweet floret with its own name and its own history.",
+    img: IMG.makeShape3,
+    showImgMobile: true,
+  },
+  {
+    key: "roots",
+    eyebrow: "Heritage",
+    h: "Festival roots. Everyday enjoyment.",
+    body:
+      "If you grew up in Mithila or the Terai, you already know the smell of the kitchen before Chhath — the aunties pressing floret after floret in a mould older than any of us. We didn't think a tradition this good should have to wait for a season.",
+    img: IMG.makeShape1,
+  },
   {
     key: "craft",
     eyebrow: "The craft",
     h: "Made the traditional way.",
     body:
-      "Pressed by hand into a carved wooden mould, one floret at a time — the way it's done in Mithila kitchens before Chhath.",
-    img: IMG.makeShape3,
+      "Still handcrafted in small batches, in the same carved wooden mould, fried-to-order the way our elders did it. Nothing mass-produced, nothing rushed.",
+    img: IMG.makeShape2,
   },
   {
     key: "ingredients",
     eyebrow: "What goes in",
-    h: "Real ingredients, nothing hidden.",
-    body: "Eleven of them. Real ghee and jaggery, whole nuts broken by hand, a quiet line of spice.",
+    h: "11 real ingredients.",
+    body: "Real ghee and jaggery, whole nuts broken by hand, fresh coconut, and a quiet line of spice.",
     img: IMG.flatlay,
     groups: true,
     showImgMobile: true,
   },
   {
-    key: "bake",
-    eyebrow: "The bake",
-    h: "Baked, not rushed.",
-    body: "Small batches, watched until they turn a deep, even gold and the edges go crisp.",
-    img: IMG.makeBake4,
+    key: "texture",
+    eyebrow: "The bite",
+    h: "Crumbly within.",
+    body:
+      "Break one open and the inside is dense, grainy and handmade — rich, never fluffy. Not a cake, not a bread. A khajuri.",
+    img: IMG.makeBreak2,
   },
   {
-    key: "sensory",
-    eyebrow: "The bite",
-    h: "Golden outside. Crumbly within.",
+    key: "everyday",
+    eyebrow: "Every day",
+    h: "Tea. Coffee. Sharing. Gifting.",
     body:
-      "A crisp golden shell over a tender, handmade centre — with whole nuts and coconut you can see, and a warm hit of cardamom and fennel.",
-    img: IMG.goldenWhole,
+      "For the morning cup, the afternoon coffee, the road, a guest at the door, a box sent home. Festival roots — made for more moments.",
+    img: IMG.lifestyle,
     showImgMobile: true,
   },
 ];
 
-const Groups = () => (
-  <div className="mt-6 divide-y divide-maroon/12">
-    {INGREDIENT_GROUPS.map((g) => (
-      <div key={g.title} className="py-3.5">
-        <div className="flex flex-wrap items-baseline gap-x-3">
-          <h4 className="font-heading text-base text-maroon">{g.title}</h4>
-          <p className="text-xs text-ink/50">{g.note}</p>
+const Groups = () => {
+  const [active, setActive] = useState(-1);
+  return (
+    <div className="mt-6 divide-y divide-maroon/12" onMouseLeave={() => setActive(-1)}>
+      {INGREDIENT_GROUPS.map((g, gi) => (
+        <div
+          key={g.title}
+          onMouseEnter={() => setActive(gi)}
+          onFocus={() => setActive(gi)}
+          className={`py-3.5 transition-opacity duration-300 ${
+            active !== -1 && active !== gi ? "opacity-45" : "opacity-100"
+          }`}
+        >
+          <div className="flex flex-wrap items-baseline gap-x-3">
+            <h4 className="font-heading text-base text-maroon">{g.title}</h4>
+            <p className="text-xs text-ink/50">{g.note}</p>
+          </div>
+          <ul className="mt-2 flex flex-wrap gap-2">
+            {g.items.map((it) => (
+              <li
+                key={it}
+                className={`rounded-full px-3 py-1.5 text-[13px] text-ink/75 ring-1 transition-colors ${
+                  active === gi ? "bg-paper ring-maroon/25" : "bg-paper/70 ring-maroon/10"
+                }`}
+              >
+                {it}
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul className="mt-2 flex flex-wrap gap-2">
-          {g.items.map((it) => (
-            <li key={it} className="rounded-full bg-paper px-3 py-1.5 text-[13px] text-ink/75 ring-1 ring-maroon/10">
-              {it}
-            </li>
-          ))}
-        </ul>
-      </div>
-    ))}
-    <p className="pt-3 text-xs tracking-wide text-ink/55" data-testid="allergen-note">{ALLERGEN}</p>
-  </div>
-);
+      ))}
+      <p className="pt-3 text-xs tracking-wide text-ink/55" data-testid="allergen-note">{ALLERGEN}</p>
+    </div>
+  );
+};
 
 export const StickyStory = () => {
   const reduce =
@@ -80,14 +112,15 @@ export const StickyStory = () => {
   const root = useRef(null);
   const panelsRef = useRef(null);
   const imgRefs = useRef([]);
+  const bgRef = useRef(null);
 
   useLayoutEffect(() => {
     if (reduce) return;
     const ctx = gsap.context(() => {
       const imgs = imgRefs.current.filter(Boolean);
       if (imgs.length < 2) return;
-      gsap.set(imgs, { opacity: 0, scale: 1.12, xPercent: 4 });
-      gsap.set(imgs[0], { opacity: 1, scale: 1.04, xPercent: 0 });
+      gsap.set(imgs, { opacity: 0, scale: 1.1, xPercent: 3 });
+      gsap.set(imgs[0], { opacity: 1, scale: 1.03, xPercent: 0 });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -100,26 +133,37 @@ export const StickyStory = () => {
         },
       });
 
-      // even slice per transition across the panels' scroll length
       const step = 1 / imgs.length;
       for (let i = 1; i < imgs.length; i++) {
         const at = step * i - step * 0.5;
-        tl.to(imgs[i - 1], { opacity: 0, scale: 1.12, xPercent: -4, duration: step }, at);
-        tl.to(imgs[i], { opacity: 1, scale: 1.04, xPercent: 0, duration: step }, at);
+        tl.to(imgs[i - 1], { opacity: 0, scale: 1.1, xPercent: -3, duration: step }, at);
+        tl.to(imgs[i], { opacity: 1, scale: 1.03, xPercent: 0, duration: step }, at);
       }
+      // faint atmospheric plane drifts slower than the anchor
+      if (bgRef.current) tl.fromTo(bgRef.current, { yPercent: -4 }, { yPercent: 4, duration: 1 }, 0);
     }, root);
     return () => ctx.revert();
   }, [reduce]);
 
   return (
-    <section id="craft" ref={root} className="relative bg-creamlight" data-testid="sticky-story">
-      <div className={`mx-auto grid max-w-7xl px-5 sm:px-8 lg:gap-16 ${reduce ? "" : "lg:grid-cols-2"}`}>
-        {/* sticky product anchor — desktop only, scrubbed motion only.
-            Large, feathered into the cream page — no card frame. */}
+    <section id="craft" ref={root} className="relative overflow-hidden bg-creamlight" data-testid="sticky-story">
+      {/* atmospheric plane */}
+      {!reduce && (
+        <img
+          ref={bgRef}
+          src={IMG.flatlay}
+          alt=""
+          aria-hidden="true"
+          className="pointer-events-none absolute left-1/2 top-1/2 h-[130%] w-[130%] -translate-x-1/2 -translate-y-1/2 object-cover opacity-[0.05] blur-2xl"
+        />
+      )}
+
+      <div className={`relative mx-auto grid max-w-7xl px-5 sm:px-8 lg:gap-16 ${reduce ? "" : "lg:grid-cols-2"}`}>
+        {/* sticky product anchor — desktop, feathered into the page (no frame) */}
         <div className={reduce ? "hidden" : "hidden lg:block"}>
           <div className="sticky top-0 flex h-screen items-center justify-center">
             <div className="img-blend relative aspect-[4/5] w-full max-w-[34rem]">
-              {PANELS.map((p, i) => (
+              {STATES.map((p, i) => (
                 <img
                   key={p.key}
                   ref={(el) => (imgRefs.current[i] = el)}
@@ -137,16 +181,12 @@ export const StickyStory = () => {
 
         {/* panels */}
         <div ref={panelsRef} className="py-2 lg:py-0">
-          {PANELS.map((p, i) => (
+          {STATES.map((p, i) => (
             <div
               key={p.key}
               data-index={i}
-              className="flex flex-col justify-center py-7 lg:min-h-screen lg:py-16"
+              className="flex flex-col justify-center py-6 lg:min-h-[68vh] lg:py-12"
             >
-              {/* inline image on mobile — only where it adds new information
-                  (ingredients flat-lay, finished bite); the shaping/baking
-                  states are already shown large in the stage above. Desktop
-                  reduced-motion shows every panel's image. Feathered, no frame. */}
               {(reduce || p.showImgMobile) && (
                 <img
                   src={p.img}

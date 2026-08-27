@@ -8,9 +8,9 @@ import { useAuth } from "../../context/AuthContext";
 
 const LINKS = [
   { label: "Shop", id: "shop" },
-  { label: "Story", id: "story" },
+  { label: "Our Story", id: "craft" },
+  { label: "Gifting", id: "gifting" },
   { label: "For Cafés", id: "vendors" },
-  { label: "FAQ", id: "faq" },
 ];
 
 const scrollToId = (id) => {
