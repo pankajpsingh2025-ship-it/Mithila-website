@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "mithila-frontend",
-      "runtimeExecutable": "/opt/homebrew/bin/npm",
+      "runtimeExecutable": "/opt/homebrew/opt/node@20/bin/npm",
       "runtimeArgs": ["start"],
       "port": 3000,
       "cwd": "frontend"
