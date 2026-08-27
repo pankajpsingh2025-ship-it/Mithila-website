@@ -47,11 +47,8 @@ export const Nav = () => {
   };
 
   return (
-    <motion.header
-      initial={{ y: -80, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
+    <header
+      className={`rise-in fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
         scrolled ? "bg-creamlight/85 backdrop-blur-xl border-b border-maroon/10 py-2.5" : "bg-transparent py-4"
       }`}
       data-testid="site-nav"
@@ -193,6 +190,6 @@ export const Nav = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </motion.header>
+    </header>
   );
 };

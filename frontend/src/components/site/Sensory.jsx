@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 import { IMG } from "../../lib/site";
 import { Reveal, MaskLines } from "./motion";
 
@@ -15,7 +16,8 @@ export const Sensory = () => {
         <Reveal className="max-w-2xl">
           <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">The first bite</p>
           <h2 className="font-heading text-[clamp(2.2rem,5vw,4rem)] font-light leading-[1.02] text-maroon">
-            <MaskLines lines={["Golden outside.", "Crumbly within."]} lineClass="[&:nth-child(2)]:italic [&:nth-child(2)]:text-golddeep" />
+            <MaskLines lines={["Golden outside."]} />
+            <MaskLines lines={["Crumbly within."]} lineClass="italic text-golddeep" delay={0.12} />
           </h2>
         </Reveal>
 
@@ -43,6 +45,14 @@ export const Sensory = () => {
               Crisp shell, rich golden finish, a tender handmade centre — with whole nuts you can
               see and a warm hit of cardamom and fennel.
             </p>
+            <button
+              onClick={() => document.getElementById("shop")?.scrollIntoView({ behavior: "smooth" })}
+              className="mt-6 inline-flex w-max items-center gap-2 text-sm font-medium uppercase tracking-[0.12em] text-goldbright transition-colors hover:text-cream"
+              data-testid="sensory-cta"
+            >
+              See what makes it special
+              <ArrowRight className="h-4 w-4" />
+            </button>
           </div>
         </div>
       </div>

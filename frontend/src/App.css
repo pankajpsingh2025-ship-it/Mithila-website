@@ -77,9 +77,24 @@ html.lenis body {
     border-radius: 8px;
 }
 
+/* CSS-only entrance so above-the-fold content is never left invisible
+   if a scripted animation stalls (e.g. background tab). */
+@keyframes riseIn {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.rise-in {
+    animation: riseIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.rise-in-1 { animation-delay: 0.15s; }
+.rise-in-2 { animation-delay: 0.30s; }
+.rise-in-3 { animation-delay: 0.45s; }
+.rise-in-4 { animation-delay: 1.4s; }
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.001ms !important;
         transition-duration: 0.001ms !important;
     }
+    .rise-in { opacity: 1 !important; transform: none !important; }
 }

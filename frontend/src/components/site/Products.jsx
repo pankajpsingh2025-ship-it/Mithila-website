@@ -33,26 +33,29 @@ const ProductCard = ({ p, index }) => {
         className="group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-paper ring-1 ring-maroon/10 shadow-[0_24px_60px_-30px_rgba(74,31,13,0.5)]"
         data-testid={`product-card-${p.id}`}
       >
-        <div className="relative h-60 sm:h-64 overflow-hidden">
+        {/* uniform cream stage so every pack reads as one family
+            (real packaging colours are preserved — only the surround is unified) */}
+        <div className="relative h-56 overflow-hidden bg-cream sm:h-60">
           <img
             src={p.img}
             alt={p.name}
-            className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+            loading="lazy"
+            className="h-full w-full object-contain p-6 transition-transform duration-700 ease-out group-hover:scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink/30 to-transparent" />
           <span className={`absolute left-4 top-4 rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.16em] ${p.kraft ? "bg-kraft text-paper" : "bg-heritage text-paper"}`}>
             {p.tag}
           </span>
         </div>
 
-        <div className="flex flex-1 flex-col p-6">
+        <div className="flex flex-1 flex-col border-t border-maroon/10 p-6">
           <div className="flex items-start justify-between gap-3">
-            <h3 className="font-heading text-2xl text-maroon leading-tight">{p.name}</h3>
-            <div className="text-right shrink-0">
+            <h3 className="font-heading text-2xl leading-tight text-maroon">{p.name}</h3>
+            <div className="shrink-0 text-right">
               <span className="block text-[10px] uppercase tracking-widest text-ink/45">NPR</span>
               <span className="font-heading text-2xl text-golddeep">{p.price}</span>
             </div>
           </div>
+          {p.size && <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-ink/45">{p.size}</p>}
           <p className="mt-3 text-sm leading-relaxed text-ink/65">{p.desc}</p>
 
           <div className="mt-5 flex items-center justify-between gap-3">
@@ -91,18 +94,18 @@ export const Products = () => {
   return (
     <section id="shop" className="relative bg-cream py-24 sm:py-32">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6 mb-14">
+        <div className="mb-14 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <Reveal><p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">The Shop</p></Reveal>
+            <Reveal><p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">Choose your pack</p></Reveal>
             <Reveal delay={0.05}>
-              <h2 className="font-heading font-light text-maroon leading-[1.03] text-[clamp(2rem,4.6vw,3.6rem)]">
-                Pick your <span className="italic text-golddeep">khajuri</span>
+              <h2 className="font-heading text-[clamp(2rem,4.6vw,3.6rem)] font-light leading-[1.03] text-maroon">
+                One khajuri, <span className="italic text-golddeep">four ways to bring it home</span>
               </h2>
             </Reveal>
           </div>
           <Reveal delay={0.1}>
-            <p className="max-w-xs text-sm text-ink/60 leading-relaxed">
-              One product, made with care — in four honest sizes, from a first taste to a full heritage gift.
+            <p className="max-w-xs text-sm leading-relaxed text-ink/60">
+              The same handcrafted recipe — from a first taste, to a full kilo for the house, to a heritage gift.
             </p>
           </Reveal>
         </div>
