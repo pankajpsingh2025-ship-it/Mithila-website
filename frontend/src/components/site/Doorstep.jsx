@@ -26,9 +26,9 @@ export const Doorstep = () => {
       <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
         <Reveal>
           <img
-            src={IMG.giftBag}
-            alt="Mithila.Foods khajuri, bagged and ready to travel"
-            className="mx-auto mb-12 w-[min(74vw,30rem)] rounded-[2rem] object-contain drop-shadow-[0_40px_70px_-30px_rgba(74,31,13,0.5)]"
+            src={IMG.goldenWhole}
+            alt="A whole handcrafted khajuri, deep golden and ready"
+            className="mx-auto mb-12 w-[min(72vw,26rem)] rounded-[2rem] object-cover drop-shadow-[0_40px_70px_-30px_rgba(74,31,13,0.5)]"
             loading="lazy"
           />
         </Reveal>

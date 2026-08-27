@@ -1,41 +1,45 @@
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React from "react";
+import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { IMG } from "../../lib/site";
-import { Reveal, MaskLines } from "./motion";
+import { Reveal, MaskLines, useParallax } from "./motion";
 
 export const Sensory = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const y1 = useTransform(scrollYProgress, [0, 1], ["-8%", "8%"]);
-  const y2 = useTransform(scrollYProgress, [0, 1], ["6%", "-6%"]);
+  const a = useParallax(46);
+  const b = useParallax(34);
 
   return (
-    <section ref={ref} className="relative overflow-hidden bg-creamlight py-24 sm:py-32" data-testid="sensory-section">
+    <section className="relative overflow-hidden bg-creamlight py-20 sm:py-28" data-testid="sensory-section">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">The first bite</p>
           <h2 className="font-heading text-[clamp(2.2rem,5vw,4rem)] font-light leading-[1.02] text-maroon">
             <MaskLines lines={["Golden outside."]} />
-            <MaskLines lines={["Crumbly within."]} lineClass="italic text-golddeep" delay={0.12} />
+            <MaskLines lines={["Crumbly within."]} lineClass="italic text-golddeep" />
           </h2>
         </Reveal>
 
-        <div className="mt-14 grid gap-5 sm:grid-cols-12 sm:gap-6">
-          <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-34px_rgba(74,31,13,0.45)] sm:col-span-7 sm:row-span-2">
+        <div className="mt-12 grid gap-5 sm:mt-14 sm:grid-cols-12 sm:gap-6">
+          <div
+            ref={a.ref}
+            className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-34px_rgba(74,31,13,0.45)] sm:col-span-7 sm:row-span-2"
+          >
             <motion.img
-              src={IMG.broken}
-              alt="A khajuri broken open, crisp golden shell over a pale, crumbly centre"
-              style={{ y: y1 }}
+              src={IMG.makeBreak2}
+              alt="A khajuri broken open — crisp golden shell over a pale, crumbly centre"
+              style={{ y: a.y }}
               className="h-[22rem] w-full scale-110 object-cover sm:h-[40rem]"
               loading="lazy"
             />
           </div>
-          <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-34px_rgba(74,31,13,0.45)] sm:col-span-5">
+          <div
+            ref={b.ref}
+            className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-34px_rgba(74,31,13,0.45)] sm:col-span-5"
+          >
             <motion.img
-              src={IMG.texture}
-              alt="Extreme close-up of khajuri crumb and crisp edge"
-              style={{ y: y2 }}
+              src={IMG.goldenWhole}
+              alt="A whole khajuri, deep golden, its pressed pattern crisp on top"
+              style={{ y: b.y }}
               className="h-[18rem] w-full scale-110 object-cover sm:h-[19.2rem]"
               loading="lazy"
             />

@@ -7,43 +7,53 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * "I understand the range" -> "I can receive this."
- * Compact pinned transition: khajuri -> window pouch -> Mithila-art bag.
- * ~180vh total. Reduced-motion falls back to a simple 3-up strip.
+ * Compact pinned transition: golden khajuri -> sealed pouch pack -> gift bag.
+ * Evenly spaced, linear crossfades (scrub: true) so it tracks the scroll 1:1.
  */
+const STEPS = [
+  { src: IMG.goldenWhole, alt: "A whole handcrafted khajuri, deep golden" },
+  { src: IMG.packFamily, alt: "Khajuri sealed into its resealable window pouches" },
+  { src: IMG.packGift, alt: "The Mithila-art gift bag, packed and ready to give" },
+];
+
 export const Packaging = () => {
   const root = useRef(null);
   const reduce =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  const a = useRef(null);
-  const b = useRef(null);
-  const c = useRef(null);
+  const stepRefs = useRef([]);
   const cap = useRef(null);
 
   useLayoutEffect(() => {
     if (reduce) return;
     const ctx = gsap.context(() => {
-      gsap.set(a.current, { opacity: 1, scale: 1 });
-      gsap.set(b.current, { opacity: 0, scale: 0.92 });
-      gsap.set(c.current, { opacity: 0, scale: 0.92 });
-      gsap.set(cap.current, { opacity: 0, y: 16 });
+      const steps = stepRefs.current;
+      gsap.set(steps, { opacity: 0, scale: 0.96 });
+      gsap.set(steps[0], { opacity: 1, scale: 1 });
+      gsap.set(cap.current, { opacity: 0, y: 14 });
 
       const tl = gsap.timeline({
+        defaults: { ease: "none" },
         scrollTrigger: {
           trigger: root.current,
           start: "top top",
-          end: "+=1400",
+          end: "+=1500",
           pin: true,
-          scrub: 0.6,
+          scrub: true,
           anticipatePin: 1,
+          invalidateOnRefresh: true,
         },
       });
-      tl.to(cap.current, { opacity: 1, y: 0, duration: 0.4 }, 0.2)
-        .to(a.current, { opacity: 0, scale: 0.92, duration: 0.7 }, 1.0)
-        .to(b.current, { opacity: 1, scale: 1, duration: 0.7 }, 1.0)
-        .to(b.current, { opacity: 0, scale: 0.92, duration: 0.7 }, 2.1)
-        .to(c.current, { opacity: 1, scale: 1, duration: 0.7 }, 2.1);
+
+      tl.to(cap.current, { opacity: 1, y: 0, duration: 0.12 }, 0.04);
+      const n = steps.length;
+      const step = 0.82 / (n - 1);
+      for (let i = 1; i < n; i++) {
+        const at = 0.1 + step * (i - 1);
+        tl.to(steps[i], { opacity: 1, scale: 1, duration: step }, at);
+        tl.to(steps[i - 1], { opacity: 0, scale: 0.96, duration: step }, at);
+      }
     }, root);
     return () => ctx.revert();
   }, [reduce]);
@@ -57,8 +67,8 @@ export const Packaging = () => {
             {PACKAGING.headline}
           </h2>
           <div className="mt-10 grid gap-4 sm:grid-cols-3">
-            {[IMG.heroSingle, IMG.pouchWindow, IMG.giftBag].map((src) => (
-              <img key={src} src={src} alt="" className="h-56 w-full rounded-2xl object-cover" />
+            {STEPS.map((s) => (
+              <img key={s.src} src={s.src} alt={s.alt} className="h-56 w-full rounded-2xl object-cover" loading="lazy" />
             ))}
           </div>
         </div>
@@ -67,16 +77,11 @@ export const Packaging = () => {
   }
 
   return (
-    <section
-      id="packaging"
-      ref={root}
-      className="relative h-[100svh] bg-cream"
-      data-testid="packaging-section"
-    >
+    <section id="packaging" ref={root} className="relative h-[100svh] bg-cream" data-testid="packaging-section">
       <div className="flex h-full items-center justify-center overflow-hidden paper-texture">
-        <div className="pointer-events-none absolute left-1/2 top-1/3 h-[24rem] w-[24rem] -translate-x-1/2 rounded-full bg-gold/20 blur-3xl" />
+        <div className="pointer-events-none absolute left-1/2 top-1/3 h-[24rem] w-[24rem] -translate-x-1/2 rounded-full bg-gold/18 blur-3xl" />
         <div className="relative flex w-full max-w-3xl flex-col items-center px-6">
-          <p ref={cap} className="absolute top-[8%] text-center">
+          <p ref={cap} className="absolute top-[9%] text-center">
             <span className="block text-[11px] uppercase tracking-[0.24em] text-golddeep/80">
               {PACKAGING.eyebrow}
             </span>
@@ -85,13 +90,21 @@ export const Packaging = () => {
             </span>
           </p>
 
-          <div className="relative flex h-[min(60vh,30rem)] w-full items-center justify-center">
-            <img ref={a} src={IMG.heroSingle} alt="A single handcrafted khajuri" className="absolute w-[min(52vw,19rem)] rounded-[2rem] object-contain drop-shadow-2xl" />
-            <img ref={b} src={IMG.pouchWindow} alt="Khajuri sealed in its resealable window pouch" className="absolute h-full w-auto max-w-[78%] object-contain drop-shadow-2xl" data-testid="packaging-pouch" />
-            <img ref={c} src={IMG.giftBag} alt="The Mithila.Foods Mithila-art bag, ready to gift" className="absolute h-full w-auto max-w-[92%] object-contain drop-shadow-2xl" data-testid="packaging-bag" />
+          <div className="relative flex h-[min(58vh,28rem)] w-full items-center justify-center">
+            {STEPS.map((s, i) => (
+              <img
+                key={s.src}
+                ref={(el) => (stepRefs.current[i] = el)}
+                src={s.src}
+                alt={s.alt}
+                loading={i === 0 ? "eager" : "lazy"}
+                className="absolute h-full w-auto max-w-[86%] object-contain drop-shadow-2xl"
+                data-testid={`packaging-step-${i}`}
+              />
+            ))}
           </div>
 
-          <p className="absolute bottom-[10%] max-w-md text-center text-sm text-ink/60">
+          <p className="absolute bottom-[9%] max-w-md text-center text-sm text-ink/60">
             {PACKAGING.body}
           </p>
         </div>

@@ -42,7 +42,7 @@ const Item = ({ f, isOpen, onToggle, i }) => (
 export const FAQ = () => {
   const [open, setOpen] = useState(0);
   return (
-    <section id="faq" className="relative bg-cream py-24 sm:py-32" data-testid="faq-section">
+    <section id="faq" className="relative bg-cream py-20 sm:py-28" data-testid="faq-section">
       <div className="mx-auto max-w-3xl px-5 sm:px-8">
         <Reveal className="text-center">
           <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">Good to know</p>

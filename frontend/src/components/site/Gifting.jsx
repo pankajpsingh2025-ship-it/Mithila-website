@@ -6,7 +6,7 @@ import { Reveal } from "./motion";
 export const Gifting = () => {
   const { eyebrow, headline, body, points, cta, href } = GIFTING;
   return (
-    <section id="gifting" className="relative bg-cream py-24 sm:py-32" data-testid="gifting-section">
+    <section id="gifting" className="relative bg-cream py-20 sm:py-28" data-testid="gifting-section">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16">
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-32px_rgba(74,31,13,0.5)]">

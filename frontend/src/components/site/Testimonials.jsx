@@ -31,7 +31,7 @@ export const Testimonials = () => {
   }, [emblaApi]);
 
   return (
-    <section id="reviews" className="relative bg-cream py-24 sm:py-32" data-testid="testimonials-section">
+    <section id="reviews" className="relative bg-cream py-20 sm:py-28" data-testid="testimonials-section">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <Reveal>

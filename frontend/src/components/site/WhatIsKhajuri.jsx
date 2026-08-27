@@ -5,7 +5,7 @@ import { SunDivider } from "./Madhubani";
 
 export const WhatIsKhajuri = () => {
   return (
-    <section id="what-is-khajuri" className="relative bg-creamlight py-24 sm:py-32" data-testid="what-is-khajuri">
+    <section id="what-is-khajuri" className="relative bg-creamlight py-20 sm:py-28" data-testid="what-is-khajuri">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">

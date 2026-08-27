@@ -5,7 +5,7 @@ import { SunDivider } from "./Madhubani";
 
 export const IngredientStory = () => {
   return (
-    <section id="ingredients" className="relative bg-creamlight py-24 sm:py-32" data-testid="ingredients-section">
+    <section id="ingredients" className="relative bg-creamlight py-20 sm:py-28" data-testid="ingredients-section">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
         <Reveal className="max-w-2xl">
           <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">What goes in</p>
@@ -33,9 +33,9 @@ export const IngredientStory = () => {
 
           {/* grouped, scannable list */}
           <div className="lg:col-span-7">
-            <Stagger className="space-y-8" gap={0.1}>
-              {INGREDIENT_GROUPS.map((g) => (
-                <StaggerItem key={g.title}>
+            <Stagger className="space-y-8">
+              {INGREDIENT_GROUPS.map((g, gi) => (
+                <StaggerItem key={g.title} delay={gi * 0.08}>
                   <div className="border-t border-maroon/15 pt-6">
                     <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
                       <h3 className="font-heading text-2xl text-maroon">{g.title}</h3>

@@ -58,14 +58,25 @@ export const IMG = {
   cafeChiyaSamaj: "/brief/a10.png",
   cafeOotalo: "/brief/a11.png",
   cafeChiyaExpress: "/brief/a12.png",
-  // --- Real supplied product / packaging photos ---
-  packRegular: "/real/pack-regular.jpg",     // 500gm — single black window pouch
-  packFamily: "/real/pack-family.jpg",       // 1kg — two black window pouches
-  packGiftLarge: "/real/pack-gift-large.jpg",// Mithila-art gift bag + pouch
-  packGiftSmall: "/real/pack-gift-large.jpg",// same gift line, smaller size
-  giftHero: "/real/pack-gift-wide.jpg",      // gift bag + kraft pouch + plate (editorial)
-  vendorJar: "/real/pack-vendor.jpg",        // branded jar in a café setting
-  finalLineup: "/real/product-lineup.jpg",   // full labelled product range
+  // --- Real supplied product / packaging photos (Finalist set) ---
+  packRegular: "/real/pack-regular.jpg",  // Regular pack 500g — single black window pouch
+  packFamily: "/real/pack-family.jpg",    // Family pack 1kg — two black window pouches
+  packGift: "/real/pack-gift.jpg",        // Gift pack — Mithila-art bag + kraft pouch + plate
+  giftHero: "/real/pack-gift.jpg",        // same shot, used in the Gifting section
+  vendorJar: "/real/pack-vendor.jpg",     // Vendor pack — branded jar in a café setting
+  finalLineup: "/real/product-lineup.jpg",// LINEUP — full labelled product range
+
+  // Shape -> Bake -> Break sequence (ordered; used by the pinned MakingStage)
+  makeShape1: "/real/make-shape-1.jpg",   // dough ball on the square carved mould
+  makeShape2: "/real/make-shape-2.jpg",   // pressing the dough (Khajuri mould, action)
+  makeShape3: "/real/make-shape-3.jpg",   // finished raw floret on the spiral mould
+  makeBake1: "/real/make-bake-1.jpg",     // raw floret on the mould, pale
+  makeBake2: "/real/make-bake-2.jpg",     // lightly baked, pale gold
+  makeBake3: "/real/make-bake-3.jpg",     // baked, medium gold
+  makeBake4: "/real/make-bake-4.jpg",     // fully baked, deep gold
+  makeBreak1: "/real/make-break-1.jpg",   // golden, first crack across the middle
+  makeBreak2: "/real/make-break-2.jpg",   // broken open in two halves, crumbly inside
+  goldenWhole: "/real/khajuri-golden-whole.jpg", // deep-gold whole floret (sensory / packaging)
   // Transparent PNGs used only for the scroll morph
   cookieWhole: "/gen/cookie_whole.png",
   cookieCracked: "/gen/cookie_cracked.png",
@@ -164,7 +175,7 @@ export const PRODUCTS = [
     tag: "Best for gifting",
     kraft: true,
     desc: "The full heritage experience. Premium Mithila art gift bag, hand-packed.",
-    img: IMG.packGiftLarge,
+    img: IMG.packGift,
     href: WA.giftLarge,
   },
   {
@@ -176,7 +187,7 @@ export const PRODUCTS = [
     tag: "A thoughtful gesture",
     kraft: true,
     desc: "Same craftsmanship, smaller size. Perfect for a thoughtful gesture.",
-    img: IMG.packGiftSmall,
+    img: IMG.packGift,
     href: WA.giftSmall,
   },
   {
