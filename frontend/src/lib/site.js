@@ -156,30 +156,20 @@ export const INGREDIENT_GROUPS = [
 
 export const ALLERGEN = "Contains nuts, dairy, and gluten. Does NOT contain egg.";
 
+// Card order = the customer journey: Discover -> Try -> Commit -> Gift.
+// Names / prices / weights / badges / ids / checkout mappings unchanged.
 export const PRODUCTS = [
   {
-    id: "gift-large",
-    name: "Gift Box — Large",
-    price: "1,199",
-    priceNum: 1199,
-    size: "Premium Mithila-art gift bag",
-    tag: "Best for gifting",
-    kraft: true,
-    desc: "The full heritage experience. Premium Mithila art gift bag, hand-packed.",
-    img: IMG.packGift,
-    href: WA.giftLarge,
-  },
-  {
-    id: "gift-small",
-    name: "Gift Box — Small",
-    price: "699",
-    priceNum: 699,
-    size: "Compact gift bag",
-    tag: "A thoughtful gesture",
-    kraft: true,
-    desc: "Same craftsmanship, smaller size. Perfect for a thoughtful gesture.",
-    img: IMG.packGift,
-    href: WA.giftSmall,
+    id: "regular-500",
+    name: "Regular Pack — 500gm",
+    price: "499",
+    priceNum: 499,
+    size: "500 gm resealable pouch",
+    tag: "The first taste",
+    kraft: false,
+    desc: "The perfect first taste, or your everyday chiya companion.",
+    img: IMG.packRegular,
+    href: WA.pack500,
   },
   {
     id: "family-1kg",
@@ -194,16 +184,28 @@ export const PRODUCTS = [
     href: WA.pack1kg,
   },
   {
-    id: "regular-500",
-    name: "Regular Pack — 500gm",
-    price: "499",
-    priceNum: 499,
-    size: "500 gm resealable pouch",
-    tag: "The first taste",
-    kraft: false,
-    desc: "The perfect first taste, or your everyday chiya companion.",
-    img: IMG.packRegular,
-    href: WA.pack500,
+    id: "gift-small",
+    name: "Gift Box — Small",
+    price: "699",
+    priceNum: 699,
+    size: "Compact gift bag",
+    tag: "A thoughtful gesture",
+    kraft: true,
+    desc: "Same craftsmanship, smaller size. Perfect for a thoughtful gesture.",
+    img: IMG.packGift,
+    href: WA.giftSmall,
+  },
+  {
+    id: "gift-large",
+    name: "Gift Box — Large",
+    price: "1,199",
+    priceNum: 1199,
+    size: "Premium Mithila-art gift bag",
+    tag: "Best for gifting",
+    kraft: true,
+    desc: "The full heritage experience. Premium Mithila art gift bag, hand-packed.",
+    img: IMG.packGift,
+    href: WA.giftLarge,
   },
 ];
 
@@ -291,25 +293,11 @@ export const GIFTING = {
   bulkHref: WA.wholesale,
 };
 
-export const LINEUP = {
-  eyebrow: "The Mithila.Foods collection",
-  headline: "Tradition, packed for every occasion.",
-  body:
-    "Everyday packs, family sharing, gifting, and café-ready khajuri — one heritage, made for more moments.",
-};
-
-export const PACKAGING = {
-  eyebrow: "From our kitchen, sealed fresh",
-  headline: "Made by hand. Packed with care.",
-  body:
-    "Every piece is hand-packed into a resealable window pouch that keeps it crisp, then into the Mithila-art bag — ready to travel, ready to gift, ready for your shelf.",
-};
-
 export const DOORSTEP = {
+  eyebrow: "Freshly made in Kathmandu",
   headline: "Tradition, delivered to your doorstep.",
-  body: "Handcrafted Khajuri. Rooted in heritage. Made for your everyday.",
+  body: "Handcrafted Khajuri, prepared for everyday sharing and delivered across Nepal.",
   primary: "Bring Khajuri Home",
-  secondary: "Choose Your Pack",
   whatsapp: "Order on WhatsApp",
 };
 

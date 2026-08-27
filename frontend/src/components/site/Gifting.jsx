@@ -51,6 +51,11 @@ export const Gifting = () => {
               {cta} <ArrowUpRight className="h-4 w-4" />
             </a>
           </Reveal>
+          <Reveal delay={0.2}>
+            <p className="mt-5 text-xs uppercase tracking-[0.18em] text-ink/45">
+              Made by hand. Packed with care.
+            </p>
+          </Reveal>
         </div>
       </div>
     </section>

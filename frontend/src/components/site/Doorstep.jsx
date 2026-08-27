@@ -1,6 +1,6 @@
 import React from "react";
 import { ShoppingBag, MessageCircle } from "lucide-react";
-import { DOORSTEP, PACKAGING, WA, IMG } from "../../lib/site";
+import { DOORSTEP, WA } from "../../lib/site";
 import { MaskLines, Reveal } from "./motion";
 import { SunFace } from "./Madhubani";
 
@@ -12,14 +12,15 @@ const scrollToShop = () => {
 };
 
 /**
- * The single ending: a short ownership beat ("Made by hand. Packed with care.")
- * flowing straight into the one true final CTA. No promotional content after.
+ * The one true final CTA — sits directly before the footer, after the FAQ.
+ * Two actions only: bring a pack home, or order on WhatsApp. No promotional
+ * content, no product imagery reused from gifting / the product cards.
  */
 export const Doorstep = () => {
   return (
     <section
       id="order"
-      className="relative overflow-hidden bg-creamlight py-16 text-ink sm:py-24 paper-texture"
+      className="relative overflow-hidden bg-creamlight py-16 text-ink sm:py-20 paper-texture"
       data-testid="doorstep-cta"
     >
       <div className="pointer-events-none absolute -right-24 -top-16 text-maroon/[0.05]">
@@ -28,19 +29,10 @@ export const Doorstep = () => {
       <div className="pointer-events-none absolute left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
-        {/* ownership beat */}
         <Reveal>
-          <img
-            src={IMG.packGift}
-            alt="Mithila.Foods khajuri in its Mithila-art bag, packed and ready"
-            className="mx-auto mb-6 w-[min(56vw,18rem)] object-contain [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_55%,transparent_92%)]"
-            loading="lazy"
-          />
-          <p className="font-heading text-xl italic text-golddeep sm:text-2xl">{PACKAGING.headline}</p>
+          <p className="text-[11px] uppercase tracking-[0.26em] text-golddeep">{DOORSTEP.eyebrow}</p>
         </Reveal>
-
-        {/* final CTA */}
-        <h2 className="mt-6 font-heading text-[clamp(2.2rem,6.5vw,4.2rem)] font-light leading-[1.03] text-maroon">
+        <h2 className="mt-4 font-heading text-[clamp(2.2rem,6.5vw,4.2rem)] font-light leading-[1.03] text-maroon">
           <MaskLines lines={["Tradition, delivered", "to your doorstep."]} lineClass="text-maroon" />
         </h2>
         <Reveal delay={0.12}>
@@ -56,25 +48,16 @@ export const Doorstep = () => {
             >
               <ShoppingBag className="h-5 w-5" /> {DOORSTEP.primary}
             </button>
-            <button
-              onClick={scrollToShop}
+            <a
+              href={WA.order}
+              target="_blank"
+              rel="noreferrer"
               className="mo-hover inline-flex items-center gap-2 rounded-full border border-maroon/25 px-7 py-5 text-sm font-medium text-maroon hover:bg-maroon hover:text-paper"
-              data-testid="doorstep-secondary"
+              data-testid="doorstep-whatsapp"
             >
-              {DOORSTEP.secondary}
-            </button>
+              <MessageCircle className="h-4 w-4" /> {DOORSTEP.whatsapp}
+            </a>
           </div>
-        </Reveal>
-        <Reveal delay={0.28}>
-          <a
-            href={WA.order}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-6 inline-flex items-center gap-1.5 text-sm text-ink/55 transition-colors hover:text-golddeep"
-            data-testid="doorstep-whatsapp"
-          >
-            <MessageCircle className="h-4 w-4" /> {DOORSTEP.whatsapp}
-          </a>
         </Reveal>
       </div>
     </section>

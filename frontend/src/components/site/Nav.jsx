@@ -8,7 +8,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const LINKS = [
   { label: "Shop", id: "shop" },
-  { label: "Our Story", id: "craft" },
+  { label: "Our Story", id: "story" },
   { label: "Gifting", id: "gifting" },
   { label: "For Cafés", id: "vendors" },
 ];

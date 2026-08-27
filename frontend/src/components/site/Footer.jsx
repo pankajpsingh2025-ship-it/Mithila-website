@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { MapPin, Phone, MessageCircle, Facebook, Instagram, Sparkles, Check } from "lucide-react";
 import { IMG, WA, SOCIAL, PHONE_DISPLAY } from "../../lib/site";
 import { subscribeNewsletter } from "../../lib/api";
@@ -18,11 +19,17 @@ const shopLinks = [
 ];
 
 const navLinks = [
-  { label: "Our story", id: "craft" },
+  { label: "Our story", id: "story" },
   { label: "Shop", id: "shop" },
   { label: "Cafés & wholesale", id: "vendors" },
   { label: "Gifting", id: "gifting" },
   { label: "FAQ", id: "faq" },
+];
+
+const policyLinks = [
+  { label: "Privacy Policy", to: "/privacy-policy" },
+  { label: "Terms of Service", to: "/terms-of-service" },
+  { label: "Shipping & Returns", to: "/shipping-returns" },
 ];
 
 const socials = [
@@ -116,7 +123,7 @@ const NewsletterForm = () => {
 
 export const Footer = () => {
   return (
-    <footer className="relative bg-maroon text-cream" data-testid="site-footer">
+    <footer className="relative bg-ink text-cream" data-testid="site-footer">
       <div className="text-goldbright/30">
         <TriangleBand height={14} flip />
       </div>
@@ -210,10 +217,23 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-10 border-t border-cream/15 pt-6">
+        <div className="mt-10 flex flex-col gap-4 border-t border-cream/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-xs leading-relaxed text-cream/50">
             © 2026 Mithila.Foods — Pawan Mithila Foods Pvt. Ltd. | Handcrafted in Bouddha-6, Kathmandu
           </p>
+          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-xs">
+            {policyLinks.map((l) => (
+              <li key={l.to}>
+                <Link
+                  to={l.to}
+                  className="text-cream/60 underline-offset-4 transition-colors hover:text-goldbright hover:underline"
+                  data-testid={`footer-policy-${l.to.slice(1)}`}
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </footer>

@@ -4,50 +4,51 @@ import { IMG } from "../../lib/site";
 import { Reveal, MaskLines, useParallax } from "./motion";
 
 /**
- * MODE 2 -> MODE 3 bridge: one compact appetite moment right before the shop.
- * Whole finished khajuri + a macro of the crumb, edges dissolved into the page.
- * Not a replay of the Break sequence — this is the "taste it" beat.
+ * One compact "taste it / live with it" beat right before the shop. Consolidates
+ * the old texture line + "tea, coffee, sharing, gifting" + "the first bite" into
+ * a single section: one crumb/whole macro + one tea-and-sharing image. It does
+ * NOT reuse any Shape/Bake/Break frame.
  */
 export const Sensory = () => {
-  const a = useParallax(40);
-  const b = useParallax(28);
+  const a = useParallax(38);
+  const b = useParallax(30);
 
   return (
-    <section className="relative overflow-hidden bg-creamlight py-14 sm:py-20" data-testid="sensory-section">
+    <section id="taste" className="relative overflow-hidden bg-creamlight py-14 sm:py-20" data-testid="sensory-section">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="grid items-center gap-8 sm:grid-cols-12 sm:gap-10">
-          <Reveal className="sm:col-span-5">
+        <div className="mx-auto max-w-2xl text-center">
+          <p className="mb-3 text-[11px] uppercase tracking-[0.24em] text-golddeep">The taste</p>
+          <h2 className="font-heading text-[clamp(2rem,4.8vw,3.3rem)] font-light leading-[1.08] text-maroon">
+            <MaskLines lines={["Golden outside. Rich and", "crumbly within."]} />
+          </h2>
+          <Reveal delay={0.1}>
+            <p className="mt-4 text-base leading-relaxed text-ink/75 sm:text-lg">
+              A crisp shell and a tender, handmade centre, with whole nuts you can see —
+              made with real ghee and jaggery. Right alongside your morning tea or afternoon
+              coffee, broken in half and shared, or boxed up as a gift sent home.
+            </p>
+          </Reveal>
+        </div>
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
+          <Reveal>
             <div ref={a.ref} className="img-blend relative overflow-hidden">
               <motion.img
                 src={IMG.goldenWhole}
-                alt="A whole handcrafted khajuri, deep golden, its pressed pattern crisp on top"
+                alt="A whole handcrafted khajuri, deep golden, whole nuts visible in the crumb"
                 style={{ y: a.y }}
-                className="h-[16rem] w-full scale-110 object-cover sm:h-[24rem]"
+                className="h-[15rem] w-full scale-110 object-cover sm:h-[22rem]"
                 loading="lazy"
               />
             </div>
           </Reveal>
-
-          <div className="sm:col-span-4">
-            <p className="mb-3 text-[11px] uppercase tracking-[0.24em] text-golddeep">The first bite</p>
-            <h2 className="font-heading text-[clamp(2rem,4.6vw,3.2rem)] font-light leading-[1.05] text-maroon">
-              <MaskLines lines={["Golden outside."]} />
-              <MaskLines lines={["Crumbly within."]} lineClass="italic text-golddeep" delay={0.08} />
-            </h2>
-            <Reveal delay={0.1}>
-              <p className="mt-4 text-base leading-relaxed text-ink/75">
-                Crisp shell, tender handmade centre, whole nuts you can see.
-              </p>
-            </Reveal>
-          </div>
-
-          <Reveal className="sm:col-span-3">
+          <Reveal delay={0.06}>
             <div ref={b.ref} className="img-blend relative overflow-hidden">
               <motion.img
-                src={IMG.makeBreak2}
-                alt="Macro of khajuri crumb — dense, grainy, handmade"
+                src={IMG.lifestyle}
+                alt="Khajuri served with a cup of tea, ready to share"
                 style={{ y: b.y }}
-                className="h-[13rem] w-full scale-110 object-cover sm:h-[18rem]"
+                className="h-[15rem] w-full scale-110 object-cover sm:h-[22rem]"
                 loading="lazy"
               />
             </div>

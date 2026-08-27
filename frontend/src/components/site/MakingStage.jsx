@@ -26,9 +26,9 @@ const FRAMES = [
 ];
 
 const PHASES = [
-  { k: "Phase one", h: "Shape it", s: "Made the traditional way.", win: [0.0, 0.30] },
-  { k: "Phase two", h: "Bake it", s: "Watch tradition turn golden.", win: [0.37, 0.58] },
-  { k: "Phase three", h: "Break it open", s: "See what's inside.", win: [0.66, 0.86] },
+  { k: "Phase one", h: "Shape it", s: "Pressed by hand in the traditional carved wooden mould.", win: [0.0, 0.30] },
+  { k: "Phase two", h: "Bake it", s: "Baked in small batches until golden.", win: [0.37, 0.58] },
+  { k: "Phase three", h: "Break it open", s: "Crisp outside. Rich and crumbly within.", win: [0.66, 0.86] },
 ];
 
 const FADE = 0.035; // fraction of the timeline used for each heading fade
@@ -145,6 +145,7 @@ export const MakingStage = () => {
           <p className="mt-12 text-center font-heading text-[clamp(1.8rem,5vw,3rem)] font-light text-maroon">
             Tradition shouldn't have a season.
           </p>
+          <p className="mt-3 text-center text-sm text-ink/65">Festival roots. Everyday enjoyment.</p>
         </div>
       </section>
     );
@@ -235,6 +236,7 @@ export const MakingStage = () => {
         <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2.2rem,6vw,4rem)] font-light leading-[1.05] text-maroon">
           Tradition shouldn't have a season.
         </h2>
+        <p className="mt-4 text-sm text-ink/70 sm:text-base">Festival roots. Everyday enjoyment.</p>
       </div>
      </div>
     </section>
