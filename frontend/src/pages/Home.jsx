@@ -1,41 +1,68 @@
 import React from "react";
-import { CinematicIntro } from "../components/site/CinematicIntro";
-import { TrustBar } from "../components/site/TrustBar";
-import { Products } from "../components/site/Products";
-import { FloatingIngredients } from "../components/site/FloatingIngredients";
+import { HeroVideo } from "../components/site/HeroVideo";
+import { MakingStage } from "../components/site/MakingStage";
+import { WhatIsKhajuri } from "../components/site/WhatIsKhajuri";
 import { Story } from "../components/site/Story";
-import { CinematicOutro } from "../components/site/CinematicOutro";
-import { Vendors } from "../components/site/Vendors";
-import { Lifestyle } from "../components/site/Lifestyle";
-import { BulkAndStock } from "../components/site/BulkAndStock";
-import { DeliveryPayment } from "../components/site/DeliveryPayment";
+import { IngredientStory } from "../components/site/IngredientStory";
+import { Sensory } from "../components/site/Sensory";
+import { Products } from "../components/site/Products";
+import { Testimonials } from "../components/site/Testimonials";
+import { VendorTrust } from "../components/site/VendorTrust";
+import { Gifting } from "../components/site/Gifting";
+import { Lineup } from "../components/site/Lineup";
+import { Packaging } from "../components/site/Packaging";
+import { Doorstep } from "../components/site/Doorstep";
 import { FAQ } from "../components/site/FAQ";
-import { ClosingCTA } from "../components/site/ClosingCTA";
 import { Footer } from "../components/site/Footer";
 
 export default function Home() {
   return (
     <div className="bg-creamlight text-ink font-body antialiased">
       <main>
-        {/* 1-9 : ingredients -> sphere -> raw -> baked -> break */}
-        <CinematicIntro />
-        <TrustBar />
-        {/* 10 : product information / pricing (shop stays easy to reach) */}
-        <Products />
-        <FloatingIngredients />
-        {/* 11 : brand foundation */}
+        {/* 1 — hero: watch it being made */}
+        <HeroVideo />
+
+        {/* 2 — one continuous stage: shape -> bake -> break -> story hand-off */}
+        <MakingStage />
+
+        {/* 3 — what it is */}
+        <WhatIsKhajuri />
+
+        {/* 4 — heritage / brand story */}
         <Story />
-        {/* 12-18 : restoration -> inner pouch -> branded bag */}
-        <CinematicOutro />
-        {/* 19-22 : vendors + 360 jar + become a vendor */}
-        <Vendors />
-        <Lifestyle />
-        <BulkAndStock />
-        <DeliveryPayment />
+
+        {/* 5 — ingredient story */}
+        <IngredientStory />
+
+        {/* 6 — sensory showcase (appetite peak) */}
+        <Sensory />
+
+        {/* 7 — shop: individual packs */}
+        <Products />
+
+        {/* 8 — customer trust */}
+        <Testimonials />
+
+        {/* 9 — vendor / café trust */}
+        <VendorTrust />
+
+        {/* 10 — gifting */}
+        <Gifting />
+
+        {/* 11 — full product family */}
+        <Lineup />
+
+        {/* 12 — packaging / ownership transition */}
+        <Packaging />
+
+        {/* 13 — final doorstep conversion */}
+        <Doorstep />
+
+        {/* 14 — FAQ */}
         <FAQ />
-        {/* 23-24 : final composition + one emotional consumer CTA */}
-        <ClosingCTA />
       </main>
+
+      {/* 15 — footer */}
       <Footer />
     </div>
   );

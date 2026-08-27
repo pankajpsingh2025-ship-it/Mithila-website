@@ -2,12 +2,13 @@
 
 html {
     scroll-behavior: auto;
+    overflow-x: hidden;
 }
 
 body {
     background-color: #FAF1DE;
     color: #2A1608;
-    overflow-x: hidden;
+    overflow-x: clip;
 }
 
 .App {
