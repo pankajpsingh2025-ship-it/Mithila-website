@@ -110,11 +110,17 @@ export const Products = () => {
           </Reveal>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* mobile: horizontal snap carousel (swipe for more) · sm+: grid */}
+        <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4">
           {PRODUCTS.map((p, i) => (
-            <ProductCard key={p.id} p={p} index={i} />
+            <div key={p.id} className="w-[78%] shrink-0 snap-start sm:w-auto sm:shrink">
+              <ProductCard p={p} index={i} />
+            </div>
           ))}
         </div>
+        <p className="mt-3 text-center text-[11px] uppercase tracking-[0.16em] text-ink/40 sm:hidden">
+          Swipe for more packs →
+        </p>
       </div>
     </section>
   );

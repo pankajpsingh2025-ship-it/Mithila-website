@@ -14,6 +14,9 @@ export const WA = {
   pack500: wa("Hi! I'd like to order the 500gm pack"),
   corporate: wa("Hi! I'd like to ask about corporate/bulk gifting"),
   stockist: wa("Hi! I'm interested in stocking Mithila.Foods at my café/store"),
+  // distinct, pre-filled deep links (kept separate from a plain order)
+  wholesale: wa("Hi! I'd like to talk about supplying my café / bulk & corporate orders."),
+  vip: wa("Add me to the Mithila.Foods VIP list for fresh-batch alerts."),
 };
 
 // Official social links — open in a new tab.
@@ -99,34 +102,23 @@ export const TRUST = [
   "Already stocked at tea shops & cafés in Kathmandu",
 ];
 
-// "What is Khajuri?" — clear, emotional, elegant. Not a history essay.
-export const WHAT_IS = {
-  eyebrow: "What is Khajuri?",
-  lead:
-    "Khajuri is a traditional handcrafted food from the Mithila and Terai plains — the kind of thing made at home for family, for guests, and for celebrations like Chhath.",
-  body:
-    "It has always been tied to a season. We think a recipe this good shouldn't have to wait for one. So we make it in small batches, all year, and pack it well enough to travel.",
-  line: "Festival roots. Everyday enjoyment.",
-  moments: [
-    "with morning tea",
-    "alongside coffee",
-    "packed for the road",
-    "handed to guests",
-    "sent as a gift",
-    "shared at the counter of a café",
-  ],
-};
-
+// One compressed editorial section: heritage + "what is khajuri" + purpose.
+// Written toward pride and belonging — a Mithila / Madhesi reader should feel
+// spoken to directly, not just informed about a recipe.
 export const STORY = {
-  headline: "A Mithila tradition, made for every day",
+  eyebrow: "Our story",
+  headline: "Tradition shouldn't have a season.",
+  subheading: "What is Khajuri?",
   paras: [
-    "Khajuri has been made in Mithila kitchens for generations — a recipe passed down by hand, not looked up. We didn't set out to modernise it. We set out to protect it, and to give it a form worth passing on.",
-    "Every batch is still handcrafted in small quantities with real ghee, real jaggery, and whole nuts broken by hand. Nothing here is mass-produced, and nothing here is rushed — it's the same care our elders put in, presented for the way people eat now.",
+    "If you grew up in Mithila or the Terai, you already know khajuri. It's the smell of the kitchen before Chhath. It's what the aunties press by hand, one floret at a time, in a wooden mould that's older than any of us. It's family, festival, and home in a single bite.",
+    "For most people it only shows up once a year. We didn't think a tradition this good should have to wait for a season — so we make it in small batches, all year, with the same real ghee, real jaggery and whole nuts our elders used. Nothing rushed, nothing faked.",
+    "This isn't a new snack dressed up as heritage. It's our heritage, made well enough to keep — for your morning tea, your coffee, the road, a guest at the door, a gift sent home.",
   ],
+  line: "Festival roots. Everyday enjoyment.",
   chapters: [
-    { n: "01", t: "Passed down, not looked up", d: "A recipe carried through generations of Mithila kitchens." },
-    { n: "02", t: "Handcrafted in small batches", d: "Made the way our elders did — never mass-produced, never hurried." },
-    { n: "03", t: "Only the real thing", d: "Real ghee, real jaggery, whole nuts. Nothing faked, nothing cut." },
+    { n: "01", t: "Passed down, not looked up", d: "A recipe carried by hand through generations of Mithila kitchens." },
+    { n: "02", t: "Handcrafted in small batches", d: "Pressed in a traditional wooden mould, the way our elders did it." },
+    { n: "03", t: "Only the real thing", d: "Real ghee, real jaggery, whole nuts — and no preservatives." },
   ],
 };
 
@@ -148,13 +140,18 @@ export const INGREDIENTS = [
 export const INGREDIENT_GROUPS = [
   {
     title: "The base",
-    note: "What gives khajuri its body and its tender, crumbly bite.",
-    items: ["Semolina (suji)", "Wheat flour", "Ghee", "Jaggery (gur)"],
+    note: "Body, and a tender, crumbly bite.",
+    items: ["Semolina (suji)", "Wheat flour"],
   },
   {
     title: "The richness",
-    note: "Whole nuts and fresh coconut, broken and folded in by hand.",
-    items: ["Fresh coconut", "Almonds", "Cashew", "Peanuts"],
+    note: "Real fat, real sweetness, folded in by hand.",
+    items: ["Ghee", "Jaggery (gur)", "Fresh coconut"],
+  },
+  {
+    title: "The crunch",
+    note: "Whole nuts, broken — never machine-chopped.",
+    items: ["Almonds", "Cashews", "Peanuts"],
   },
   {
     title: "The warmth",
@@ -279,8 +276,8 @@ export const VENDOR_TRUST = {
     { name: "Janakpur Junction", tag: "Tea shop • Janakpur", img: IMG.cafeJanakpur },
     { name: "Akhi Jhyal Cafe", tag: "Heritage café • Patan", img: IMG.cafeAkhiJhyal },
   ],
-  cta: "Stock Mithila.Foods at your café",
-  href: WA.stockist,
+  cta: "For Cafés & Wholesale",
+  href: WA.wholesale,
 };
 
 export const GIFTING = {
@@ -295,6 +292,9 @@ export const GIFTING = {
   ],
   cta: "Send a Taste of Tradition",
   href: WA.corporate,
+  bulkNote: "Corporate or bulk gifting?",
+  bulkCta: "Talk to us",
+  bulkHref: WA.wholesale,
 };
 
 export const LINEUP = {

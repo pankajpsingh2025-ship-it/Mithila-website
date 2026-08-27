@@ -36,3 +36,8 @@ export const getMyOrders = async () => {
   const { data } = await axios.get(`${API}/my/orders`);
   return data;
 };
+
+export const subscribeNewsletter = async (email, source = "footer") => {
+  const { data } = await axios.post(`${API}/newsletter`, { email, source });
+  return data;
+};

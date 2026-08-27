@@ -4,8 +4,13 @@ import { STORY, IMG } from "../../lib/site";
 import { Reveal, MaskLines, useParallax } from "./motion";
 import { Peacock } from "./Madhubani";
 
+/**
+ * One compressed editorial section: the "Tradition shouldn't have a season"
+ * banner, "What is Khajuri?", heritage, and the Mithila.Foods purpose —
+ * written toward pride and belonging.
+ */
 export const Story = () => {
-  const { ref, y } = useParallax(48);
+  const { ref, y } = useParallax(46);
 
   return (
     <section id="story" className="relative overflow-hidden bg-cream py-20 sm:py-28">
@@ -17,18 +22,21 @@ export const Story = () => {
         <div className="grid items-start gap-12 lg:grid-cols-12 lg:gap-16">
           <div className="lg:col-span-7">
             <Reveal>
-              <p className="mb-5 text-[11px] uppercase tracking-[0.24em] text-golddeep">Our story</p>
+              <p className="mb-5 text-[11px] uppercase tracking-[0.24em] text-golddeep">{STORY.eyebrow}</p>
             </Reveal>
-            <h2 className="font-heading text-[clamp(2rem,4.6vw,3.6rem)] font-light leading-[1.02] text-maroon">
-              <MaskLines lines={["A Mithila tradition,", "made for every day"]} />
+            <h2 className="font-heading text-[clamp(2.1rem,4.8vw,3.6rem)] font-light leading-[1.02] text-maroon">
+              <MaskLines lines={[STORY.subheading]} />
             </h2>
-            <div className="mt-8 max-w-xl space-y-6">
+            <div className="mt-7 max-w-xl space-y-5">
               {STORY.paras.map((p, i) => (
-                <Reveal key={i} delay={0.05 + i * 0.05}>
+                <Reveal key={i} delay={0.05 + i * 0.04}>
                   <p className="text-base leading-relaxed text-ink/75 sm:text-lg">{p}</p>
                 </Reveal>
               ))}
             </div>
+            <Reveal delay={0.12}>
+              <p className="mt-7 font-heading text-lg italic text-maroon sm:text-xl">{STORY.line}</p>
+            </Reveal>
           </div>
 
           <div className="lg:col-span-5">
@@ -39,9 +47,9 @@ export const Story = () => {
               >
                 <motion.img
                   src={IMG.makeShape3}
-                  alt="Khajuri hand-pressed in a traditional wooden mould"
+                  alt="Khajuri pressed by hand in a traditional wooden mould"
                   style={{ y }}
-                  className="h-[26rem] w-full scale-110 object-cover sm:h-[34rem]"
+                  className="h-[24rem] w-full scale-110 object-cover sm:h-[32rem]"
                   data-testid="story-image"
                   loading="lazy"
                 />
@@ -50,12 +58,12 @@ export const Story = () => {
           </div>
         </div>
 
-        <div className="mt-16 grid gap-8 sm:mt-20 md:grid-cols-3">
+        <div className="mt-14 grid gap-8 border-t border-maroon/12 pt-10 sm:mt-16 md:grid-cols-3">
           {STORY.chapters.map((c, i) => (
-            <Reveal key={c.n} delay={i * 0.08}>
-              <div className="group relative border-t border-maroon/15 pt-6" data-testid={`story-chapter-${c.n}`}>
-                <span className="font-heading text-5xl leading-none text-gold/70 sm:text-6xl">{c.n}</span>
-                <h3 className="mt-4 font-heading text-xl text-maroon">{c.t}</h3>
+            <Reveal key={c.n} delay={i * 0.07}>
+              <div data-testid={`story-chapter-${c.n}`}>
+                <span className="font-heading text-4xl leading-none text-gold/70 sm:text-5xl">{c.n}</span>
+                <h3 className="mt-3 font-heading text-lg text-maroon">{c.t}</h3>
                 <p className="mt-2 text-sm leading-relaxed text-ink/65">{c.d}</p>
               </div>
             </Reveal>

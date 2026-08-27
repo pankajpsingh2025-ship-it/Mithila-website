@@ -7,7 +7,6 @@ import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 
 const LINKS = [
-  { label: "Khajuri", id: "what-is-khajuri" },
   { label: "Story", id: "story" },
   { label: "Shop", id: "shop" },
   { label: "Cafés", id: "vendors" },

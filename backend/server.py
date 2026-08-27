@@ -293,6 +293,26 @@ async def get_order(order_id: str):
     return order
 
 
+class NewsletterSignup(BaseModel):
+    email: str
+    source: Optional[str] = "footer"
+
+
+@api_router.post("/newsletter")
+async def newsletter_signup(payload: NewsletterSignup):
+    email = payload.email.strip().lower()
+    if "@" not in email or "." not in email.split("@")[-1] or len(email) > 254:
+        raise HTTPException(400, "Please enter a valid email address")
+    now = datetime.now(timezone.utc).isoformat()
+    await db.newsletter_subscribers.update_one(
+        {"email": email},
+        {"$set": {"email": email, "source": payload.source, "updated_at": now},
+         "$setOnInsert": {"created_at": now}},
+        upsert=True,
+    )
+    return {"ok": True}
+
+
 app.include_router(api_router)
 
 app.add_middleware(

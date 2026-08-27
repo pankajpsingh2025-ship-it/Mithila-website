@@ -15,7 +15,7 @@ export const Doorstep = () => {
   return (
     <section
       id="order"
-      className="relative overflow-hidden bg-creamlight py-28 text-ink sm:py-40 paper-texture"
+      className="relative overflow-hidden bg-creamlight py-20 text-ink sm:py-28 paper-texture"
       data-testid="doorstep-cta"
     >
       <div className="pointer-events-none absolute -right-24 -top-16 text-maroon/[0.05]">
@@ -28,7 +28,7 @@ export const Doorstep = () => {
           <img
             src={IMG.goldenWhole}
             alt="A whole handcrafted khajuri, deep golden and ready"
-            className="mx-auto mb-12 w-[min(72vw,26rem)] rounded-[2rem] object-cover drop-shadow-[0_40px_70px_-30px_rgba(74,31,13,0.5)]"
+            className="mx-auto mb-8 w-[min(64vw,22rem)] rounded-[2rem] object-cover drop-shadow-[0_40px_70px_-30px_rgba(74,31,13,0.5)]"
             loading="lazy"
           />
         </Reveal>

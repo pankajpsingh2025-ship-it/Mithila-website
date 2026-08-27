@@ -7,15 +7,14 @@ gsap.registerPlugin(ScrollTrigger);
 
 /**
  * ONE continuous interactive stage: Shape -> Bake -> Break -> story hand-off.
- * The same cream stage, lighting and centre position stay constant; only the
+ * Same cream stage, same centre position, same lighting throughout — only the
  * product state and a very-low-opacity atmospheric background echo change.
  *
- * The nine product frames are evenly spaced across the pinned scroll and
- * crossfaded linearly (scrub: true, ease "none") so a small scroll always
- * moves the product a small, even amount — never "nothing, nothing, jump".
+ * - nine ordered frames, evenly spaced, linear crossfades (scrub:true) so a
+ *   small scroll always moves the product a small, even amount
+ * - exactly ONE phase heading is visible at any time: each fades fully out and
+ *   leaves a short gap before the next fades in (no stacking / overlap)
  */
-
-// ordered frames + which phase each belongs to
 const FRAMES = [
   { src: IMG.makeShape1, phase: 0, alt: "A ball of khajuri dough on a carved wooden mould" },
   { src: IMG.makeShape2, phase: 0, alt: "Pressing the dough into a traditional Khajuri mould" },
@@ -29,10 +28,12 @@ const FRAMES = [
 ];
 
 const PHASES = [
-  { k: "Phase one", h: "Shape it", s: "Made the traditional way." },
-  { k: "Phase two", h: "Bake it", s: "Watch tradition turn golden." },
-  { k: "Phase three", h: "Break it open", s: "See what's inside." },
+  { k: "Phase one", h: "Shape it", s: "Made the traditional way.", win: [0.0, 0.27] },
+  { k: "Phase two", h: "Bake it", s: "Watch tradition turn golden.", win: [0.34, 0.6] },
+  { k: "Phase three", h: "Break it open", s: "See what's inside.", win: [0.67, 0.84] },
 ];
+
+const FADE = 0.035; // fraction of the timeline used for each heading fade
 
 export const MakingStage = () => {
   const root = useRef(null);
@@ -41,8 +42,8 @@ export const MakingStage = () => {
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   const frameRefs = useRef([]);
-  const bgRefs = useRef([]); // 3 echoes
-  const headRefs = useRef([]); // 3 phase headings
+  const bgRefs = useRef([]);
+  const headRefs = useRef([]);
   const storyRef = useRef(null);
 
   useLayoutEffect(() => {
@@ -64,8 +65,7 @@ export const MakingStage = () => {
         gsap.set(frames[0], { opacity: 1 });
         gsap.set(bgs, { opacity: 0 });
         gsap.set(bgs[0], { opacity: 0.08 });
-        gsap.set(heads, { opacity: 0, y: 14 });
-        gsap.set(heads[0], { opacity: 1, y: 0 });
+        gsap.set(heads, { opacity: 0, y: 12 });
         gsap.set(storyRef.current, { opacity: 0, y: 18 });
 
         const tl = gsap.timeline({
@@ -81,32 +81,44 @@ export const MakingStage = () => {
           },
         });
 
-        // total timeline is 1 unit; reserve the last 12% for the story hand-off
+        // ---- product frames: even, continuous crossfade across 0 -> 0.86 ----
         const seqEnd = 0.86;
-        const step = seqEnd / (N - 1); // even spacing between frames
-
+        const step = seqEnd / (N - 1);
         for (let i = 1; i < N; i++) {
-          const at = step * i - step * 0.5; // start the crossfade slightly before the mark
+          const at = step * i - step * 0.5;
           tl.to(frames[i], { opacity: 1, duration: step }, at);
           tl.to(frames[i - 1], { opacity: 0, duration: step }, at);
-
-          // background echo follows the phase of the frame we're arriving at
-          const phase = FRAMES[i].phase;
-          const prevPhase = FRAMES[i - 1].phase;
-          if (phase !== prevPhase) {
-            tl.to(bgs[prevPhase], { opacity: 0, duration: step * 1.4 }, at);
-            tl.to(bgs[phase], { opacity: 0.08, duration: step * 1.4 }, at);
-            // headings crossfade on the same beat
-            tl.to(heads[prevPhase], { opacity: 0, y: -14, duration: step }, at);
-            tl.to(heads[phase], { opacity: 1, y: 0, duration: step }, at);
+          const p = FRAMES[i].phase;
+          const pp = FRAMES[i - 1].phase;
+          if (p !== pp) {
+            tl.to(bgs[pp], { opacity: 0, duration: step * 1.6 }, at);
+            tl.to(bgs[p], { opacity: 0.08, duration: step * 1.6 }, at);
           }
         }
 
-        // Break -> story: broken khajuri eases back + up, headline fades in
-        tl.to(frames[N - 1], { scale: 0.8, yPercent: -6, duration: 0.14 }, seqEnd);
-        tl.to(heads[2], { opacity: 0, y: -14, duration: 0.08 }, seqEnd + 0.02);
-        tl.to(bgs[2], { opacity: 0.04, duration: 0.14 }, seqEnd);
-        tl.to(storyRef.current, { opacity: 1, y: 0, duration: 0.12 }, seqEnd + 0.04);
+        // ---- phase headings: strictly one at a time, with a gap between ----
+        PHASES.forEach((ph, i) => {
+          const [inAt, outAt] = ph.win;
+          tl.fromTo(
+            heads[i],
+            { opacity: 0, y: 12 },
+            { opacity: 1, y: 0, duration: FADE },
+            inAt
+          );
+          tl.to(heads[i], { opacity: 0, y: -12, duration: FADE }, outAt);
+        });
+
+        // ---- break -> story hand-off (last ~14%): the broken khajuri sinks
+        // back to a soft ghost, the headline takes the centre. This IS the
+        // transition beat — the pin releases straight into the Story section. ----
+        tl.to(frames[N - 1], { scale: 1.15, opacity: 0.12, yPercent: 0, duration: 0.14 }, seqEnd);
+        tl.to(bgs[2], { opacity: 0.05, duration: 0.14 }, seqEnd);
+        tl.fromTo(
+          storyRef.current,
+          { opacity: 0, y: 24 },
+          { opacity: 1, y: 0, duration: 0.1 },
+          0.88
+        );
 
         return () => tl.kill();
       }
@@ -117,7 +129,7 @@ export const MakingStage = () => {
 
   if (reduce) {
     return (
-      <section id="making" className="relative bg-creamlight py-24" data-testid="making-stage">
+      <section id="making" className="relative bg-creamlight py-20" data-testid="making-stage">
         <div className="mx-auto max-w-3xl px-6 text-center">
           <img
             src={IMG.makeBreak2}
@@ -167,7 +179,7 @@ export const MakingStage = () => {
 
       {/* foreground product — centre position held constant across every frame */}
       <div className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2">
-        <div className="relative h-[min(68vw,24rem)] w-[min(68vw,24rem)]">
+        <div className="relative h-[min(72vw,26rem)] w-[min(72vw,26rem)]">
           {FRAMES.map((f, i) => (
             <img
               key={f.src}
@@ -182,13 +194,14 @@ export const MakingStage = () => {
         </div>
       </div>
 
-      {/* phase headings — same slot, one visible at a time */}
-      <div className="absolute inset-x-0 top-[11%] z-20 px-6 text-center">
+      {/* phase headings — all share one slot; the timeline shows exactly one */}
+      <div className="absolute inset-x-0 top-[10%] z-20 h-24 px-6 text-center">
         {PHASES.map((p, i) => (
           <div
             key={p.h}
             ref={(el) => (headRefs.current[i] = el)}
-            className={i === 0 ? "" : "absolute inset-x-0 top-0"}
+            className="absolute inset-x-0 top-0"
+            style={{ opacity: 0 }}
           >
             <p className="text-[11px] uppercase tracking-[0.26em] text-golddeep/80">{p.k}</p>
             <h2 className="mt-2 font-heading text-4xl font-light text-maroon sm:text-5xl">{p.h}</h2>
@@ -197,8 +210,12 @@ export const MakingStage = () => {
         ))}
       </div>
 
-      <div ref={storyRef} className="absolute inset-x-0 bottom-[13%] z-20 px-6 text-center">
-        <h2 className="mx-auto max-w-2xl font-heading text-[clamp(2rem,5.5vw,3.6rem)] font-light leading-[1.05] text-maroon">
+      <div
+        ref={storyRef}
+        className="absolute inset-x-0 top-1/2 z-30 -translate-y-1/2 px-6 text-center"
+        style={{ opacity: 0 }}
+      >
+        <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2.2rem,6vw,4rem)] font-light leading-[1.05] text-maroon">
           Tradition shouldn't have a season.
         </h2>
       </div>

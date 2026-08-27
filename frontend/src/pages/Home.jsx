@@ -1,7 +1,6 @@
 import React from "react";
 import { HeroVideo } from "../components/site/HeroVideo";
 import { MakingStage } from "../components/site/MakingStage";
-import { WhatIsKhajuri } from "../components/site/WhatIsKhajuri";
 import { Story } from "../components/site/Story";
 import { IngredientStory } from "../components/site/IngredientStory";
 import { Sensory } from "../components/site/Sensory";
@@ -19,43 +18,41 @@ export default function Home() {
   return (
     <div className="bg-creamlight text-ink font-body antialiased">
       <main>
-        {/* 1 — hero: watch it being made */}
+        {/* 01 — hero (video) */}
         <HeroVideo />
 
-        {/* 2 — one continuous stage: shape -> bake -> break -> story hand-off */}
+        {/* 02 + 03 — one continuous Shape -> Bake -> Break, releasing on
+            "Tradition shouldn't have a season." */}
         <MakingStage />
 
-        {/* 3 — what it is */}
-        <WhatIsKhajuri />
-
-        {/* 4 — heritage / brand story */}
+        {/* 04 — what is khajuri / heritage (compressed) */}
         <Story />
 
-        {/* 5 — ingredient story */}
+        {/* 05 — ingredients / craft (compact) */}
         <IngredientStory />
 
-        {/* 6 — sensory showcase (appetite peak) */}
+        {/* 06 — sensory product moment */}
         <Sensory />
 
-        {/* 7 — shop: individual packs */}
+        {/* 07 — shop (supplied pack images) */}
         <Products />
 
-        {/* 8 — customer trust */}
+        {/* 08 — customer love */}
         <Testimonials />
 
-        {/* 9 — vendor / café trust */}
+        {/* 09 — vendor / café trust (merged) */}
         <VendorTrust />
 
-        {/* 10 — gifting */}
+        {/* 10 — gifting (short) */}
         <Gifting />
 
-        {/* 11 — full product family */}
+        {/* 11 — final product lineup */}
         <Lineup />
 
-        {/* 12 — packaging / ownership transition */}
+        {/* 12 — ownership / packaging transition */}
         <Packaging />
 
-        {/* 13 — final doorstep conversion */}
+        {/* 13 — final CTA */}
         <Doorstep />
 
         {/* 14 — FAQ */}
