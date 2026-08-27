@@ -11,8 +11,8 @@ export const Gifting = () => {
         <Reveal>
           <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-32px_rgba(74,31,13,0.5)]">
             <img
-              src={IMG.giftSet}
-              alt="Mithila.Foods gift bag with the khajuri jar and kraft pouch"
+              src={IMG.giftHero}
+              alt="Mithila.Foods Mithila-art gift bag with a kraft pouch and a plate of khajuri"
               className="h-[26rem] w-full object-cover sm:h-[30rem]"
               loading="lazy"
             />

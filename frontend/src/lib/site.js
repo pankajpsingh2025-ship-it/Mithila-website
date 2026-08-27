@@ -58,12 +58,14 @@ export const IMG = {
   cafeChiyaSamaj: "/brief/a10.png",
   cafeOotalo: "/brief/a11.png",
   cafeChiyaExpress: "/brief/a12.png",
-  // --- USER UPLOADS (swap these paths when the real files land) ---
-  packRegular: "/brief/a05.webp",   // TODO: real Regular Pack (500gm) photo
-  packFamily: "/brief/a15.png",     // TODO: real Family Pack (1kg) photo
-  packGiftLarge: "/brief/a14.png",  // TODO: real Gift Box Large photo
-  packGiftSmall: "/brief/a02.webp", // TODO: real Gift Box Small photo
-  finalLineup: "/brief/a14.png",    // TODO: real full product-range lineup image
+  // --- Real supplied product / packaging photos ---
+  packRegular: "/real/pack-regular.jpg",     // 500gm — single black window pouch
+  packFamily: "/real/pack-family.jpg",       // 1kg — two black window pouches
+  packGiftLarge: "/real/pack-gift-large.jpg",// Mithila-art gift bag + pouch
+  packGiftSmall: "/real/pack-gift-large.jpg",// same gift line, smaller size
+  giftHero: "/real/pack-gift-wide.jpg",      // gift bag + kraft pouch + plate (editorial)
+  vendorJar: "/real/pack-vendor.jpg",        // branded jar in a café setting
+  finalLineup: "/real/product-lineup.jpg",   // full labelled product range
   // Transparent PNGs used only for the scroll morph
   cookieWhole: "/gen/cookie_whole.png",
   cookieCracked: "/gen/cookie_cracked.png",

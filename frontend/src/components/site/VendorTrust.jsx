@@ -1,6 +1,6 @@
 import React from "react";
 import { ArrowUpRight } from "lucide-react";
-import { VENDOR_TRUST } from "../../lib/site";
+import { VENDOR_TRUST, IMG } from "../../lib/site";
 import { Reveal } from "./motion";
 
 export const VendorTrust = () => {
@@ -15,11 +15,19 @@ export const VendorTrust = () => {
               {headline}
             </h2>
             <p className="mt-5 max-w-md text-base leading-relaxed text-ink/70">{body}</p>
+            <div className="mt-7 overflow-hidden rounded-[1.5rem] ring-1 ring-maroon/10">
+              <img
+                src={IMG.vendorJar}
+                alt="The Mithila.Foods café-ready khajuri jar beside a cup of chiya"
+                className="h-56 w-full object-cover sm:h-64"
+                loading="lazy"
+              />
+            </div>
             <a
               href={href}
               target="_blank"
               rel="noreferrer"
-              className="mt-7 inline-flex items-center gap-2 rounded-full border border-maroon/25 px-6 py-3 text-sm font-medium text-maroon transition-colors hover:bg-maroon hover:text-paper"
+              className="mt-6 inline-flex items-center gap-2 rounded-full border border-maroon/25 px-6 py-3 text-sm font-medium text-maroon transition-colors hover:bg-maroon hover:text-paper"
               data-testid="vendor-cta"
             >
               {cta} <ArrowUpRight className="h-4 w-4" />
