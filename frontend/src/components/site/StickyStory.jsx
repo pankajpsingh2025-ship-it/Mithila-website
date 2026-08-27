@@ -31,6 +31,7 @@ const PANELS = [
     body: "Eleven of them. Real ghee and jaggery, whole nuts broken by hand, a quiet line of spice.",
     img: IMG.flatlay,
     groups: true,
+    showImgMobile: true,
   },
   {
     key: "bake",
@@ -40,12 +41,13 @@ const PANELS = [
     img: IMG.makeBake4,
   },
   {
-    key: "inside",
+    key: "sensory",
     eyebrow: "The bite",
-    h: "See what's inside.",
+    h: "Golden outside. Crumbly within.",
     body:
-      "A crisp golden shell over a tender, crumbly, handmade centre — with whole nuts and coconut you can actually see.",
-    img: IMG.makeBreak2,
+      "A crisp golden shell over a tender, handmade centre — with whole nuts and coconut you can see, and a warm hit of cardamom and fennel.",
+    img: IMG.goldenWhole,
+    showImgMobile: true,
   },
 ];
 
@@ -112,10 +114,11 @@ export const StickyStory = () => {
   return (
     <section id="craft" ref={root} className="relative bg-creamlight" data-testid="sticky-story">
       <div className={`mx-auto grid max-w-7xl px-5 sm:px-8 lg:gap-16 ${reduce ? "" : "lg:grid-cols-2"}`}>
-        {/* sticky product anchor — desktop only, scrubbed motion only */}
+        {/* sticky product anchor — desktop only, scrubbed motion only.
+            Large, feathered into the cream page — no card frame. */}
         <div className={reduce ? "hidden" : "hidden lg:block"}>
           <div className="sticky top-0 flex h-screen items-center justify-center">
-            <div className="relative aspect-[4/5] w-full max-w-[30rem] overflow-hidden rounded-[2rem] shadow-[0_36px_80px_-30px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10">
+            <div className="img-blend relative aspect-[4/5] w-full max-w-[34rem]">
               {PANELS.map((p, i) => (
                 <img
                   key={p.key}
@@ -133,20 +136,25 @@ export const StickyStory = () => {
         </div>
 
         {/* panels */}
-        <div ref={panelsRef} className="py-4 lg:py-0">
+        <div ref={panelsRef} className="py-2 lg:py-0">
           {PANELS.map((p, i) => (
             <div
               key={p.key}
               data-index={i}
-              className="flex flex-col justify-center py-12 lg:min-h-screen lg:py-16"
+              className="flex flex-col justify-center py-7 lg:min-h-screen lg:py-16"
             >
-              {/* inline image — mobile always; desktop only for reduced motion */}
-              <img
-                src={p.img}
-                alt={p.h}
-                loading="lazy"
-                className={`mb-6 aspect-[4/3] w-full rounded-[1.5rem] object-cover shadow-[0_24px_60px_-32px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10 ${reduce ? "max-w-xl" : "lg:hidden"}`}
-              />
+              {/* inline image on mobile — only where it adds new information
+                  (ingredients flat-lay, finished bite); the shaping/baking
+                  states are already shown large in the stage above. Desktop
+                  reduced-motion shows every panel's image. Feathered, no frame. */}
+              {(reduce || p.showImgMobile) && (
+                <img
+                  src={p.img}
+                  alt={p.h}
+                  loading="lazy"
+                  className={`img-blend mb-3 aspect-[16/10] w-full object-cover ${reduce ? "max-w-xl" : "lg:hidden"}`}
+                />
+              )}
               <Reveal>
                 <p className="text-[11px] uppercase tracking-[0.24em] text-golddeep">{p.eyebrow}</p>
                 <h3 className="mt-3 font-heading text-[clamp(1.8rem,3.6vw,2.8rem)] font-light leading-[1.1] text-maroon">

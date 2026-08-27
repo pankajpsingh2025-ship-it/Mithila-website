@@ -1,22 +1,23 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { Gift, Check, ArrowUpRight } from "lucide-react";
+import { Gift, ArrowUpRight } from "lucide-react";
 import { GIFTING, IMG } from "../../lib/site";
 import { Reveal, useParallax } from "./motion";
 
+/** Short: one image, one headline, one line, one CTA. */
 export const Gifting = () => {
-  const { eyebrow, headline, body, points, cta, href } = GIFTING;
+  const { eyebrow, headline, cta, href } = GIFTING;
   const { ref, y } = useParallax(40);
   return (
-    <section id="gifting" className="relative bg-cream py-20 sm:py-28" data-testid="gifting-section">
-      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16">
+    <section id="gifting" className="relative bg-cream py-16 sm:py-20" data-testid="gifting-section">
+      <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-2 lg:gap-14">
         <Reveal>
-          <div ref={ref} className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-32px_rgba(74,31,13,0.5)]">
+          <div ref={ref} className="img-blend-soft relative overflow-hidden">
             <motion.img
               src={IMG.giftHero}
-              alt="Mithila.Foods Mithila-art gift bag with a kraft pouch and a plate of khajuri"
+              alt="The Mithila-art gift bag with a kraft pouch and a plate of khajuri"
               style={{ y }}
-              className="h-[26rem] w-full scale-110 object-cover sm:h-[30rem]"
+              className="h-[22rem] w-full scale-110 object-cover sm:h-[26rem]"
               loading="lazy"
             />
           </div>
@@ -34,26 +35,17 @@ export const Gifting = () => {
             </h2>
           </Reveal>
           <Reveal delay={0.1}>
-            <p className="mt-5 max-w-lg text-base leading-relaxed text-ink/70 sm:text-lg">{body}</p>
+            <p className="mt-4 max-w-md text-base leading-relaxed text-ink/70 sm:text-lg">
+              Wrapped in real Mithila art, with a story card and space for a hand-written note — for
+              festivals, family, a thank-you, or a whole office.
+            </p>
           </Reveal>
           <Reveal delay={0.15}>
-            <ul className="mt-6 space-y-3">
-              {points.map((p) => (
-                <li key={p} className="flex items-start gap-3 text-sm leading-relaxed text-ink/75 sm:text-base">
-                  <span className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-heritage text-paper">
-                    <Check className="h-3 w-3" />
-                  </span>
-                  {p}
-                </li>
-              ))}
-            </ul>
-          </Reveal>
-          <Reveal delay={0.2}>
             <a
               href={href}
               target="_blank"
               rel="noreferrer"
-              className="mo-hover mt-8 inline-flex items-center gap-2 rounded-full bg-maroon px-6 py-3.5 text-sm font-medium text-paper hover:bg-heritage"
+              className="mo-hover mt-7 inline-flex items-center gap-2 rounded-full bg-maroon px-6 py-3.5 text-sm font-medium text-paper hover:bg-heritage"
               data-testid="gifting-cta"
             >
               {cta} <ArrowUpRight className="h-4 w-4" />

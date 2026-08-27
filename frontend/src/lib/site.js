@@ -110,16 +110,10 @@ export const STORY = {
   headline: "Tradition shouldn't have a season.",
   subheading: "What is Khajuri?",
   paras: [
-    "If you grew up in Mithila or the Terai, you already know khajuri. It's the smell of the kitchen before Chhath. It's what the aunties press by hand, one floret at a time, in a wooden mould that's older than any of us. It's family, festival, and home in a single bite.",
-    "For most people it only shows up once a year. We didn't think a tradition this good should have to wait for a season — so we make it in small batches, all year, with the same real ghee, real jaggery and whole nuts our elders used. Nothing rushed, nothing faked.",
-    "This isn't a new snack dressed up as heritage. It's our heritage, made well enough to keep — for your morning tea, your coffee, the road, a guest at the door, a gift sent home.",
+    "If you grew up in Mithila or the Terai, you already know khajuri — the smell of the kitchen before Chhath, the aunties pressing it by hand, one floret at a time, in a wooden mould older than any of us. Family, festival and home in a single bite.",
+    "For most people it shows up once a year. We didn't think a tradition this good should wait for a season — so we make it in small batches, all year, with the same real ghee, jaggery and whole nuts our elders used. For your morning tea, the road, a guest at the door, a gift sent home.",
   ],
   line: "Festival roots. Everyday enjoyment.",
-  chapters: [
-    { n: "01", t: "Passed down, not looked up", d: "A recipe carried by hand through generations of Mithila kitchens." },
-    { n: "02", t: "Handcrafted in small batches", d: "Pressed in a traditional wooden mould, the way our elders did it." },
-    { n: "03", t: "Only the real thing", d: "Real ghee, real jaggery, whole nuts — and no preservatives." },
-  ],
 };
 
 export const INGREDIENTS = [

@@ -91,6 +91,17 @@ html.lenis body {
 .rise-in-3 { animation-delay: 0.45s; }
 .rise-in-4 { animation-delay: 1.4s; }
 
+/* Feathered image edge — dissolves a photo into the page instead of framing
+   it in a hard-edged card. Pair with object-cover. */
+.img-blend {
+    -webkit-mask-image: radial-gradient(ellipse 84% 84% at 50% 50%, #000 46%, rgba(0,0,0,0.5) 70%, transparent 90%);
+    mask-image: radial-gradient(ellipse 84% 84% at 50% 50%, #000 46%, rgba(0,0,0,0.5) 70%, transparent 90%);
+}
+.img-blend-soft {
+    -webkit-mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 60%, transparent 96%);
+    mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, #000 60%, transparent 96%);
+}
+
 /* Momentum-style hover: a back-ease that overshoots slightly then eases to
    rest, so buttons/links feel like they carry a little weight. */
 .mo-hover {
