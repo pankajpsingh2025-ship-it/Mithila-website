@@ -53,7 +53,7 @@ export const Gifting = () => {
               href={href}
               target="_blank"
               rel="noreferrer"
-              className="mt-8 inline-flex items-center gap-2 rounded-full bg-maroon px-6 py-3.5 text-sm font-medium text-paper transition-colors hover:bg-heritage"
+              className="mo-hover mt-8 inline-flex items-center gap-2 rounded-full bg-maroon px-6 py-3.5 text-sm font-medium text-paper hover:bg-heritage"
               data-testid="gifting-cta"
             >
               {cta} <ArrowUpRight className="h-4 w-4" />

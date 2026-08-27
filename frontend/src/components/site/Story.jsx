@@ -11,6 +11,7 @@ import { Peacock } from "./Madhubani";
  */
 export const Story = () => {
   const { ref, y } = useParallax(46);
+  const head = useParallax(22);
 
   return (
     <section id="story" className="relative overflow-hidden bg-cream py-20 sm:py-28">
@@ -24,9 +25,13 @@ export const Story = () => {
             <Reveal>
               <p className="mb-5 text-[11px] uppercase tracking-[0.24em] text-golddeep">{STORY.eyebrow}</p>
             </Reveal>
-            <h2 className="font-heading text-[clamp(2.1rem,4.8vw,3.6rem)] font-light leading-[1.02] text-maroon">
+            <motion.h2
+              ref={head.ref}
+              style={{ y: head.y }}
+              className="font-heading text-[clamp(2.1rem,4.8vw,3.6rem)] font-light leading-[1.02] text-maroon"
+            >
               <MaskLines lines={[STORY.subheading]} />
-            </h2>
+            </motion.h2>
             <div className="mt-7 max-w-xl space-y-5">
               {STORY.paras.map((p, i) => (
                 <Reveal key={i} delay={0.05 + i * 0.04}>

@@ -2,7 +2,7 @@ import React from "react";
 import { HeroVideo } from "../components/site/HeroVideo";
 import { MakingStage } from "../components/site/MakingStage";
 import { Story } from "../components/site/Story";
-import { IngredientStory } from "../components/site/IngredientStory";
+import { StickyStory } from "../components/site/StickyStory";
 import { Sensory } from "../components/site/Sensory";
 import { Products } from "../components/site/Products";
 import { Testimonials } from "../components/site/Testimonials";
@@ -28,8 +28,8 @@ export default function Home() {
         {/* 04 — what is khajuri / heritage (compressed) */}
         <Story />
 
-        {/* 05 — ingredients / craft (compact) */}
-        <IngredientStory />
+        {/* 05 — sticky product story + ingredients */}
+        <StickyStory />
 
         {/* 06 — sensory product moment */}
         <Sensory />

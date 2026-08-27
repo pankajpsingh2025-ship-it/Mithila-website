@@ -7,9 +7,9 @@ import { useCart } from "../../context/CartContext";
 import { useAuth } from "../../context/AuthContext";
 
 const LINKS = [
-  { label: "Story", id: "story" },
   { label: "Shop", id: "shop" },
-  { label: "Cafés", id: "vendors" },
+  { label: "Story", id: "story" },
+  { label: "For Cafés", id: "vendors" },
   { label: "FAQ", id: "faq" },
 ];
 
@@ -62,7 +62,7 @@ export const Nav = () => {
             <button
               key={l.id}
               onClick={() => nav(l.id)}
-              className="text-[13px] uppercase tracking-[0.16em] text-ink/70 hover:text-maroon transition-colors duration-300"
+              className="text-[13px] uppercase tracking-[0.16em] text-ink/70 transition-all duration-300 hover:-translate-y-px hover:text-maroon"
               data-testid={`nav-link-${l.id}`}
             >
               {l.label}

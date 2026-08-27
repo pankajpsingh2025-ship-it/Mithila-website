@@ -46,14 +46,14 @@ export const Doorstep = () => {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={scrollToShop}
-              className="inline-flex items-center gap-3 rounded-full bg-heritage px-9 py-5 text-base font-semibold uppercase tracking-[0.12em] text-paper transition-all duration-300 hover:bg-maroon hover:shadow-[0_20px_50px_-12px_rgba(74,31,13,0.5)]"
+              className="mo-hover inline-flex items-center gap-3 rounded-full bg-heritage px-9 py-5 text-base font-semibold uppercase tracking-[0.12em] text-paper duration-300 hover:bg-maroon hover:shadow-[0_20px_50px_-12px_rgba(74,31,13,0.5)]"
               data-testid="doorstep-primary"
             >
               <ShoppingBag className="h-5 w-5" /> {DOORSTEP.primary}
             </button>
             <button
               onClick={scrollToShop}
-              className="inline-flex items-center gap-2 rounded-full border border-maroon/25 px-7 py-5 text-sm font-medium text-maroon transition-colors hover:bg-maroon hover:text-paper"
+              className="mo-hover inline-flex items-center gap-2 rounded-full border border-maroon/25 px-7 py-5 text-sm font-medium text-maroon hover:bg-maroon hover:text-paper"
               data-testid="doorstep-secondary"
             >
               {DOORSTEP.secondary}

@@ -91,10 +91,25 @@ html.lenis body {
 .rise-in-3 { animation-delay: 0.45s; }
 .rise-in-4 { animation-delay: 1.4s; }
 
+/* Momentum-style hover: a back-ease that overshoots slightly then eases to
+   rest, so buttons/links feel like they carry a little weight. */
+.mo-hover {
+    transition:
+        transform 0.42s cubic-bezier(0.34, 1.4, 0.64, 1),
+        box-shadow 0.42s ease,
+        background-color 0.3s ease,
+        color 0.3s ease,
+        border-color 0.3s ease;
+    will-change: transform;
+}
+.mo-hover:hover { transform: translateY(-3px); }
+.mo-hover:active { transform: translateY(-1px); }
+
 @media (prefers-reduced-motion: reduce) {
     * {
         animation-duration: 0.001ms !important;
         transition-duration: 0.001ms !important;
     }
     .rise-in { opacity: 1 !important; transform: none !important; }
+    .mo-hover:hover, .mo-hover:active { transform: none; }
 }

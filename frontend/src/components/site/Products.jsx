@@ -5,13 +5,18 @@ import { PRODUCTS } from "../../lib/site";
 import { Reveal } from "./motion";
 import { useCart } from "../../context/CartContext";
 
+const SPRING = { stiffness: 170, damping: 20, mass: 0.6 };
+
 const ProductCard = ({ p, index }) => {
   const rx = useMotionValue(0);
   const ry = useMotionValue(0);
-  const srx = useSpring(rx, { stiffness: 200, damping: 18 });
-  const sry = useSpring(ry, { stiffness: 200, damping: 18 });
-  const rotateX = useTransform(srx, (v) => `${v}deg`);
-  const rotateY = useTransform(sry, (v) => `${v}deg`);
+  const lift = useMotionValue(0);
+  const scale = useMotionValue(1);
+  const rotateX = useTransform(useSpring(rx, SPRING), (v) => `${v}deg`);
+  const rotateY = useTransform(useSpring(ry, SPRING), (v) => `${v}deg`);
+  // momentum: the card keeps easing to rest after the cursor stops / leaves
+  const y = useSpring(lift, SPRING);
+  const sc = useSpring(scale, SPRING);
   const { addItem } = useCart();
   const [qty, setQty] = useState(1);
 
@@ -19,18 +24,20 @@ const ProductCard = ({ p, index }) => {
     const r = e.currentTarget.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width - 0.5;
     const py = (e.clientY - r.top) / r.height - 0.5;
-    ry.set(px * 9);
-    rx.set(-py * 9);
+    ry.set(px * 8);
+    rx.set(-py * 8);
   };
-  const onLeave = () => { rx.set(0); ry.set(0); };
+  const onEnter = () => { lift.set(-8); scale.set(1.025); };
+  const onLeave = () => { rx.set(0); ry.set(0); lift.set(0); scale.set(1); };
 
   return (
     <Reveal delay={index * 0.08} className={index % 2 === 1 ? "lg:mt-12" : ""}>
       <motion.div
         onMouseMove={onMove}
+        onMouseEnter={onEnter}
         onMouseLeave={onLeave}
-        style={{ rotateX, rotateY, transformPerspective: 1000 }}
-        className="group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-paper ring-1 ring-maroon/10 shadow-[0_24px_60px_-30px_rgba(74,31,13,0.5)]"
+        style={{ rotateX, rotateY, y, scale: sc, transformPerspective: 1000 }}
+        className="group relative flex flex-col overflow-hidden rounded-[1.75rem] bg-paper ring-1 ring-maroon/10 shadow-[0_24px_60px_-30px_rgba(74,31,13,0.5)] transition-shadow duration-500 hover:shadow-[0_40px_80px_-30px_rgba(74,31,13,0.55)]"
         data-testid={`product-card-${p.id}`}
       >
         {/* uniform cream stage so every pack reads as one family
@@ -69,7 +76,7 @@ const ProductCard = ({ p, index }) => {
 
           <button
             onClick={() => addItem(p, qty)}
-            className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-maroon px-5 py-3.5 text-sm font-medium text-paper transition-colors duration-300 hover:bg-heritage"
+            className="mo-hover mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-maroon px-5 py-3.5 text-sm font-medium text-paper duration-300 hover:bg-heritage"
             data-testid={`product-add-${p.id}`}
           >
             <ShoppingBag className="w-4 h-4" /> Add to Cart

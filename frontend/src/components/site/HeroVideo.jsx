@@ -92,7 +92,7 @@ export const HeroVideo = () => {
         <div className="rise-in rise-in-3 mt-9 flex flex-wrap items-center justify-center gap-3">
           <button
             onClick={() => document.getElementById("making")?.scrollIntoView({ behavior: "smooth" })}
-            className="inline-flex items-center gap-2 rounded-full bg-heritage px-7 py-4 text-sm font-medium text-paper transition-colors hover:bg-maroon"
+            className="mo-hover inline-flex items-center gap-2 rounded-full bg-heritage px-7 py-4 text-sm font-medium text-paper transition-colors hover:bg-maroon"
             data-testid="hero-discover-btn"
           >
             Discover Khajuri
@@ -101,7 +101,7 @@ export const HeroVideo = () => {
             href={WA.order}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center gap-2 rounded-full border border-maroon/25 bg-paper/50 px-7 py-4 text-sm font-medium text-maroon backdrop-blur-sm transition-colors hover:bg-maroon hover:text-paper"
+            className="mo-hover inline-flex items-center gap-2 rounded-full border border-maroon/25 bg-paper/50 px-7 py-4 text-sm font-medium text-maroon backdrop-blur-sm transition-colors hover:bg-maroon hover:text-paper"
             data-testid="hero-whatsapp-btn"
           >
             <MessageCircle className="h-5 w-5" /> Order on WhatsApp

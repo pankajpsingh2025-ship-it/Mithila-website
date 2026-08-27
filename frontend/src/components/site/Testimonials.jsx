@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
 import { TESTIMONIALS } from "../../lib/site";
-import { Reveal } from "./motion";
+import { Reveal, useParallax } from "./motion";
 
 const Card = ({ t }) => (
   <div className="flex h-full flex-col rounded-[1.75rem] bg-paper p-7 ring-1 ring-maroon/10 shadow-[0_20px_50px_-32px_rgba(74,31,13,0.4)]">
@@ -16,8 +17,15 @@ const Card = ({ t }) => (
 );
 
 export const Testimonials = () => {
-  const [emblaRef, emblaApi] = useEmblaCarousel({ align: "start", loop: true });
+  // draggable with momentum + a light rubber-band pull at the ends
+  const [emblaRef, emblaApi] = useEmblaCarousel({
+    align: "start",
+    loop: false,
+    dragFree: true,
+    containScroll: "trimSnaps",
+  });
   const [selected, setSelected] = useState(0);
+  const head = useParallax(20);
 
   const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
   const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
@@ -36,9 +44,13 @@ export const Testimonials = () => {
         <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <Reveal>
             <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">Loved across Nepal</p>
-            <h2 className="font-heading text-[clamp(2rem,4.6vw,3.4rem)] font-light leading-[1.05] text-maroon">
+            <motion.h2
+              ref={head.ref}
+              style={{ y: head.y }}
+              className="font-heading text-[clamp(2rem,4.6vw,3.4rem)] font-light leading-[1.05] text-maroon"
+            >
               Made for sharing. <span className="italic text-golddeep">Loved beyond the festival.</span>
-            </h2>
+            </motion.h2>
           </Reveal>
 
           <div className="hidden gap-2 sm:flex">
@@ -59,7 +71,7 @@ export const Testimonials = () => {
           </div>
         </div>
 
-        <div className="mt-12 overflow-hidden" ref={emblaRef}>
+        <div className="mt-12 cursor-grab overflow-hidden active:cursor-grabbing" ref={emblaRef}>
           <div className="flex -ml-5">
             {TESTIMONIALS.map((t, i) => (
               <div
@@ -71,6 +83,7 @@ export const Testimonials = () => {
             ))}
           </div>
         </div>
+        <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-ink/40 sm:hidden">Drag to read more →</p>
 
         {/* dots (mobile-friendly) */}
         <div className="mt-8 flex justify-center gap-2 sm:hidden">
