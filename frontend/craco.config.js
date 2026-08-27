@@ -102,6 +102,14 @@ let webpackConfig = {
       if (config.enableHealthCheck && healthPluginInstance) {
         webpackConfig.plugins.push(healthPluginInstance);
       }
+
+      // This project is plain JS (no TypeScript). Drop the TS type-checker —
+      // its bundled ajv-keywords is incompatible with modern Node and it has
+      // nothing to check here anyway.
+      webpackConfig.plugins = (webpackConfig.plugins || []).filter(
+        (p) => p && p.constructor && p.constructor.name !== "ForkTsCheckerWebpackPlugin"
+      );
+
       return webpackConfig;
     },
   },
