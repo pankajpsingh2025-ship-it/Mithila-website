@@ -1,9 +1,11 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { WHAT_IS, IMG } from "../../lib/site";
-import { Reveal, MaskLines } from "./motion";
+import { Reveal, MaskLines, useParallax } from "./motion";
 import { SunDivider } from "./Madhubani";
 
 export const WhatIsKhajuri = () => {
+  const { ref, y } = useParallax(40);
   return (
     <section id="what-is-khajuri" className="relative bg-creamlight py-20 sm:py-28" data-testid="what-is-khajuri">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
@@ -40,12 +42,13 @@ export const WhatIsKhajuri = () => {
           </div>
 
           <div className="lg:col-span-5">
-            <Reveal delay={0.15}>
-              <div className="relative overflow-hidden rounded-[2rem] shadow-[0_36px_80px_-30px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10">
-                <img
+            <Reveal delay={0.12}>
+              <div ref={ref} className="relative overflow-hidden rounded-[2rem] shadow-[0_36px_80px_-30px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10">
+                <motion.img
                   src={IMG.lifestyle}
                   alt="Khajuri served with tea"
-                  className="h-[24rem] w-full object-cover sm:h-[32rem]"
+                  style={{ y }}
+                  className="h-[24rem] w-full scale-110 object-cover sm:h-[32rem]"
                   loading="lazy"
                 />
               </div>

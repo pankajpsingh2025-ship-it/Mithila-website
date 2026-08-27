@@ -1,9 +1,11 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { INGREDIENT_GROUPS, ALLERGEN, IMG } from "../../lib/site";
-import { Reveal, Stagger, StaggerItem } from "./motion";
+import { Reveal, Stagger, StaggerItem, useParallax } from "./motion";
 import { SunDivider } from "./Madhubani";
 
 export const IngredientStory = () => {
+  const { ref, y } = useParallax(38);
   return (
     <section id="ingredients" className="relative bg-creamlight py-20 sm:py-28" data-testid="ingredients-section">
       <div className="mx-auto max-w-6xl px-5 sm:px-8">
@@ -21,11 +23,12 @@ export const IngredientStory = () => {
         <div className="mt-14 grid gap-10 lg:grid-cols-12 lg:gap-14">
           {/* editorial flat-lay */}
           <Reveal className="lg:col-span-5">
-            <div className="relative overflow-hidden rounded-[2rem] shadow-[0_30px_70px_-32px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10">
-              <img
+            <div ref={ref} className="relative h-full overflow-hidden rounded-[2rem] shadow-[0_30px_70px_-32px_rgba(74,31,13,0.45)] ring-1 ring-maroon/10">
+              <motion.img
                 src={IMG.flatlay}
                 alt="Every khajuri ingredient laid out — nuts, jaggery, ghee, coconut and spices"
-                className="h-[24rem] w-full object-cover sm:h-full"
+                style={{ y }}
+                className="h-[24rem] w-full scale-110 object-cover sm:h-[calc(100%+2.5rem)]"
                 loading="lazy"
               />
             </div>

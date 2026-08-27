@@ -1,19 +1,22 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { Gift, Check, ArrowUpRight } from "lucide-react";
 import { GIFTING, IMG } from "../../lib/site";
-import { Reveal } from "./motion";
+import { Reveal, useParallax } from "./motion";
 
 export const Gifting = () => {
   const { eyebrow, headline, body, points, cta, href } = GIFTING;
+  const { ref, y } = useParallax(40);
   return (
     <section id="gifting" className="relative bg-cream py-20 sm:py-28" data-testid="gifting-section">
       <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-2 lg:gap-16">
         <Reveal>
-          <div className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-32px_rgba(74,31,13,0.5)]">
-            <img
+          <div ref={ref} className="relative overflow-hidden rounded-[2rem] ring-1 ring-maroon/10 shadow-[0_30px_70px_-32px_rgba(74,31,13,0.5)]">
+            <motion.img
               src={IMG.giftHero}
               alt="Mithila.Foods Mithila-art gift bag with a kraft pouch and a plate of khajuri"
-              className="h-[26rem] w-full object-cover sm:h-[30rem]"
+              style={{ y }}
+              className="h-[26rem] w-full scale-110 object-cover sm:h-[30rem]"
               loading="lazy"
             />
           </div>

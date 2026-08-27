@@ -1,12 +1,14 @@
 import React from "react";
+import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import { VENDOR_TRUST, IMG } from "../../lib/site";
-import { Reveal } from "./motion";
+import { Reveal, useParallax } from "./motion";
 
 export const VendorTrust = () => {
   const { eyebrow, headline, body, vendors, cta, href } = VENDOR_TRUST;
+  const { ref, y } = useParallax(34);
   return (
-    <section id="vendors" className="relative bg-creamlight py-24 sm:py-28" data-testid="vendors-section">
+    <section id="vendors" className="relative bg-creamlight py-20 sm:py-28" data-testid="vendors-section">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <Reveal className="lg:col-span-5">
@@ -15,11 +17,12 @@ export const VendorTrust = () => {
               {headline}
             </h2>
             <p className="mt-5 max-w-md text-base leading-relaxed text-ink/70">{body}</p>
-            <div className="mt-7 overflow-hidden rounded-[1.5rem] ring-1 ring-maroon/10">
-              <img
+            <div ref={ref} className="mt-7 overflow-hidden rounded-[1.5rem] ring-1 ring-maroon/10">
+              <motion.img
                 src={IMG.vendorJar}
                 alt="The Mithila.Foods café-ready khajuri jar beside a cup of chiya"
-                className="h-56 w-full object-cover sm:h-64"
+                style={{ y }}
+                className="h-56 w-full scale-110 object-cover sm:h-64"
                 loading="lazy"
               />
             </div>
