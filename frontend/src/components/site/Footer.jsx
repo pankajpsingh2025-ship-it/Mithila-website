@@ -120,8 +120,8 @@ export const Footer = () => {
       <div className="text-goldbright/30">
         <TriangleBand height={14} flip />
       </div>
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8">
-        <div className="grid gap-12 md:grid-cols-12">
+      <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
+        <div className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
             <img src={IMG.logo} alt="Mithila.Foods" className="h-9 w-auto rounded-md bg-cream p-1.5" />
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-cream/70">
@@ -166,7 +166,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 grid gap-12 border-t border-cream/15 pt-10 md:grid-cols-12">
+        <div className="mt-10 grid gap-8 border-t border-cream/15 pt-10 md:grid-cols-12">
           <div className="md:col-span-5">
             <h4 className="text-[11px] uppercase tracking-[0.2em] text-goldbright/70">Order a pack</h4>
             <ul className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3">
@@ -210,7 +210,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-cream/15 pt-6">
+        <div className="mt-10 border-t border-cream/15 pt-6">
           <p className="text-xs leading-relaxed text-cream/50">
             © 2026 Mithila.Foods — Pawan Mithila Foods Pvt. Ltd. | Handcrafted in Bouddha-6, Kathmandu
           </p>

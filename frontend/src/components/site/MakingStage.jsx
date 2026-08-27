@@ -54,7 +54,8 @@ export const MakingStage = () => {
       { isMobile: "(max-width: 767px)", isDesktop: "(min-width: 768px)" },
       (context) => {
         const { isDesktop } = context.conditions;
-        const distance = isDesktop ? 2600 : 1950;
+        // total Shape+Bake+Break scroll: ~250vh desktop / ~200vh mobile
+        const distance = isDesktop ? 2200 : 1650;
 
         const frames = frameRefs.current;
         const bgs = bgRefs.current;
