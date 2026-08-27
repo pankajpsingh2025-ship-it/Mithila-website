@@ -55,21 +55,22 @@ export const HeroVideo = () => {
         <video
           ref={videoRef}
           className="h-full w-full object-cover"
-          style={{ objectPosition: "50% 84%", transform: "scale(1.2)" }}
+          style={{ objectPosition: "50% 78%", transform: "scale(1.08)" }}
           autoPlay
           muted
           loop
           playsInline
           preload="auto"
-          poster="/brief/a13.png"
+          poster={HERO_VIDEO.poster}
         >
           <source src={HERO_VIDEO.mp4} type="video/mp4" />
           <source src={HERO_VIDEO.mov} type="video/quicktime" />
         </video>
         {/* warm wash so the copy stays readable + a top fade that also keeps
             the embedded-logo band reading as clean cream */}
-        <div className="absolute inset-0 bg-gradient-to-b from-creamlight/80 via-creamlight/30 to-creamlight/75" />
-        <div className="absolute inset-x-0 top-0 h-44 bg-gradient-to-b from-creamlight to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-b from-creamlight/70 via-creamlight/15 to-creamlight/70" />
+        <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-creamlight via-creamlight/70 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-creamlight to-transparent" />
       </div>
 
       {/* content */}

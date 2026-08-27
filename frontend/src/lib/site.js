@@ -25,9 +25,13 @@ export const SOCIAL = {
 
 // Approved hero video (transparent bowl -> ingredients -> dough).
 // Served as mp4 for cross-browser autoplay; .mov kept as a fallback source.
+// `c_crop,g_south,h_0.82` drops the top ~18% of every frame so the baked-in
+// "Mithila.Foods" logo near the top is removed at the source (the hero also
+// scales + shifts the media down, and a cream top-fade adds insurance).
 export const HERO_VIDEO = {
-  mp4: "https://res.cloudinary.com/ivgqwrox/video/upload/v1787757893/Web_Video.mp4",
-  mov: "https://res.cloudinary.com/ivgqwrox/video/upload/v1787757893/Web_Video.mov",
+  mp4: "https://res.cloudinary.com/ivgqwrox/video/upload/c_crop,g_south,h_0.82/v1787757893/Web_Video.mp4",
+  mov: "https://res.cloudinary.com/ivgqwrox/video/upload/c_crop,g_south,h_0.82/v1787757893/Web_Video.mov",
+  poster: "https://res.cloudinary.com/ivgqwrox/video/upload/c_crop,g_south,h_0.82,so_2/v1787757893/Web_Video.jpg",
 };
 
 export const IMG = {
