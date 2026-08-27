@@ -1,104 +1,138 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import useEmblaCarousel from "embla-carousel-react";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
-import { TESTIMONIALS } from "../../lib/site";
-import { Reveal, useParallax } from "./motion";
+import React, { useEffect, useRef } from "react";
+import { useReducedMotion } from "framer-motion";
+import { Reveal } from "./motion";
+import { railTestimonials, initialsOf } from "../../lib/testimonials";
+
+const LANG_LABEL = { ne: "Nepali", mai: "Maithili", en: "English" };
 
 const Card = ({ t }) => (
-  <div className="flex h-full flex-col rounded-[1.75rem] bg-paper p-7 ring-1 ring-maroon/10 shadow-[0_20px_50px_-32px_rgba(74,31,13,0.4)]">
-    <Quote className="h-6 w-6 text-gold/70" />
-    <p className="mt-4 flex-1 text-[15px] leading-relaxed text-ink/80">{t.quote}</p>
-    <div className="mt-6 border-t border-maroon/10 pt-4">
-      <p className="font-heading text-lg text-maroon">{t.name}</p>
-      <p className="text-xs uppercase tracking-[0.16em] text-ink/45">{t.place}</p>
-    </div>
-  </div>
+  <figure className="flex h-full w-[19rem] shrink-0 flex-col bg-paper/80 px-6 py-6 ring-1 ring-maroon/12 sm:w-[22rem]">
+    <blockquote className="flex-1 text-[15px] leading-relaxed text-ink/80">
+      <span lang={t.language}>{t.quote}</span>
+    </blockquote>
+    <figcaption className="mt-5 flex items-center gap-3 border-t border-maroon/12 pt-4">
+      <span
+        aria-hidden="true"
+        className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-kraft/20 font-heading text-sm text-maroon"
+      >
+        {initialsOf(t.displayName)}
+      </span>
+      <span className="min-w-0">
+        <span className="block font-heading text-[15px] text-maroon">{t.displayName}</span>
+        <span className="block text-[11px] uppercase tracking-[0.14em] text-ink/45">
+          {[t.location, t.repeatCustomer ? "Repeat customer" : t.verifiedOrder ? "Verified order" : null]
+            .filter(Boolean)
+            .join(" · ")}
+        </span>
+      </span>
+      {t.language && (
+        <span className="ml-auto shrink-0 text-[10px] uppercase tracking-[0.14em] text-ink/35">
+          {LANG_LABEL[t.language]}
+        </span>
+      )}
+    </figcaption>
+  </figure>
 );
 
+/**
+ * One calm, continuously drifting testimonial rail (spec Part G).
+ * - a rAF loop nudges scrollLeft ~18px/s; the list is rendered twice so the
+ *   wrap-around is seamless
+ * - pauses on hover, on keyboard focus within the rail, and while the user is
+ *   touching / dragging it; resumes gently ~2s after the last interaction
+ * - native horizontal scroll = free swipe / drag / trackpad, no hijacking
+ * - prefers-reduced-motion: no auto-motion, just a normal scrollable row
+ */
 export const Testimonials = () => {
-  // draggable with momentum + a light rubber-band pull at the ends
-  const [emblaRef, emblaApi] = useEmblaCarousel({
-    align: "start",
-    loop: false,
-    dragFree: true,
-    containScroll: "trimSnaps",
-  });
-  const [selected, setSelected] = useState(0);
-  const head = useParallax(20);
-
-  const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi]);
-  const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi]);
+  const reduce = useReducedMotion();
+  const items = railTestimonials();
+  const scroller = useRef(null);
+  const paused = useRef(false);
+  const resumeAt = useRef(0);
 
   useEffect(() => {
-    if (!emblaApi) return;
-    const onSelect = () => setSelected(emblaApi.selectedScrollSnap());
-    emblaApi.on("select", onSelect);
-    onSelect();
-    return () => emblaApi.off("select", onSelect);
-  }, [emblaApi]);
+    if (reduce) return;
+    const el = scroller.current;
+    if (!el) return;
+    let raf;
+    const SPEED = 18; // px per second
+    let last = performance.now();
+
+    const half = () => el.scrollWidth / 2;
+
+    const tick = (now) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      if (!paused.current && now >= resumeAt.current) {
+        el.scrollLeft += SPEED * dt;
+        if (el.scrollLeft >= half()) el.scrollLeft -= half();
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [reduce]);
+
+  // keep scrollLeft inside the first copy when the user drags past a boundary
+  const onScroll = () => {
+    const el = scroller.current;
+    if (!el) return;
+    const half = el.scrollWidth / 2;
+    if (el.scrollLeft >= half) el.scrollLeft -= half;
+    else if (el.scrollLeft < 0) el.scrollLeft += half;
+  };
+
+  const hold = () => { paused.current = true; };
+  const release = () => {
+    paused.current = false;
+    resumeAt.current = performance.now() + 2000;
+  };
+
+  const rendered = reduce ? items : [...items, ...items];
 
   return (
-    <section id="reviews" className="relative bg-cream py-20 sm:py-28" data-testid="testimonials-section">
+    <section id="reviews" className="relative overflow-hidden bg-cream py-16 sm:py-24" data-testid="testimonials-section">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
-          <Reveal>
-            <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">Loved across Nepal</p>
-            <motion.h2
-              ref={head.ref}
-              style={{ y: head.y }}
-              className="font-heading text-[clamp(2rem,4.6vw,3.4rem)] font-light leading-[1.05] text-maroon"
-            >
-              Made for sharing. <span className="italic text-golddeep">Loved beyond the festival.</span>
-            </motion.h2>
-          </Reveal>
-
-          <div className="hidden gap-2 sm:flex">
-            <button
-              onClick={scrollPrev}
-              aria-label="Previous testimonials"
-              className="grid h-11 w-11 place-items-center rounded-full border border-maroon/20 text-maroon transition-colors hover:bg-maroon hover:text-paper"
-            >
-              <ChevronLeft className="h-5 w-5" />
-            </button>
-            <button
-              onClick={scrollNext}
-              aria-label="Next testimonials"
-              className="grid h-11 w-11 place-items-center rounded-full border border-maroon/20 text-maroon transition-colors hover:bg-maroon hover:text-paper"
-            >
-              <ChevronRight className="h-5 w-5" />
-            </button>
-          </div>
-        </div>
-
-        <div className="mt-12 cursor-grab overflow-hidden active:cursor-grabbing" ref={emblaRef}>
-          <div className="flex -ml-5">
-            {TESTIMONIALS.map((t, i) => (
-              <div
-                key={i}
-                className="min-w-0 shrink-0 grow-0 basis-[86%] pl-5 sm:basis-1/2 lg:basis-1/3"
-              >
-                <Card t={t} />
-              </div>
-            ))}
-          </div>
-        </div>
-        <p className="mt-4 text-[11px] uppercase tracking-[0.16em] text-ink/40 sm:hidden">Drag to read more →</p>
-
-        {/* dots (mobile-friendly) */}
-        <div className="mt-8 flex justify-center gap-2 sm:hidden">
-          {TESTIMONIALS.map((_, i) => (
-            <button
-              key={i}
-              aria-label={`Go to testimonial ${i + 1}`}
-              onClick={() => emblaApi && emblaApi.scrollTo(i)}
-              className={`h-1.5 rounded-full transition-all ${
-                i === selected ? "w-6 bg-maroon" : "w-1.5 bg-maroon/25"
-              }`}
-            />
-          ))}
-        </div>
+        <Reveal>
+          <p className="mb-3 text-[11px] uppercase tracking-[0.24em] text-golddeep">From tea tables across Nepal</p>
+          <h2 className="font-heading text-[clamp(2rem,4.6vw,3.4rem)] font-light leading-[1.05] text-maroon">
+            Loved <span className="italic text-golddeep">beyond the festival.</span>
+          </h2>
+        </Reveal>
       </div>
+
+      <div
+        ref={scroller}
+        onScroll={onScroll}
+        onMouseEnter={hold}
+        onMouseLeave={release}
+        onFocusCapture={hold}
+        onBlurCapture={release}
+        onPointerDown={hold}
+        onPointerUp={release}
+        onPointerCancel={release}
+        onTouchStart={hold}
+        onTouchEnd={release}
+        className="mt-10 flex gap-4 overflow-x-auto px-5 pb-2 sm:mt-12 sm:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ scrollSnapType: reduce ? "x proximity" : "none" }}
+        aria-label="Customer testimonials"
+        tabIndex={0}
+      >
+        {rendered.map((t, i) => (
+          <div
+            key={`${t.displayName}-${i}`}
+            className="scroll-snap-align-start"
+            style={{ scrollSnapAlign: reduce ? "start" : "none" }}
+            aria-hidden={!reduce && i >= items.length ? "true" : undefined}
+          >
+            <Card t={t} />
+          </div>
+        ))}
+      </div>
+
+      <p className="mx-auto mt-4 max-w-7xl px-5 text-[11px] uppercase tracking-[0.16em] text-ink/35 sm:px-8">
+        Hover to pause · drag to explore
+      </p>
     </section>
   );
 };

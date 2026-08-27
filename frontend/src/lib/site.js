@@ -209,55 +209,8 @@ export const PRODUCTS = [
   },
 ];
 
-// Personal customer trust — kept separate from vendor/café trust.
-export const TESTIMONIALS = [
-  {
-    quote:
-      "Bilkul ghar ko jasto — mero aama le banaune jasto. Chhath ma order gareko thiyen, ahile ta mahina mai mangaunchhu.",
-    name: "Sunita Jha",
-    place: "Janakpur",
-  },
-  {
-    quote:
-      "Crisp, not too sweet, and the nuts are actually generous. It's the first thing my kids reach for after school.",
-    name: "Prakash Rai",
-    place: "Dharan",
-  },
-  {
-    quote: "चिया सँगै खाजुरी — यही जोडीले बिहान बनाइदिन्छ। घरभरि सबैलाई मन पर्छ।",
-    name: "Anita Gurung",
-    place: "Pokhara",
-  },
-  {
-    quote:
-      "Sent a gift box to my in-laws in Biratnagar. They called to ask where it's from. That never happens.",
-    name: "Rojina Shrestha",
-    place: "Kathmandu",
-  },
-  {
-    quote:
-      "Festival ko bela matra khane cheez rahenachha. Ahile ta office ma pani rakhchhu, sabaile khanchan.",
-    name: "Deepak Yadav",
-    place: "Birgunj",
-  },
-  {
-    quote:
-      "Tastes exactly like the khajuri my grandmother made in the village. I didn't think anyone still made it like this.",
-    name: "Bimala Karki",
-    place: "Butwal",
-  },
-  {
-    quote: "पहिलो पटक थोरै मगाएँ, अनि सिधै ठूलो प्याक। बाटोमा ल्याउँदा पनि भाँचिँदैन, ताजै रहन्छ।",
-    name: "Nabin Adhikari",
-    place: "Hetauda",
-  },
-  {
-    quote:
-      "Not oily, not heavy — just clean and warm with tea. We keep a pouch at the shop and it disappears.",
-    name: "Kamala Tamang",
-    place: "Bhaktapur",
-  },
-];
+// Personal customer testimonials now live in ./testimonials.js (structured,
+// with provenance + publication-approval fields). Café/vendor trust stays here.
 
 // One clean vendor / café trust section (replaces the old dark + green blocks).
 export const VENDOR_TRUST = {

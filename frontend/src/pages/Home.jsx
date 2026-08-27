@@ -1,9 +1,7 @@
 import React from "react";
 import { HeroVideo } from "../components/site/HeroVideo";
 import { MakingStage } from "../components/site/MakingStage";
-import { Story } from "../components/site/Story";
-import { Ingredients } from "../components/site/Ingredients";
-import { Sensory } from "../components/site/Sensory";
+import { StickyStory } from "../components/site/StickyStory";
 import { Products } from "../components/site/Products";
 import { Testimonials } from "../components/site/Testimonials";
 import { VendorTrust } from "../components/site/VendorTrust";
@@ -14,17 +12,17 @@ import { Doorstep } from "../components/site/Doorstep";
 import { Footer } from "../components/site/Footer";
 
 /**
- * Final consolidated homepage order:
- *   hero video
- *   → Shape / Bake / Break (+ "Tradition shouldn't have a season")
- *   → what is Khajuri + heritage        (Story)
- *   → 11 real ingredients + allergen    (Ingredients)
- *   → taste it / everyday use           (Sensory)
- *   → pack selector                     (Products)
- *   → testimonials → café & vendor proof
+ * One continuously unfolding story (spec Part 3):
+ *   hero
+ *   → Shape / Bake / Break immersive sequence (+ "Tradition shouldn't have a season")
+ *   → restored sticky Khajuri story + ingredient / allergen narrative
+ *   → product pack selector
+ *   → floating testimonial rail
+ *   → café & wholesale social proof
  *   → gifting
- *   → delivery & payment → FAQ
- *   → one closing CTA                   (Doorstep)
+ *   → delivery & payment reassurance
+ *   → FAQ
+ *   → one closing CTA
  *   → footer
  */
 export default function Home() {
@@ -33,10 +31,7 @@ export default function Home() {
       <main>
         <HeroVideo />
         <MakingStage />
-
-        <Story />
-        <Ingredients />
-        <Sensory />
+        <StickyStory />
 
         <Products />
         <Testimonials />
