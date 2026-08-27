@@ -6,7 +6,7 @@ import { railTestimonials, initialsOf } from "../../lib/testimonials";
 const LANG_LABEL = { ne: "Nepali", mai: "Maithili", en: "English" };
 
 const Card = ({ t }) => (
-  <figure className="flex h-full w-[19rem] shrink-0 flex-col bg-paper/80 px-6 py-6 ring-1 ring-maroon/12 sm:w-[22rem]">
+  <figure className="flex w-[19rem] shrink-0 flex-col bg-paper/80 px-6 py-6 ring-1 ring-maroon/12 sm:w-[22rem]">
     <blockquote className="flex-1 text-[15px] leading-relaxed text-ink/80">
       <span lang={t.language}>{t.quote}</span>
     </blockquote>
@@ -113,7 +113,7 @@ export const Testimonials = () => {
         onPointerCancel={release}
         onTouchStart={hold}
         onTouchEnd={release}
-        className="mt-10 flex gap-4 overflow-x-auto px-5 pb-2 sm:mt-12 sm:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="mt-10 flex items-center gap-4 overflow-x-auto px-5 pb-2 sm:mt-12 sm:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ scrollSnapType: reduce ? "x proximity" : "none" }}
         aria-label="Customer testimonials"
         tabIndex={0}

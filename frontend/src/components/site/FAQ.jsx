@@ -11,6 +11,8 @@ const Item = ({ f, isOpen, onToggle, i }) => (
       onClick={onToggle}
       className="flex w-full items-center justify-between gap-6 py-6 text-left"
       data-testid={`faq-question-${i}`}
+      aria-expanded={isOpen}
+      aria-controls={`faq-answer-${i}`}
     >
       <span className="font-heading text-lg sm:text-2xl text-maroon leading-snug">{f.q}</span>
       <motion.span
@@ -30,7 +32,7 @@ const Item = ({ f, isOpen, onToggle, i }) => (
           transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
           className="overflow-hidden"
         >
-          <p className="pb-6 pr-12 text-sm sm:text-base leading-relaxed text-ink/70" data-testid={`faq-answer-${i}`}>
+          <p id={`faq-answer-${i}`} className="pb-6 pr-12 text-sm sm:text-base leading-relaxed text-ink/70" data-testid={`faq-answer-${i}`}>
             {f.a}
           </p>
         </motion.div>
