@@ -64,8 +64,8 @@ export const IMG = {
   // --- Real supplied product / packaging photos (Finalist set) ---
   packRegular: "/real/pack-regular.jpg",  // Regular pack 500g — single black window pouch
   packFamily: "/real/pack-family.jpg",    // Family pack 1kg — two black window pouches
-  packGift: "/real/pack-gift.jpg",        // Gift pack — Mithila-art bag + kraft pouch + plate
-  giftHero: "/real/pack-gift.jpg",        // same shot, used in the Gifting section
+  packGift: "/real/pack-gift.jpg",        // Gift pack — Mithila-art bag + kraft pouch + plate (shop cards)
+  giftHero: "/real/gift-set.jpg",         // Gift set on a carved travertine tray (Gifting section)
   vendorJar: "/real/pack-vendor.jpg",     // Vendor pack — branded jar in a café setting
   finalLineup: "/real/product-lineup.jpg",// LINEUP — full labelled product range
 
