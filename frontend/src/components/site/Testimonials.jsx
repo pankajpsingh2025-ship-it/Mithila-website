@@ -3,33 +3,35 @@ import { useReducedMotion } from "framer-motion";
 import { Reveal } from "./motion";
 import { railTestimonials, initialsOf } from "../../lib/testimonials";
 
-const LANG_LABEL = { ne: "Nepali", mai: "Maithili", en: "English" };
-
-const Card = ({ t }) => (
-  <figure className="flex w-[19rem] shrink-0 flex-col bg-paper/80 px-6 py-6 ring-1 ring-maroon/12 sm:w-[22rem]">
-    <blockquote className="flex-1 text-[15px] leading-relaxed text-ink/80">
+/**
+ * A single testimonial, floating directly on the section background — no border,
+ * outline, card fill, shadow or fixed height. Just the quote, a short hairline,
+ * an initials marker, the name and the location. The quote's own script (Nepali
+ * / English) is left to speak for itself; no language label is rendered.
+ */
+const Quote = ({ t, offset }) => (
+  <figure
+    className="w-[17rem] shrink-0 bg-transparent sm:w-[20rem]"
+    style={{ marginTop: offset }}
+  >
+    <blockquote className="font-heading text-[17px] font-light leading-snug text-ink/85 sm:text-lg">
       <span lang={t.language}>{t.quote}</span>
     </blockquote>
-    <figcaption className="mt-5 flex items-center gap-3 border-t border-maroon/12 pt-4">
+    <span aria-hidden="true" className="mt-5 block h-px w-8 bg-maroon/30" />
+    <figcaption className="mt-3 flex items-center gap-2.5">
       <span
         aria-hidden="true"
-        className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-kraft/20 font-heading text-sm text-maroon"
+        className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-kraft/15 font-heading text-[13px] text-maroon"
       >
         {initialsOf(t.displayName)}
       </span>
-      <span className="min-w-0">
-        <span className="block font-heading text-[15px] text-maroon">{t.displayName}</span>
-        <span className="block text-[11px] uppercase tracking-[0.14em] text-ink/45">
-          {[t.location, t.repeatCustomer ? "Repeat customer" : t.verifiedOrder ? "Verified order" : null]
-            .filter(Boolean)
-            .join(" · ")}
+      <span className="min-w-0 text-[13px]">
+        <span className="text-maroon">{t.displayName}</span>
+        <span className="text-ink/45">
+          {" — "}
+          {t.location}
         </span>
       </span>
-      {t.language && (
-        <span className="ml-auto shrink-0 text-[10px] uppercase tracking-[0.14em] text-ink/35">
-          {LANG_LABEL[t.language]}
-        </span>
-      )}
     </figcaption>
   </figure>
 );
@@ -113,7 +115,7 @@ export const Testimonials = () => {
         onPointerCancel={release}
         onTouchStart={hold}
         onTouchEnd={release}
-        className="mt-10 flex items-center gap-4 overflow-x-auto px-5 pb-2 sm:mt-12 sm:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        className="mt-10 flex items-start gap-10 overflow-x-auto px-5 pb-6 pt-6 sm:mt-12 sm:gap-14 sm:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         style={{ scrollSnapType: reduce ? "x proximity" : "none" }}
         aria-label="Customer testimonials"
         tabIndex={0}
@@ -121,16 +123,17 @@ export const Testimonials = () => {
         {rendered.map((t, i) => (
           <div
             key={`${t.displayName}-${i}`}
-            className="scroll-snap-align-start"
             style={{ scrollSnapAlign: reduce ? "start" : "none" }}
             aria-hidden={!reduce && i >= items.length ? "true" : undefined}
           >
-            <Card t={t} />
+            {/* gentle, controlled vertical stagger so the rail reads as drifting
+                voices rather than a row of aligned boxes */}
+            <Quote t={t} offset={i % 3 === 1 ? "2.5rem" : i % 3 === 2 ? "1.25rem" : "0rem"} />
           </div>
         ))}
       </div>
 
-      <p className="mx-auto mt-4 max-w-7xl px-5 text-[11px] uppercase tracking-[0.16em] text-ink/35 sm:px-8">
+      <p className="mx-auto mt-2 max-w-7xl px-5 text-[11px] uppercase tracking-[0.16em] text-ink/35 sm:px-8">
         Hover to pause · drag to explore
       </p>
     </section>

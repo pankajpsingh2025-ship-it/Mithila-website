@@ -8,10 +8,12 @@ gsap.registerPlugin(ScrollTrigger);
 /**
  * The restored editorial sticky story (spec Part C / SHORTTTT.MOV), rebuilt
  * frameless:
- *   - ONE pinned media area on the left, edges dissolved into the page with a
- *     radial mask (no card, no border, no rounded frame, no cream gutter)
- *   - the story text simply SCROLLS beside it — it is never itself crossfaded,
- *     so old and new lines can't overlap or smear (the old bug)
+ *   - ONE pinned media area bleeding to the LEFT viewport edge, filling the full
+ *     sticky height; no wrapper box, border, radius, shadow or cream gutter. Only
+ *     its right edge dissolves into the page (a one-direction fade, not a 4-side
+ *     rectangle mask)
+ *   - the story text simply SCROLLS in the right half — it is never itself
+ *     crossfaded, so old and new lines can't overlap or smear (the old bug)
  *   - a GSAP scrub only crossfades the pinned photo between the five beats
  *   - an understated `01 / 05` progress marker
  *
@@ -146,60 +148,67 @@ export const StickyStory = () => {
     return () => mm.revert();
   }, [reduce]);
 
-  return (
-    <section id="story" ref={root} className="relative overflow-hidden bg-creamlight" data-testid="sticky-story">
-      <div className={`relative mx-auto max-w-7xl px-5 sm:px-8 ${reduce ? "" : "lg:grid lg:grid-cols-2 lg:gap-16"}`}>
-        {/* pinned, frameless media — desktop only */}
-        {!reduce && (
-          <div className="hidden lg:block">
-            <div ref={stageRef} className="flex h-screen items-center justify-center">
-              <div className="img-blend relative aspect-[4/5] w-full max-w-[32rem]">
-                {BEATS.map((b, i) => (
-                  <img
-                    key={b.key}
-                    ref={(el) => (imgRefs.current[i] = el)}
-                    src={b.img}
-                    alt=""
-                    aria-hidden="true"
-                    loading={i === 0 ? "eager" : "lazy"}
-                    className="absolute inset-0 h-full w-full object-cover"
-                    style={i === 0 ? undefined : { opacity: 0 }}
-                  />
-                ))}
-              </div>
-              <p className="absolute bottom-8 left-0 text-xs tracking-[0.2em] text-ink/40">
-                {String(active + 1).padStart(2, "0")} <span className="text-ink/25">/ 05</span>
-              </p>
-            </div>
-          </div>
-        )}
+  // only the RIGHT edge of the pinned photo dissolves into the page — the other
+  // three sides sit on physical viewport edges, so there's no visible rectangle
+  const RIGHT_FADE =
+    "linear-gradient(to right, #000 68%, rgba(0,0,0,0.45) 86%, transparent 100%)";
 
-        {/* the story column — plain scroll, no text crossfade */}
-        <div ref={colRef} className="py-12 lg:py-0">
-          {BEATS.map((b) => (
-            <article
-              key={b.key}
-              className="flex flex-col justify-center py-8 lg:min-h-[64vh] lg:py-10"
-            >
-              {/* inline image only on mobile / reduced-motion */}
+  return (
+    <section id="story" ref={root} className="relative overflow-x-clip bg-creamlight" data-testid="sticky-story">
+      {/* pinned media — lg+ only. Bleeds to the left viewport edge and fills the
+          full sticky height; no wrapper box, border, radius or shadow. */}
+      {!reduce && (
+        <div
+          ref={stageRef}
+          aria-hidden="true"
+          className="pointer-events-none absolute left-0 top-0 z-0 hidden h-screen w-[50vw] lg:block"
+        >
+          <div className="absolute inset-0" style={{ WebkitMaskImage: RIGHT_FADE, maskImage: RIGHT_FADE }}>
+            {BEATS.map((b, i) => (
               <img
+                key={b.key}
+                ref={(el) => (imgRefs.current[i] = el)}
                 src={b.img}
-                alt={b.h}
-                loading="lazy"
-                className={`img-blend mb-4 aspect-[16/11] w-full object-cover ${reduce ? "max-w-xl" : "lg:hidden"}`}
+                alt=""
+                loading={i === 0 ? "eager" : "lazy"}
+                className="absolute inset-0 h-full w-full object-cover"
+                style={i === 0 ? undefined : { opacity: 0 }}
               />
-              {/* plain text — never crossfaded, so it can't smear or depend on
-                  an animation state to become readable */}
+            ))}
+          </div>
+          <p className="absolute bottom-8 left-6 text-xs tracking-[0.24em] text-cream drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
+            {String(active + 1).padStart(2, "0")} <span className="text-cream/55">/ 05</span>
+          </p>
+        </div>
+      )}
+
+      {/* the story column — plain scroll, no text crossfade */}
+      <div ref={colRef} className={`relative z-10 ${reduce ? "" : "lg:ml-[50vw] lg:w-[50vw]"}`}>
+        {BEATS.map((b) => (
+          <article
+            key={b.key}
+            className="py-8 lg:flex lg:min-h-[62vh] lg:flex-col lg:justify-center lg:py-10"
+          >
+            {/* edge-to-edge inline image on mobile / reduced-motion */}
+            <img
+              src={b.img}
+              alt={b.h}
+              loading="lazy"
+              className={`mb-5 aspect-[16/10] w-full object-cover ${reduce ? "" : "lg:hidden"}`}
+            />
+            {/* plain text — never crossfaded, so it can't smear or depend on an
+                animation state to become readable */}
+            <div className="px-5 sm:px-8 lg:pl-16 lg:pr-10">
               <p className="text-[11px] uppercase tracking-[0.24em] text-golddeep">{b.eyebrow}</p>
-              <h2 className="mt-3 font-heading text-[clamp(1.8rem,3.6vw,2.8rem)] font-light leading-[1.12] text-maroon">
+              <h2 className="mt-3 font-heading text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.12] text-maroon">
                 {b.h}
               </h2>
               <p className="mt-4 max-w-lg text-base leading-relaxed text-ink/75 sm:text-lg">{b.body}</p>
               {b.groups && <Groups />}
               {b.groups && <Allergen />}
-            </article>
-          ))}
-        </div>
+            </div>
+          </article>
+        ))}
       </div>
     </section>
   );
