@@ -160,7 +160,7 @@ export const StickyStory = () => {
         {BEATS.map((b, i) => (
           <article
             key={b.key}
-            className="py-7 lg:flex lg:min-h-[62vh] lg:flex-col lg:justify-center lg:py-8"
+            className="py-7 lg:flex lg:min-h-[56vh] lg:flex-col lg:justify-center lg:py-5"
           >
             <img
               src={b.img}
@@ -170,10 +170,10 @@ export const StickyStory = () => {
             />
             <div className="px-5 sm:px-8 lg:pl-16 lg:pr-10">
               {/* only the state that owns the viewport centre is at full
-                  emphasis; the others recede (but stay in flow for a11y) */}
+                  emphasis; the others recede hard (but stay in flow for a11y) */}
               <div
-                className="transition-opacity duration-300 lg:[&]:will-change-[opacity]"
-                style={reduce ? undefined : { opacity: active === i ? 1 : 0.32 }}
+                className="transition-opacity duration-300"
+                style={reduce ? undefined : { opacity: active === i ? 1 : 0.18 }}
               >
                 <p className="text-[11px] uppercase tracking-[0.16em] text-golddeep">{b.eyebrow}</p>
                 <h2 className="mt-2 font-heading text-[clamp(1.7rem,3.2vw,2.6rem)] font-light leading-[1.12] text-maroon">

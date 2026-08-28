@@ -19,27 +19,34 @@ const ProductCard = ({ p }) => {
       className="group flex h-full flex-col overflow-hidden rounded-2xl bg-paper ring-1 ring-maroon/10 transition-[transform,box-shadow] duration-300 hover:-translate-y-1 hover:shadow-[0_28px_60px_-34px_rgba(74,31,13,0.5)]"
       data-testid={`product-card-${p.id}`}
     >
-      {/* packaging shown whole — object-contain on a uniform cream stage, never cropped */}
-      <div className="relative h-52 shrink-0 overflow-hidden bg-cream sm:h-56">
+      {/* full-bleed packaging image — flush to the card's top and side edges,
+          its own warm background merging with the card's; never cropped */}
+      <div className="relative h-60 shrink-0 overflow-hidden bg-cream sm:h-64">
         <img
           src={p.img}
           alt={p.name}
           loading="lazy"
-          className="h-full w-full object-contain p-5 transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+          className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+        />
+        <div
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-24"
+          style={{ background: "linear-gradient(to top, rgba(42,22,8,0.5), transparent)" }}
         />
         <span className="absolute left-3 top-3 rounded-full bg-maroon/85 px-2.5 py-1 text-[10px] uppercase tracking-[0.14em] text-paper/90">
           {p.tag}
         </span>
+        <h3 className="absolute inset-x-3 bottom-2.5 font-heading text-lg leading-tight text-paper drop-shadow-[0_1px_6px_rgba(0,0,0,0.5)]">
+          {p.name}
+        </h3>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
         <div className="flex items-baseline justify-between gap-3">
-          <h3 className="font-heading text-xl leading-tight text-maroon">{p.name}</h3>
+          {p.size && <p className="text-[11px] uppercase tracking-[0.14em] text-ink/45">{p.size}</p>}
           <span className="shrink-0 font-heading text-lg text-golddeep">
             <span className="text-[10px] uppercase tracking-widest text-ink/45">NPR </span>{p.price}
           </span>
         </div>
-        {p.size && <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-ink/45">{p.size}</p>}
         <p className="mt-2 flex-1 text-sm leading-relaxed text-ink/65">{p.desc}</p>
 
         <div className="mt-4 flex items-center justify-between gap-3">

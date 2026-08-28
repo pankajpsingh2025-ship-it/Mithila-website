@@ -57,7 +57,9 @@ export const MakingStage = () => {
       const N = frames.length;
 
       gsap.set(frames, { opacity: 0, scale: 1.04 });
-      gsap.set(frames[0], { opacity: 1, scale: 1 });
+      // frame 0 starts faint + slightly larger, so the mould "emerges through"
+      // the hero's cream rather than hard-cutting in
+      gsap.set(frames[0], { opacity: 0.5, scale: 1.07 });
       gsap.set(heads, { opacity: 0, y: 12 });
       gsap.set(storyRef.current, { opacity: 0, y: 18 });
       gsap.set(storyScrimRef.current, { opacity: 0 });
@@ -77,6 +79,9 @@ export const MakingStage = () => {
         },
       });
 
+      // frame 0 settles up out of the cream in the first sliver of the scrub
+      tl.to(frames[0], { opacity: 1, scale: 1, duration: 0.05 }, 0);
+
       // ---- product frames: even, continuous crossfade inside the one canvas ----
       const seqEnd = 0.82;
       const step = seqEnd / (N - 1);
@@ -94,10 +99,11 @@ export const MakingStage = () => {
       });
 
       // ---- break -> story hand-off: the broken khajuri STAYS visible — it eases
-      // smaller and shifts left; a cream gradient grows from the right so the
-      // closing line sits in a guaranteed-readable zone. No blank viewport. ----
+      // smaller and shifts left; the dark scrim clears entirely and a warm cream
+      // wash takes over, so there is NO grey/neutral band — the frame dissolves
+      // straight into the cream Story environment. ----
       tl.to(frames[N - 1], { scale: 0.82, xPercent: -18, opacity: 1, duration: 0.14 }, 0.86);
-      tl.to(scrimRef.current, { opacity: 0.28, duration: 0.14 }, 0.86);
+      tl.to(scrimRef.current, { opacity: 0, duration: 0.14 }, 0.86);
       tl.to(storyScrimRef.current, { opacity: 1, duration: 0.14 }, 0.86);
       tl.fromTo(storyRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.12 }, 0.9);
     }, root);
@@ -131,7 +137,6 @@ export const MakingStage = () => {
           <p className="font-heading text-[clamp(1.7rem,4.4vw,2.6rem)] font-light text-maroon">
             Tradition shouldn't have a season.
           </p>
-          <p className="mt-2 text-sm text-ink/65">Festival roots. Everyday enjoyment.</p>
         </div>
       </section>
     );
@@ -159,8 +164,9 @@ export const MakingStage = () => {
           />
         ))}
 
-        {/* the photo emerges from the hero's cream — no hard horizontal seam */}
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-[6] h-24 bg-gradient-to-b from-creamlight to-transparent" />
+        {/* the photo emerges from / dissolves into the cream — no hard seam top or bottom */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[6] h-32 bg-gradient-to-b from-creamlight to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[6] h-20 bg-gradient-to-t from-creamlight/80 to-transparent" />
 
         {/* one full-section gradient for text contrast — covers the whole
             viewport, never reads as its own rectangle */}
@@ -206,7 +212,6 @@ export const MakingStage = () => {
           <h2 className="ml-auto max-w-[17rem] font-heading text-[clamp(2rem,4.6vw,3.4rem)] font-light leading-[1.06] text-maroon sm:max-w-md">
             Tradition shouldn't have a season.
           </h2>
-          <p className="mt-3 text-sm text-ink/70">Festival roots. Everyday enjoyment.</p>
         </div>
       </div>
     </section>

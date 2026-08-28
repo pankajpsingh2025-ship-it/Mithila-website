@@ -29,7 +29,7 @@ export const Lineup = () => {
     const ctx = gsap.context(() => {
       gsap.set(p1.current, { opacity: 1, xPercent: -14, scale: 0.82 });
       gsap.set(p2.current, { opacity: 0, xPercent: 16, scale: 0.82 });
-      gsap.set(full.current, { scale: 1.04 });
+      gsap.set(full.current, { scale: 1.02 });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -53,7 +53,7 @@ export const Lineup = () => {
     <section
       id="collection"
       ref={root}
-      className="relative overflow-hidden bg-creamlight pt-16 pb-6 scroll-mt-28 sm:pt-20 sm:pb-6"
+      className="relative overflow-hidden bg-creamlight pt-12 pb-5 scroll-mt-28 sm:pt-14 sm:pb-5"
       data-testid="lineup-section"
     >
       <div className="mx-auto max-w-2xl px-5 text-center sm:px-8">
@@ -67,7 +67,7 @@ export const Lineup = () => {
       </div>
 
       {/* hand-off + resolve — the photo dominates, edges feathered into cream */}
-      <div ref={handoffRef} className="relative mx-auto mt-5 w-[min(92vw,1380px)] sm:mt-6">
+      <div ref={handoffRef} className="relative mx-auto mt-4 w-[min(90vw,1320px)] sm:mt-5">
         {!reduce && (
           <div className="pointer-events-none absolute inset-0 z-20 hidden items-center justify-center sm:flex">
             <img ref={p1} src={IMG.packRegular} alt="" aria-hidden="true" className="absolute h-[42vh] w-auto object-contain" />
@@ -87,7 +87,7 @@ export const Lineup = () => {
           ref={full}
           src={IMG.finalLineup}
           alt="The full Mithila.Foods range together — the Regular and Family pouches, the Mithila-art gift bag and loose khajuri, with the café / wholesale jar set behind"
-          className="mx-auto h-[52vh] w-full object-contain sm:h-[74vh]"
+          className="mx-auto h-[54vh] w-full object-contain sm:h-[78vh]"
           data-testid="lineup-image"
         />
       </div>

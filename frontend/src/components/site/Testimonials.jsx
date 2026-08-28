@@ -10,7 +10,7 @@ import { railTestimonials, initialsOf } from "../../lib/testimonials";
  * / English) is left to speak for itself; no language label is rendered.
  */
 const Quote = ({ t }) => (
-  <figure className="w-[74vw] shrink-0 snap-start bg-transparent sm:w-[20rem]">
+  <figure className="w-[78vw] shrink-0 snap-start bg-transparent sm:w-[22rem]">
     <blockquote className="font-heading text-[17px] font-light leading-snug text-ink/85 sm:text-lg">
       <span lang={t.language}>{t.quote}</span>
     </blockquote>
