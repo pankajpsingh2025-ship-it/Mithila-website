@@ -93,7 +93,7 @@ export const Testimonials = () => {
   const rendered = reduce ? items : [...items, ...items];
 
   return (
-    <section id="reviews" className="relative overflow-hidden bg-cream py-14 sm:py-20" data-testid="testimonials-section">
+    <section id="reviews" className="relative overflow-hidden bg-cream py-14 scroll-mt-24 sm:py-20" data-testid="testimonials-section">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <p className="mb-3 text-[11px] uppercase tracking-[0.24em] text-golddeep">From tea tables across Nepal</p>

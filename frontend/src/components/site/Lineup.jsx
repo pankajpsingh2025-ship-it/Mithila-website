@@ -53,21 +53,21 @@ export const Lineup = () => {
     <section
       id="collection"
       ref={root}
-      className="relative overflow-hidden bg-creamlight py-14 sm:py-20"
+      className="relative overflow-hidden bg-creamlight pt-12 pb-6 scroll-mt-24 sm:pt-16 sm:pb-8"
       data-testid="lineup-section"
     >
-      <div className="mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <div className="mx-auto max-w-2xl px-5 text-center sm:px-8">
         <Reveal>
-          <p className="mb-3 text-[11px] uppercase tracking-[0.26em] text-golddeep">{LINEUP.eyebrow}</p>
-          <h2 className="mx-auto font-heading text-[clamp(2rem,4.8vw,3.4rem)] font-light leading-[1.05] text-maroon">
+          <p className="mb-2 text-[11px] uppercase tracking-[0.16em] text-golddeep">{LINEUP.eyebrow}</p>
+          <h2 className="mx-auto font-heading text-[clamp(1.9rem,4vw,3rem)] font-light leading-[1.05] text-maroon">
             {LINEUP.headline}
           </h2>
-          <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-ink/65 sm:text-base">{LINEUP.body}</p>
+          <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink/65">{LINEUP.body}</p>
         </Reveal>
       </div>
 
       {/* hand-off + resolve — the photo dominates, edges feathered into cream */}
-      <div ref={handoffRef} className="relative mx-auto mt-8 max-w-[92rem] sm:mt-10">
+      <div ref={handoffRef} className="relative mx-auto mt-6 w-[min(88vw,1180px)] sm:mt-8">
         {!reduce && (
           <div className="pointer-events-none absolute inset-0 z-20 hidden items-center justify-center sm:flex">
             <img ref={p1} src={IMG.packRegular} alt="" aria-hidden="true" className="absolute h-[42vh] w-auto object-contain" />
@@ -87,7 +87,7 @@ export const Lineup = () => {
           ref={full}
           src={IMG.finalLineup}
           alt="The full Mithila.Foods range together — the Regular and Family pouches, the Mithila-art gift bag and loose khajuri, with the café / wholesale jar set behind"
-          className="mx-auto h-[46vh] w-full object-contain px-4 sm:h-[64vh] sm:px-8"
+          className="mx-auto h-[48vh] w-full object-contain sm:h-[66vh]"
           data-testid="lineup-image"
         />
       </div>

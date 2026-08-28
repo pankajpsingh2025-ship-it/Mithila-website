@@ -1,9 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
-import { MapPin, Phone, MessageCircle, Facebook, Instagram, Sparkles, Check } from "lucide-react";
+import { MapPin, Phone, MessageCircle, Facebook, Instagram, Sparkles } from "lucide-react";
 import { IMG, WA, SOCIAL, PHONE_DISPLAY } from "../../lib/site";
-import { subscribeNewsletter } from "../../lib/api";
-import { TriangleBand } from "./Madhubani";
 
 const TikTok = ({ className = "" }) => (
   <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden="true">
@@ -45,88 +43,33 @@ const go = (id) => {
   else el.scrollIntoView({ behavior: "smooth" });
 };
 
-const NewsletterForm = () => {
-  const [email, setEmail] = useState("");
-  const [state, setState] = useState("idle"); // idle | loading | done | error
-  const [msg, setMsg] = useState("");
-
-  const submit = async (e) => {
-    e.preventDefault();
-    if (state === "loading") return;
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setState("error");
-      setMsg("Please enter a valid email address.");
-      return;
-    }
-    setState("loading");
-    try {
-      await subscribeNewsletter(email.trim(), "footer");
-      setState("done");
-      setMsg("You're on the list — we'll be in touch when a fresh batch is ready.");
-      setEmail("");
-    } catch (err) {
-      setState("error");
-      setMsg("Couldn't sign you up just now. Please try again in a moment.");
-    }
-  };
-
-  return (
-    <div>
-      <h4 className="text-[11px] uppercase tracking-[0.2em] text-goldbright/70">Stay in the loop</h4>
-      {state === "done" ? (
-        <p className="mt-4 flex items-center gap-2 text-sm text-cream/85" data-testid="newsletter-done">
-          <Check className="h-4 w-4 text-goldbright" /> {msg}
-        </p>
-      ) : (
-        <form onSubmit={submit} className="mt-4" data-testid="newsletter-form">
-          <div className="flex max-w-sm overflow-hidden rounded-full border border-cream/25 bg-ink/20">
-            <input
-              type="email"
-              inputMode="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => { setEmail(e.target.value); if (state === "error") setState("idle"); }}
-              placeholder="your@email.com"
-              aria-label="Email address"
-              className="min-w-0 flex-1 bg-transparent px-4 py-2.5 text-sm text-cream placeholder:text-cream/40 focus:outline-none"
-              data-testid="newsletter-email"
-            />
-            <button
-              type="submit"
-              disabled={state === "loading"}
-              className="shrink-0 bg-goldbright px-4 py-2.5 text-sm font-medium text-maroon transition-colors hover:bg-cream disabled:opacity-60"
-              data-testid="newsletter-submit"
-            >
-              {state === "loading" ? "…" : "Join"}
-            </button>
-          </div>
-          {state === "error" && (
-            <p className="mt-2 text-xs text-goldbright/90" data-testid="newsletter-error">{msg}</p>
-          )}
-          <p className="mt-2 text-xs text-cream/45">Occasional emails — fresh batches, offers around real festivals. No spam.</p>
-        </form>
-      )}
-
-      <a
-        href={WA.vip}
-        target="_blank"
-        rel="noreferrer"
-        className="mt-4 inline-flex items-center gap-2 text-sm text-cream/80 transition-colors hover:text-goldbright"
-        data-testid="footer-vip"
-      >
-        <Sparkles className="h-4 w-4 text-goldbright" /> Or get fresh-batch alerts on WhatsApp
-      </a>
-    </div>
-  );
-};
+/**
+ * Fresh-batch alerts run through WhatsApp — the channel the business actually
+ * uses. No email capture, since there is no connected mailing system.
+ */
+const FreshBatchAlerts = () => (
+  <div>
+    <h4 className="text-[12px] uppercase tracking-[0.16em] text-goldbright/75">Stay in the loop</h4>
+    <p className="mt-3 max-w-sm text-sm leading-relaxed text-cream/70">
+      We make in small batches. Get a message when the next one is ready — around real festivals, no spam.
+    </p>
+    <a
+      href={WA.vip}
+      target="_blank"
+      rel="noreferrer"
+      className="mt-4 inline-flex items-center gap-2 rounded-full bg-goldbright px-5 py-2.5 text-sm font-medium text-maroon transition-colors hover:bg-cream"
+      data-testid="footer-vip"
+    >
+      <Sparkles className="h-4 w-4" /> Fresh-batch alerts on WhatsApp
+    </a>
+  </div>
+);
 
 export const Footer = () => {
   return (
     <footer className="relative bg-ink text-cream" data-testid="site-footer">
-      <div className="text-goldbright/30">
-        <TriangleBand height={14} flip />
-      </div>
+      {/* clean, understated top edge */}
+      <div className="mx-auto h-px max-w-7xl bg-goldbright/20" />
       <div className="mx-auto max-w-7xl px-5 py-12 sm:px-8">
         <div className="grid gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -153,7 +96,7 @@ export const Footer = () => {
           </div>
 
           <div className="md:col-span-4">
-            <NewsletterForm />
+            <FreshBatchAlerts />
           </div>
 
           <div className="md:col-span-3">
@@ -218,15 +161,15 @@ export const Footer = () => {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-cream/15 pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-xs leading-relaxed text-cream/50">
+          <p className="text-[13px] leading-relaxed text-cream/55">
             © 2026 Mithila.Foods — Pawan Mithila Foods Pvt. Ltd. | Handcrafted in Bouddha-6, Kathmandu
           </p>
-          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-xs">
+          <ul className="flex flex-wrap gap-x-5 gap-y-2 text-[13px]">
             {policyLinks.map((l) => (
               <li key={l.to}>
                 <Link
                   to={l.to}
-                  className="text-cream/60 underline-offset-4 transition-colors hover:text-goldbright hover:underline"
+                  className="text-cream/65 underline-offset-4 transition-colors hover:text-goldbright hover:underline"
                   data-testid={`footer-policy-${l.to.slice(1)}`}
                 >
                   {l.label}

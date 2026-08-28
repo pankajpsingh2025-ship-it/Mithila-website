@@ -48,7 +48,7 @@ const Item = ({ f, isOpen, onToggle, i }) => (
 export const FAQ = () => {
   const [open, setOpen] = useState(-1);
   return (
-    <section id="faq" className="relative bg-cream py-12 sm:py-16" data-testid="faq-section">
+    <section id="faq" className="relative bg-cream py-12 scroll-mt-24 sm:py-16" data-testid="faq-section">
       <div className="mx-auto max-w-2xl px-5 sm:px-8">
         <Reveal>
           <p className="text-[11px] uppercase tracking-[0.24em] text-golddeep">Good to know</p>

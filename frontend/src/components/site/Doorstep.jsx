@@ -2,7 +2,7 @@ import React from "react";
 import { ShoppingBag, MessageCircle } from "lucide-react";
 import { DOORSTEP, WA } from "../../lib/site";
 import { MaskLines, Reveal } from "./motion";
-import { SunFace } from "./Madhubani";
+import { Peacock } from "./Madhubani";
 
 const scrollToShop = () => {
   const el = document.getElementById("shop");
@@ -20,19 +20,20 @@ export const Doorstep = () => {
   return (
     <section
       id="order"
-      className="relative overflow-hidden bg-creamlight py-12 text-ink sm:py-16 paper-texture"
+      className="relative overflow-hidden bg-creamlight pt-6 pb-12 text-ink scroll-mt-24 sm:pt-8 sm:pb-16 paper-texture"
       data-testid="doorstep-cta"
     >
-      <div className="pointer-events-none absolute -right-24 -top-16 text-maroon/[0.05]">
-        <SunFace className="h-[30rem] w-[30rem]" strokeWidth={2} />
+      {/* subtle Mithila peacock motif drawn from the brand pattern */}
+      <div className="pointer-events-none absolute -right-16 top-4 text-maroon/[0.06] sm:-right-10">
+        <Peacock className="h-64 w-64 sm:h-80 sm:w-80" />
       </div>
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/20 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[20rem] w-[20rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/15 blur-3xl" />
 
-      <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
+      <div className="relative mx-auto max-w-2xl px-5 text-center sm:px-8">
         <Reveal>
           <p className="font-heading text-lg italic text-golddeep sm:text-xl">{DOORSTEP.handoff}</p>
         </Reveal>
-        <h2 className="mt-3 font-heading text-[clamp(2rem,6vw,3.6rem)] font-light leading-[1.04] text-maroon">
+        <h2 className="mt-2 font-heading text-[clamp(2rem,5.4vw,3.4rem)] font-light leading-[1.04] text-maroon">
           <MaskLines lines={["Tradition, delivered", "to your doorstep."]} lineClass="text-maroon" />
         </h2>
         <Reveal delay={0.12}>

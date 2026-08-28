@@ -25,9 +25,9 @@ const FRAMES = [
 ];
 
 const PHASES = [
-  { k: "Phase one", h: "Shape it", s: "Pressed by hand in the traditional carved wooden mould.", win: [0.0, 0.30] },
-  { k: "Phase two", h: "Bake it", s: "Baked in small batches until golden.", win: [0.37, 0.58] },
-  { k: "Phase three", h: "Break it open", s: "Crisp outside. Rich and crumbly within.", win: [0.66, 0.86] },
+  { k: "Phase one", h: "Shape it", s: "Made the traditional way.", win: [0.0, 0.30] },
+  { k: "Phase two", h: "Bake it", s: "Watch tradition turn golden.", win: [0.37, 0.58] },
+  { k: "Phase three", h: "Break it open", s: "See what's inside.", win: [0.66, 0.86] },
 ];
 
 const FADE = 0.035; // fraction of the timeline used for each heading fade
@@ -90,11 +90,12 @@ export const MakingStage = () => {
         tl.to(heads[i], { opacity: 0, y: -12, duration: FADE }, outAt);
       });
 
-      // ---- break -> story hand-off: the last frame AND the scrim fade out so
-      // the closing line lands on clean cream; the pin then releases. ----
-      tl.to(frames[N - 1], { scale: 1.14, opacity: 0, duration: 0.12 }, 0.88);
-      tl.to(scrimRef.current, { opacity: 0, duration: 0.12 }, 0.88);
-      tl.fromTo(storyRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.1 }, 0.9);
+      // ---- break -> story hand-off: the broken khajuri STAYS visible — it eases
+      // ~12% smaller and shifts left, the scrim softens, negative space opens on
+      // the right, and the closing line fades in there. No blank viewport. ----
+      tl.to(frames[N - 1], { scale: 0.88, xPercent: -12, opacity: 1, duration: 0.14 }, 0.86);
+      tl.to(scrimRef.current, { opacity: 0.35, duration: 0.14 }, 0.86);
+      tl.fromTo(storyRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.12 }, 0.9);
     }, root);
 
     return () => ctx.revert();
@@ -122,11 +123,11 @@ export const MakingStage = () => {
             </div>
           </div>
         ))}
-        <div className="bg-creamlight py-16 text-center">
-          <p className="font-heading text-[clamp(1.8rem,5vw,3rem)] font-light text-maroon">
+        <div className="bg-creamlight py-10 text-center">
+          <p className="font-heading text-[clamp(1.7rem,4.4vw,2.6rem)] font-light text-maroon">
             Tradition shouldn't have a season.
           </p>
-          <p className="mt-3 text-sm text-ink/65">Festival roots. Everyday enjoyment.</p>
+          <p className="mt-2 text-sm text-ink/65">Festival roots. Everyday enjoyment.</p>
         </div>
       </section>
     );
@@ -180,16 +181,17 @@ export const MakingStage = () => {
           ))}
         </div>
 
-        {/* closing line — lands on clean cream after the scrim + frame fade */}
+        {/* closing line — sits in the negative space that opens on the right as
+            the broken khajuri eases smaller and left. Never a blank viewport. */}
         <div
           ref={storyRef}
-          className="pointer-events-none absolute inset-x-0 top-1/2 z-10 -translate-y-1/2 px-6 text-center"
+          className="pointer-events-none absolute right-[6%] top-1/2 z-10 -translate-y-1/2 px-2 text-right sm:right-[8%]"
           style={{ opacity: 0 }}
         >
-          <h2 className="mx-auto max-w-3xl font-heading text-[clamp(2.2rem,6vw,4rem)] font-light leading-[1.05] text-maroon">
+          <h2 className="ml-auto max-w-[15rem] font-heading text-[clamp(1.8rem,4.4vw,3rem)] font-light leading-[1.06] text-maroon sm:max-w-sm">
             Tradition shouldn't have a season.
           </h2>
-          <p className="mt-4 text-sm text-ink/70 sm:text-base">Festival roots. Everyday enjoyment.</p>
+          <p className="mt-3 text-xs text-ink/70 sm:text-sm">Festival roots. Everyday enjoyment.</p>
         </div>
       </div>
     </section>

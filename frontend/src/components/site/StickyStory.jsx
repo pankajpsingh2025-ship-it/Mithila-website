@@ -1,43 +1,31 @@
 import React, { useLayoutEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { INGREDIENT_GROUPS, ALLERGEN, STORY, IMG } from "../../lib/site";
+import { INGREDIENT_GROUPS, ALLERGEN, IMG } from "../../lib/site";
 
 gsap.registerPlugin(ScrollTrigger);
 
 /**
- * The restored editorial sticky story (spec Part C / SHORTTTT.MOV), rebuilt
- * frameless:
- *   - ONE pinned media area bleeding to the LEFT viewport edge, filling the full
- *     sticky height; no wrapper box, border, radius, shadow or cream gutter. Only
- *     its right edge dissolves into the page (a one-direction fade, not a 4-side
- *     rectangle mask)
- *   - the story text simply SCROLLS in the right half — it is never itself
- *     crossfaded, so old and new lines can't overlap or smear (the old bug)
- *   - a GSAP scrub only crossfades the pinned photo between the five beats
- *   - an understated `01 / 05` progress marker
- *
- * Beat 3 carries the ingredient + allergen transparency. The allergen line is
- * a plain static node (never inside a motion/scroll wrapper) so it is always
- * legible, JS or no JS.
- *
- * Mobile / reduced-motion: no pin. Each beat stacks with its own inline image.
+ * The editorial sticky story — LEFT: one persistent, frameless, left-bleed
+ * visual; RIGHT: the copy, which simply scrolls (never crossfaded, so it can't
+ * ghost or double). A GSAP scrub crossfades only the pinned photo, using
+ * `autoAlpha` so an inactive photo is both opacity:0 AND visibility:hidden.
+ * FOUR concise states. Beat 2 carries the ingredient + allergen transparency;
+ * the allergen line is a plain static node outside every animation wrapper.
+ * Mobile / reduced-motion: no pin, each state stacks with its own inline image.
  */
 const BEATS = [
   {
-    key: "what",
+    key: "origin",
     eyebrow: "Our story",
     h: "What is Khajuri?",
     body:
-      "A handcrafted food from the Mithila and Terai plains — a savoury-sweet floret pressed by hand at home for family, for guests, and for festivals like Chhath. Not the dried date; its own food, with its own name and history.",
+      "A handcrafted food from the Mithila and Terai plains — a savoury-sweet floret pressed by hand at home for family, for guests, and for festivals like Chhath. Not the dried date; its own food, with its own name.",
+    eyebrow2: "Heritage",
+    h2: "Festival roots. Everyday enjoyment.",
+    body2:
+      "For most people it appears once a year. We make it in small batches all year, with the same real ghee, jaggery and whole nuts our elders used.",
     img: IMG.group,
-  },
-  {
-    key: "roots",
-    eyebrow: "Heritage",
-    h: "Festival roots. Everyday enjoyment.",
-    body: STORY.paras[1],
-    img: IMG.heroSingle,
   },
   {
     key: "ingredients",
@@ -45,8 +33,8 @@ const BEATS = [
     h: "11 real ingredients. Nothing hidden.",
     body:
       "Real ghee and jaggery, whole nuts broken by hand, fresh coconut, and a quiet line of spice. That's the whole list.",
-    img: IMG.flatlay,
     groups: true,
+    img: IMG.flatlay,
   },
   {
     key: "texture",
@@ -61,20 +49,20 @@ const BEATS = [
     eyebrow: "Every day",
     h: "Tea. Coffee. Sharing. Gifting.",
     body:
-      "For the morning cup, the afternoon coffee, the road, a guest at the door, a box sent home. Festival roots, made for more moments.",
+      "For the morning tea, the afternoon coffee, the road, a guest at the door, a box sent home — festival roots, made for more moments.",
     img: IMG.lifestyle,
   },
 ];
 
 const Groups = () => (
-  <div className="mt-6 grid gap-x-8 gap-y-1 sm:grid-cols-2">
+  <div className="mt-5 grid gap-x-8 gap-y-1 sm:grid-cols-2">
     {INGREDIENT_GROUPS.map((g) => (
-      <div key={g.title} className="border-t border-maroon/12 py-3">
+      <div key={g.title} className="border-t border-maroon/12 py-2.5">
         <div className="flex flex-wrap items-baseline gap-x-3">
           <h4 className="font-heading text-[15px] text-maroon">{g.title}</h4>
           <p className="text-xs text-ink/50">{g.note}</p>
         </div>
-        <ul className="mt-2 flex flex-wrap gap-1.5">
+        <ul className="mt-1.5 flex flex-wrap gap-1.5">
           {g.items.map((it) => (
             <li key={it} className="rounded-full bg-paper px-2.5 py-1 text-[12px] text-ink/75 ring-1 ring-maroon/12">
               {it}
@@ -88,7 +76,7 @@ const Groups = () => (
 
 /** SAFETY-CRITICAL — always rendered, never animated. */
 const Allergen = () => (
-  <div className="mt-5 rounded-lg border border-maroon/20 bg-paper px-4 py-3" data-testid="allergen-note">
+  <div className="mt-4 rounded-lg border border-maroon/20 bg-paper px-4 py-3" data-testid="allergen-note">
     <p className="text-sm font-medium leading-relaxed text-maroon">
       <span className="uppercase tracking-[0.16em] text-golddeep">Allergens · </span>
       {ALLERGEN}
@@ -109,16 +97,14 @@ export const StickyStory = () => {
 
   useLayoutEffect(() => {
     if (reduce) return;
-    // the pinned stage only exists at lg+ (it is display:none below that), so
-    // scope the pin/scrub to that breakpoint — gsap.matchMedia re-runs cleanly
-    // on resize across it, no reload needed
     const mm = gsap.matchMedia(root);
     mm.add("(min-width: 1024px)", () => {
       const imgs = imgRefs.current.filter(Boolean);
       if (imgs.length < 2) return;
 
-      gsap.set(imgs, { opacity: 0 });
-      gsap.set(imgs[0], { opacity: 1 });
+      // autoAlpha => opacity + visibility, so an inactive photo can't linger
+      gsap.set(imgs, { autoAlpha: 0 });
+      gsap.set(imgs[0], { autoAlpha: 1 });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
@@ -137,26 +123,27 @@ export const StickyStory = () => {
         },
       });
 
-      // crossfade photo i-1 -> i across each fifth of the scroll
       const seg = 1 / imgs.length;
       for (let i = 1; i < imgs.length; i++) {
-        const at = seg * i - seg * 0.35;
-        tl.to(imgs[i - 1], { opacity: 0, duration: seg * 0.7 }, at);
-        tl.to(imgs[i], { opacity: 1, duration: seg * 0.7 }, at);
+        const at = seg * i - seg * 0.3;
+        tl.to(imgs[i - 1], { autoAlpha: 0, duration: seg * 0.6 }, at);
+        tl.to(imgs[i], { autoAlpha: 1, duration: seg * 0.6 }, at);
       }
     });
     return () => mm.revert();
   }, [reduce]);
 
-  // only the RIGHT edge of the pinned photo dissolves into the page — the other
-  // three sides sit on physical viewport edges, so there's no visible rectangle
+  // one-direction right-edge fade — the other three sides sit on viewport edges
   const RIGHT_FADE =
-    "linear-gradient(to right, #000 68%, rgba(0,0,0,0.45) 86%, transparent 100%)";
+    "linear-gradient(to right, #000 66%, rgba(0,0,0,0.4) 85%, transparent 100%)";
 
   return (
-    <section id="story" ref={root} className="relative overflow-x-clip bg-creamlight" data-testid="sticky-story">
-      {/* pinned media — lg+ only. Bleeds to the left viewport edge and fills the
-          full sticky height; no wrapper box, border, radius or shadow. */}
+    <section
+      id="story"
+      ref={root}
+      className="relative overflow-x-clip bg-creamlight scroll-mt-24"
+      data-testid="sticky-story"
+    >
       {!reduce && (
         <div
           ref={stageRef}
@@ -172,38 +159,45 @@ export const StickyStory = () => {
                 alt=""
                 loading={i === 0 ? "eager" : "lazy"}
                 className="absolute inset-0 h-full w-full object-cover"
-                style={i === 0 ? undefined : { opacity: 0 }}
+                style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }}
               />
             ))}
           </div>
           <p className="absolute bottom-8 left-6 text-xs tracking-[0.24em] text-cream drop-shadow-[0_1px_8px_rgba(0,0,0,0.6)]">
-            {String(active + 1).padStart(2, "0")} <span className="text-cream/55">/ 05</span>
+            {String(active + 1).padStart(2, "0")} <span className="text-cream/55">/ 04</span>
           </p>
         </div>
       )}
 
-      {/* the story column — plain scroll, no text crossfade */}
       <div ref={colRef} className={`relative z-10 ${reduce ? "" : "lg:ml-[50vw] lg:w-[50vw]"}`}>
         {BEATS.map((b) => (
           <article
             key={b.key}
-            className="py-7 lg:flex lg:min-h-[54vh] lg:flex-col lg:justify-center lg:py-9"
+            className="py-7 lg:flex lg:min-h-[46vh] lg:flex-col lg:justify-center lg:py-7"
           >
-            {/* edge-to-edge inline image on mobile / reduced-motion */}
             <img
               src={b.img}
               alt={b.h}
               loading="lazy"
               className={`mb-5 aspect-[16/10] w-full object-cover ${reduce ? "" : "lg:hidden"}`}
             />
-            {/* plain text — never crossfaded, so it can't smear or depend on an
-                animation state to become readable */}
             <div className="px-5 sm:px-8 lg:pl-16 lg:pr-10">
-              <p className="text-[11px] uppercase tracking-[0.24em] text-golddeep">{b.eyebrow}</p>
-              <h2 className="mt-3 font-heading text-[clamp(1.8rem,3.4vw,2.8rem)] font-light leading-[1.12] text-maroon">
+              <p className="text-[11px] uppercase tracking-[0.16em] text-golddeep">{b.eyebrow}</p>
+              <h2 className="mt-2 font-heading text-[clamp(1.7rem,3.2vw,2.6rem)] font-light leading-[1.12] text-maroon">
                 {b.h}
               </h2>
-              <p className="mt-4 max-w-lg text-base leading-relaxed text-ink/75 sm:text-lg">{b.body}</p>
+              <p className="mt-3 max-w-[34rem] text-base leading-relaxed text-ink/75">{b.body}</p>
+
+              {b.h2 && (
+                <div className="mt-6 border-t border-maroon/12 pt-5">
+                  <p className="text-[11px] uppercase tracking-[0.16em] text-golddeep">{b.eyebrow2}</p>
+                  <h3 className="mt-2 font-heading text-[clamp(1.4rem,2.6vw,2rem)] font-light leading-[1.15] text-maroon">
+                    {b.h2}
+                  </h3>
+                  <p className="mt-2 max-w-[34rem] text-base leading-relaxed text-ink/75">{b.body2}</p>
+                </div>
+              )}
+
               {b.groups && <Groups />}
               {b.groups && <Allergen />}
             </div>
