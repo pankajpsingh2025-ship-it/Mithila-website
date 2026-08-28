@@ -9,7 +9,7 @@ export const Gifting = () => {
   const { eyebrow, headline, cta, href } = GIFTING;
   const { ref, y } = useParallax(40);
   return (
-    <section id="gifting" className="relative bg-creamlight py-14 scroll-mt-24 sm:py-16" data-testid="gifting-section">
+    <section id="gifting" className="relative bg-creamlight py-12 scroll-mt-28 sm:py-14" data-testid="gifting-section">
       <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 sm:px-8 lg:grid-cols-2 lg:gap-14">
         <Reveal>
           <div ref={ref} className="img-blend-soft relative overflow-hidden">

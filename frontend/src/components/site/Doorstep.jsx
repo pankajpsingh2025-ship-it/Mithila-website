@@ -20,14 +20,14 @@ export const Doorstep = () => {
   return (
     <section
       id="order"
-      className="relative overflow-hidden bg-creamlight pt-6 pb-12 text-ink scroll-mt-24 sm:pt-8 sm:pb-16 paper-texture"
+      className="relative overflow-hidden bg-creamlight pt-4 pb-10 text-ink scroll-mt-28 sm:pt-5 sm:pb-12 paper-texture"
       data-testid="doorstep-cta"
     >
       {/* subtle Mithila peacock motif drawn from the brand pattern */}
-      <div className="pointer-events-none absolute -right-16 top-4 text-maroon/[0.06] sm:-right-10">
-        <Peacock className="h-64 w-64 sm:h-80 sm:w-80" />
+      <div className="pointer-events-none absolute -right-16 top-4 text-maroon/[0.05] sm:-right-12">
+        <Peacock className="h-52 w-52 sm:h-64 sm:w-64" />
       </div>
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[20rem] w-[20rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/15 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[18rem] w-[18rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/12 blur-3xl" />
 
       <div className="relative mx-auto max-w-2xl px-5 text-center sm:px-8">
         <Reveal>
@@ -37,11 +37,11 @@ export const Doorstep = () => {
           <MaskLines lines={["Tradition, delivered", "to your doorstep."]} lineClass="text-maroon" />
         </h2>
         <Reveal delay={0.12}>
-          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-ink/65 sm:text-lg">{DOORSTEP.body}</p>
+          <p className="mx-auto mt-3 max-w-md text-base leading-relaxed text-ink/65 sm:text-lg">{DOORSTEP.body}</p>
         </Reveal>
 
         <Reveal delay={0.2}>
-          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={scrollToShop}
               className="mo-hover inline-flex items-center gap-3 rounded-full bg-heritage px-8 py-4 text-base font-semibold uppercase tracking-[0.12em] text-paper duration-300 hover:bg-maroon hover:shadow-[0_20px_50px_-12px_rgba(74,31,13,0.5)]"

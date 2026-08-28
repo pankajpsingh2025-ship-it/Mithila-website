@@ -40,6 +40,7 @@ export const MakingStage = () => {
   const root = useRef(null);
   const stageRef = useRef(null);
   const scrimRef = useRef(null);
+  const storyScrimRef = useRef(null);
   const reduce =
     typeof window !== "undefined" &&
     window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -59,15 +60,17 @@ export const MakingStage = () => {
       gsap.set(frames[0], { opacity: 1, scale: 1 });
       gsap.set(heads, { opacity: 0, y: 12 });
       gsap.set(storyRef.current, { opacity: 0, y: 18 });
+      gsap.set(storyScrimRef.current, { opacity: 0 });
 
       const tl = gsap.timeline({
         defaults: { ease: "none" },
         scrollTrigger: {
           trigger: root.current,
           start: "top top",
-          end: "bottom bottom",
+          // GSAP manages the pin spacer (pinSpacing: true) so the section that
+          // follows sits flush — no leftover empty band after the pin releases.
+          end: () => "+=" + Math.round(window.innerHeight * 1.15),
           pin: stageRef.current,
-          pinSpacing: false,
           scrub: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
@@ -91,10 +94,11 @@ export const MakingStage = () => {
       });
 
       // ---- break -> story hand-off: the broken khajuri STAYS visible — it eases
-      // ~12% smaller and shifts left, the scrim softens, negative space opens on
-      // the right, and the closing line fades in there. No blank viewport. ----
-      tl.to(frames[N - 1], { scale: 0.88, xPercent: -12, opacity: 1, duration: 0.14 }, 0.86);
-      tl.to(scrimRef.current, { opacity: 0.35, duration: 0.14 }, 0.86);
+      // smaller and shifts left; a cream gradient grows from the right so the
+      // closing line sits in a guaranteed-readable zone. No blank viewport. ----
+      tl.to(frames[N - 1], { scale: 0.82, xPercent: -18, opacity: 1, duration: 0.14 }, 0.86);
+      tl.to(scrimRef.current, { opacity: 0.28, duration: 0.14 }, 0.86);
+      tl.to(storyScrimRef.current, { opacity: 1, duration: 0.14 }, 0.86);
       tl.fromTo(storyRef.current, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.12 }, 0.9);
     }, root);
 
@@ -137,7 +141,7 @@ export const MakingStage = () => {
     <section
       id="making"
       ref={root}
-      className="relative h-[160vh] overflow-x-clip bg-creamlight md:h-[205vh]"
+      className="relative overflow-x-clip bg-creamlight"
       data-testid="making-stage"
     >
       <div ref={stageRef} className="relative h-[100svh] w-full overflow-hidden bg-creamlight">
@@ -155,12 +159,23 @@ export const MakingStage = () => {
           />
         ))}
 
+        {/* the photo emerges from the hero's cream — no hard horizontal seam */}
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-[6] h-24 bg-gradient-to-b from-creamlight to-transparent" />
+
         {/* one full-section gradient for text contrast — covers the whole
             viewport, never reads as its own rectangle */}
         <div
           ref={scrimRef}
           className="pointer-events-none absolute inset-0"
           style={{ background: "linear-gradient(to top, rgba(26,10,4,0.66), rgba(26,10,4,0.14) 46%, rgba(26,10,4,0.36))" }}
+        />
+
+        {/* cream gradient that grows from the right at the story hand-off, so the
+            closing line always sits on cream, never on the dark khajuri crust */}
+        <div
+          ref={storyScrimRef}
+          className="pointer-events-none absolute inset-0 z-[8]"
+          style={{ background: "linear-gradient(to right, transparent 34%, rgba(250,241,222,0.72) 62%, #FAF1DE 82%)" }}
         />
 
         {/* phase text — composed inside the canvas */}
@@ -185,13 +200,13 @@ export const MakingStage = () => {
             the broken khajuri eases smaller and left. Never a blank viewport. */}
         <div
           ref={storyRef}
-          className="pointer-events-none absolute right-[6%] top-1/2 z-10 -translate-y-1/2 px-2 text-right sm:right-[8%]"
+          className="pointer-events-none absolute right-[5%] top-1/2 z-20 -translate-y-1/2 px-2 text-right sm:right-[7%]"
           style={{ opacity: 0 }}
         >
-          <h2 className="ml-auto max-w-[15rem] font-heading text-[clamp(1.8rem,4.4vw,3rem)] font-light leading-[1.06] text-maroon sm:max-w-sm">
+          <h2 className="ml-auto max-w-[17rem] font-heading text-[clamp(2rem,4.6vw,3.4rem)] font-light leading-[1.06] text-maroon sm:max-w-md">
             Tradition shouldn't have a season.
           </h2>
-          <p className="mt-3 text-xs text-ink/70 sm:text-sm">Festival roots. Everyday enjoyment.</p>
+          <p className="mt-3 text-sm text-ink/70">Festival roots. Everyday enjoyment.</p>
         </div>
       </div>
     </section>

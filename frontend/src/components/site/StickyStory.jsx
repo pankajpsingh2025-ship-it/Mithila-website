@@ -92,50 +92,38 @@ export const StickyStory = () => {
   const root = useRef(null);
   const colRef = useRef(null);
   const stageRef = useRef(null);
-  const imgRefs = useRef([]);
   const [active, setActive] = useState(0);
 
+  // pin the left visual; derive the active state from scroll progress through
+  // the copy column. A half-segment bias means a state only takes over once its
+  // block is genuinely centred — the photo never flips on partial entry.
   useLayoutEffect(() => {
     if (reduce) return;
+    const N = BEATS.length;
     const mm = gsap.matchMedia(root);
     mm.add("(min-width: 1024px)", () => {
-      const imgs = imgRefs.current.filter(Boolean);
-      if (imgs.length < 2) return;
-
-      // autoAlpha => opacity + visibility, so an inactive photo can't linger
-      gsap.set(imgs, { autoAlpha: 0 });
-      gsap.set(imgs[0], { autoAlpha: 1 });
-
-      const tl = gsap.timeline({
-        defaults: { ease: "none" },
-        scrollTrigger: {
-          trigger: colRef.current,
-          start: "top top",
-          end: "bottom bottom",
-          scrub: true,
-          pin: stageRef.current,
-          pinSpacing: false,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            const i = Math.min(BEATS.length - 1, Math.floor(self.progress * BEATS.length));
-            setActive(i);
-          },
+      ScrollTrigger.create({
+        trigger: colRef.current,
+        start: "top top",
+        end: "bottom bottom",
+        pin: stageRef.current,
+        pinSpacing: false,
+        invalidateOnRefresh: true,
+        onUpdate: (self) => {
+          setActive(Math.max(0, Math.min(N - 1, Math.floor(self.progress * N))));
         },
       });
-
-      const seg = 1 / imgs.length;
-      for (let i = 1; i < imgs.length; i++) {
-        const at = seg * i - seg * 0.3;
-        tl.to(imgs[i - 1], { autoAlpha: 0, duration: seg * 0.6 }, at);
-        tl.to(imgs[i], { autoAlpha: 1, duration: seg * 0.6 }, at);
-      }
     });
     return () => mm.revert();
   }, [reduce]);
 
-  // one-direction right-edge fade — the other three sides sit on viewport edges
+  // The photo crossfade is driven straight off `active` in render (below) via an
+  // inline opacity + CSS transition — React state is the single source of truth,
+  // so a re-render can never desync the image from the copy.
+
+  // a soft, wide right-edge fade — no hard PHOTO | WEBSITE seam
   const RIGHT_FADE =
-    "linear-gradient(to right, #000 66%, rgba(0,0,0,0.4) 85%, transparent 100%)";
+    "linear-gradient(to right, #000 48%, rgba(0,0,0,0.55) 74%, rgba(0,0,0,0.12) 92%, transparent 100%)";
 
   return (
     <section
@@ -154,12 +142,11 @@ export const StickyStory = () => {
             {BEATS.map((b, i) => (
               <img
                 key={b.key}
-                ref={(el) => (imgRefs.current[i] = el)}
                 src={b.img}
                 alt=""
                 loading={i === 0 ? "eager" : "lazy"}
-                className="absolute inset-0 h-full w-full object-cover"
-                style={i === 0 ? undefined : { opacity: 0, visibility: "hidden" }}
+                className="absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ease-out"
+                style={{ opacity: active === i ? 1 : 0 }}
               />
             ))}
           </div>
@@ -170,10 +157,10 @@ export const StickyStory = () => {
       )}
 
       <div ref={colRef} className={`relative z-10 ${reduce ? "" : "lg:ml-[50vw] lg:w-[50vw]"}`}>
-        {BEATS.map((b) => (
+        {BEATS.map((b, i) => (
           <article
             key={b.key}
-            className="py-7 lg:flex lg:min-h-[46vh] lg:flex-col lg:justify-center lg:py-7"
+            className="py-7 lg:flex lg:min-h-[62vh] lg:flex-col lg:justify-center lg:py-8"
           >
             <img
               src={b.img}
@@ -182,23 +169,32 @@ export const StickyStory = () => {
               className={`mb-5 aspect-[16/10] w-full object-cover ${reduce ? "" : "lg:hidden"}`}
             />
             <div className="px-5 sm:px-8 lg:pl-16 lg:pr-10">
-              <p className="text-[11px] uppercase tracking-[0.16em] text-golddeep">{b.eyebrow}</p>
-              <h2 className="mt-2 font-heading text-[clamp(1.7rem,3.2vw,2.6rem)] font-light leading-[1.12] text-maroon">
-                {b.h}
-              </h2>
-              <p className="mt-3 max-w-[34rem] text-base leading-relaxed text-ink/75">{b.body}</p>
+              {/* only the state that owns the viewport centre is at full
+                  emphasis; the others recede (but stay in flow for a11y) */}
+              <div
+                className="transition-opacity duration-300 lg:[&]:will-change-[opacity]"
+                style={reduce ? undefined : { opacity: active === i ? 1 : 0.32 }}
+              >
+                <p className="text-[11px] uppercase tracking-[0.16em] text-golddeep">{b.eyebrow}</p>
+                <h2 className="mt-2 font-heading text-[clamp(1.7rem,3.2vw,2.6rem)] font-light leading-[1.12] text-maroon">
+                  {b.h}
+                </h2>
+                <p className="mt-3 max-w-[34rem] text-base leading-relaxed text-ink/75">{b.body}</p>
 
-              {b.h2 && (
-                <div className="mt-6 border-t border-maroon/12 pt-5">
-                  <p className="text-[11px] uppercase tracking-[0.16em] text-golddeep">{b.eyebrow2}</p>
-                  <h3 className="mt-2 font-heading text-[clamp(1.4rem,2.6vw,2rem)] font-light leading-[1.15] text-maroon">
-                    {b.h2}
-                  </h3>
-                  <p className="mt-2 max-w-[34rem] text-base leading-relaxed text-ink/75">{b.body2}</p>
-                </div>
-              )}
+                {b.h2 && (
+                  <div className="mt-6 border-t border-maroon/12 pt-5">
+                    <p className="text-[11px] uppercase tracking-[0.16em] text-golddeep">{b.eyebrow2}</p>
+                    <h3 className="mt-2 font-heading text-[clamp(1.4rem,2.6vw,2rem)] font-light leading-[1.15] text-maroon">
+                      {b.h2}
+                    </h3>
+                    <p className="mt-2 max-w-[34rem] text-base leading-relaxed text-ink/75">{b.body2}</p>
+                  </div>
+                )}
 
-              {b.groups && <Groups />}
+                {b.groups && <Groups />}
+              </div>
+
+              {/* allergen is never dimmed */}
               {b.groups && <Allergen />}
             </div>
           </article>

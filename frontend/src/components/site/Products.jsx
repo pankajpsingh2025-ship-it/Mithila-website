@@ -75,9 +75,9 @@ const ProductCard = ({ p }) => {
 
 export const Products = () => {
   return (
-    <section id="shop" className="relative bg-cream py-14 scroll-mt-24 sm:py-20">
+    <section id="shop" className="relative bg-cream py-10 scroll-mt-28 sm:py-14">
       <div className="mx-auto max-w-[1280px] px-5 sm:px-8">
-        <div className="mb-9 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="mb-7 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <Reveal>
             <h2 className="font-heading text-[clamp(1.9rem,4vw,3rem)] font-light leading-[1.05] text-maroon">
               One khajuri, <span className="italic text-golddeep">four ways to bring it home.</span>

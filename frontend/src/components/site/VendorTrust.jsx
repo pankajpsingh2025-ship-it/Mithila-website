@@ -8,9 +8,9 @@ export const VendorTrust = () => {
   const { eyebrow, headline, body, vendors, cta, href } = VENDOR_TRUST;
   const { ref, y } = useParallax(34);
   return (
-    <section id="vendors" className="relative bg-creamlight py-14 scroll-mt-24 sm:py-20" data-testid="vendors-section">
+    <section id="vendors" className="relative bg-creamlight py-12 scroll-mt-28 sm:py-16" data-testid="vendors-section">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+        <div className="grid gap-10 lg:grid-cols-12 lg:items-center lg:gap-14">
           <Reveal className="lg:col-span-5">
             <p className="mb-4 text-[11px] uppercase tracking-[0.24em] text-golddeep">{eyebrow}</p>
             <h2 className="font-heading text-[clamp(1.9rem,4.4vw,3.2rem)] font-light leading-[1.05] text-maroon">

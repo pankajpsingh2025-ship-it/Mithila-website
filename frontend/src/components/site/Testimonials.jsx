@@ -9,11 +9,8 @@ import { railTestimonials, initialsOf } from "../../lib/testimonials";
  * an initials marker, the name and the location. The quote's own script (Nepali
  * / English) is left to speak for itself; no language label is rendered.
  */
-const Quote = ({ t, offset }) => (
-  <figure
-    className="w-[17rem] shrink-0 bg-transparent sm:w-[20rem]"
-    style={{ marginTop: offset }}
-  >
+const Quote = ({ t }) => (
+  <figure className="w-[74vw] shrink-0 snap-start bg-transparent sm:w-[20rem]">
     <blockquote className="font-heading text-[17px] font-light leading-snug text-ink/85 sm:text-lg">
       <span lang={t.language}>{t.quote}</span>
     </blockquote>
@@ -37,13 +34,13 @@ const Quote = ({ t, offset }) => (
 );
 
 /**
- * One calm, continuously drifting testimonial rail (spec Part G).
- * - a rAF loop nudges scrollLeft ~18px/s; the list is rendered twice so the
- *   wrap-around is seamless
- * - pauses on hover, on keyboard focus within the rail, and while the user is
- *   touching / dragging it; resumes gently ~2s after the last interaction
- * - native horizontal scroll = free swipe / drag / trackpad, no hijacking
- * - prefers-reduced-motion: no auto-motion, just a normal scrollable row
+ * Gentle auto-advancing testimonial carousel.
+ * - scroll-snap with a real page gutter (scroll-padding-inline), so a card is
+ *   never left half-clipped at a viewport edge
+ * - auto-advances one card every ~5s; wraps cleanly at the end
+ * - pauses on hover / keyboard focus / touch; resumes ~4s after the last touch
+ * - native horizontal scroll = free drag / swipe / trackpad
+ * - prefers-reduced-motion: no auto-advance, just a normal snap-scroll row
  */
 export const Testimonials = () => {
   const reduce = useReducedMotion();
@@ -56,44 +53,27 @@ export const Testimonials = () => {
     if (reduce) return;
     const el = scroller.current;
     if (!el) return;
-    let raf;
-    const SPEED = 18; // px per second
-    let last = performance.now();
 
-    const half = () => el.scrollWidth / 2;
-
-    const tick = (now) => {
-      const dt = Math.min((now - last) / 1000, 0.05);
-      last = now;
-      if (!paused.current && now >= resumeAt.current) {
-        el.scrollLeft += SPEED * dt;
-        if (el.scrollLeft >= half()) el.scrollLeft -= half();
-      }
-      raf = requestAnimationFrame(tick);
+    const step = () => {
+      if (paused.current || performance.now() < resumeAt.current) return;
+      const cards = el.querySelectorAll("figure");
+      if (!cards.length) return;
+      const cw = cards[0].getBoundingClientRect().width + 40; // card + gap
+      const atEnd = el.scrollLeft + el.clientWidth >= el.scrollWidth - 8;
+      el.scrollTo({ left: atEnd ? 0 : el.scrollLeft + cw, behavior: "smooth" });
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    const id = setInterval(step, 5000);
+    return () => clearInterval(id);
   }, [reduce]);
-
-  // keep scrollLeft inside the first copy when the user drags past a boundary
-  const onScroll = () => {
-    const el = scroller.current;
-    if (!el) return;
-    const half = el.scrollWidth / 2;
-    if (el.scrollLeft >= half) el.scrollLeft -= half;
-    else if (el.scrollLeft < 0) el.scrollLeft += half;
-  };
 
   const hold = () => { paused.current = true; };
   const release = () => {
     paused.current = false;
-    resumeAt.current = performance.now() + 2000;
+    resumeAt.current = performance.now() + 4000;
   };
 
-  const rendered = reduce ? items : [...items, ...items];
-
   return (
-    <section id="reviews" className="relative overflow-hidden bg-cream py-14 scroll-mt-24 sm:py-20" data-testid="testimonials-section">
+    <section id="reviews" className="relative overflow-hidden bg-cream py-10 scroll-mt-28 sm:py-14" data-testid="testimonials-section">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <Reveal>
           <p className="mb-3 text-[11px] uppercase tracking-[0.24em] text-golddeep">From tea tables across Nepal</p>
@@ -105,7 +85,6 @@ export const Testimonials = () => {
 
       <div
         ref={scroller}
-        onScroll={onScroll}
         onMouseEnter={hold}
         onMouseLeave={release}
         onFocusCapture={hold}
@@ -115,21 +94,13 @@ export const Testimonials = () => {
         onPointerCancel={release}
         onTouchStart={hold}
         onTouchEnd={release}
-        className="mt-10 flex items-start gap-10 overflow-x-auto px-5 pb-6 pt-6 sm:mt-12 sm:gap-14 sm:px-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-        style={{ scrollSnapType: reduce ? "x proximity" : "none" }}
+        className="mt-7 flex snap-x snap-mandatory gap-10 overflow-x-auto px-[6vw] py-4 sm:mt-9 sm:px-[7vw] [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+        style={{ scrollPaddingInline: "6vw" }}
         aria-label="Customer testimonials"
         tabIndex={0}
       >
-        {rendered.map((t, i) => (
-          <div
-            key={`${t.displayName}-${i}`}
-            style={{ scrollSnapAlign: reduce ? "start" : "none" }}
-            aria-hidden={!reduce && i >= items.length ? "true" : undefined}
-          >
-            {/* gentle, controlled vertical stagger so the rail reads as drifting
-                voices rather than a row of aligned boxes */}
-            <Quote t={t} offset={i % 3 === 1 ? "2.5rem" : i % 3 === 2 ? "1.25rem" : "0rem"} />
-          </div>
+        {items.map((t) => (
+          <Quote key={t.displayName} t={t} />
         ))}
       </div>
 

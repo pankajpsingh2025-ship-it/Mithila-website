@@ -204,7 +204,8 @@ export const PRODUCTS = [
     tag: "Best for gifting",
     kraft: true,
     desc: "The full heritage experience. Premium Mithila art gift bag, hand-packed.",
-    img: IMG.packGift,
+    // distinct approved gifting photo so Small and Large don't look identical
+    img: IMG.giftHero,
     href: WA.giftLarge,
   },
 ];
