@@ -6,23 +6,23 @@ import { Products } from "../components/site/Products";
 import { Testimonials } from "../components/site/Testimonials";
 import { VendorTrust } from "../components/site/VendorTrust";
 import { Gifting } from "../components/site/Gifting";
+import { Lineup } from "../components/site/Lineup";
+import { Doorstep } from "../components/site/Doorstep";
 import { DeliveryTrust } from "../components/site/DeliveryTrust";
 import { FAQ } from "../components/site/FAQ";
-import { Doorstep } from "../components/site/Doorstep";
 import { Footer } from "../components/site/Footer";
 
 /**
- * One continuously unfolding story (spec Part 3):
- *   hero
- *   → Shape / Bake / Break immersive sequence (+ "Tradition shouldn't have a season")
- *   → restored sticky Khajuri story + ingredient / allergen narrative
- *   → product pack selector
- *   → floating testimonial rail
- *   → café & wholesale social proof
- *   → gifting
- *   → delivery & payment reassurance
- *   → FAQ
- *   → one closing CTA
+ * One continuous Mithila.Foods environment (spec §36):
+ *   hero / make
+ *   → full-view Shape → Bake → Break
+ *   → story reveal + persistent heritage / ingredient / sensory story
+ *   → shop
+ *   → customer trust → café & vendor trust → gifting
+ *   → product hand-off → full product lineup
+ *   → "Made by hand. Packed with care." → final doorstep CTA
+ *   → compact delivery / payment reassurance
+ *   → collapsed FAQ
  *   → footer
  */
 export default function Home() {
@@ -38,9 +38,10 @@ export default function Home() {
         <VendorTrust />
         <Gifting />
 
+        <Lineup />
+        <Doorstep />
         <DeliveryTrust />
         <FAQ />
-        <Doorstep />
       </main>
       <Footer />
     </div>

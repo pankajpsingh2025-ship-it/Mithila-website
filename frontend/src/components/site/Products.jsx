@@ -99,7 +99,7 @@ const ProductCard = ({ p, index }) => {
 
 export const Products = () => {
   return (
-    <section id="shop" className="relative bg-cream py-20 sm:py-28">
+    <section id="shop" className="relative bg-cream py-14 sm:py-20">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="mb-14 flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
           <div>

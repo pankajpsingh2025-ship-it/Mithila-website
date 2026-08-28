@@ -136,7 +136,7 @@ export const MakingStage = () => {
     <section
       id="making"
       ref={root}
-      className="relative h-[175vh] overflow-x-clip bg-creamlight md:h-[240vh]"
+      className="relative h-[160vh] overflow-x-clip bg-creamlight md:h-[205vh]"
       data-testid="making-stage"
     >
       <div ref={stageRef} className="relative h-[100svh] w-full overflow-hidden bg-creamlight">

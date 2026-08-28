@@ -246,11 +246,20 @@ export const GIFTING = {
   bulkHref: WA.wholesale,
 };
 
+export const LINEUP = {
+  eyebrow: "The Mithila.Foods collection",
+  headline: "Tradition, packed for every occasion.",
+  body:
+    "Everyday packs, family sharing, gifting and café-ready Khajuri — one heritage, made for more moments.",
+};
+
 export const DOORSTEP = {
   eyebrow: "Freshly made in Kathmandu",
+  handoff: "Made by hand. Packed with care.",
   headline: "Tradition, delivered to your doorstep.",
-  body: "Handcrafted Khajuri, prepared for everyday sharing and delivered across Nepal.",
+  body: "Handcrafted Khajuri. Rooted in heritage. Made for your everyday.",
   primary: "Bring Khajuri Home",
+  secondary: "Choose Your Pack",
   whatsapp: "Order on WhatsApp",
 };
 
@@ -286,29 +295,32 @@ export const DELIVERY = {
     "Inside Kathmandu Valley: free delivery, within 24 hours (usually same-day)",
     "Outside Valley: nationwide, flat NPR 150 fee, 1–3 days depending on distance",
   ],
-  payments: ["Cash on Delivery", "eSewa", "Khalti", "Bank Transfer", "QR Code / Fonepay"],
+  // Only methods that are actually operational today. Digital-wallet gateways
+  // that are still being integrated go in `paymentsSoon` and render as
+  // "Coming soon" — never as active — so we don't imply false payment options.
+  // [owner to confirm which wallets are live before moving them up]
+  paymentsLive: ["Cash on Delivery", "Bank Transfer"],
+  paymentsSoon: ["eSewa", "Khalti", "QR / Fonepay"],
 };
 
+// Kept short and practical — the brand story is told higher up the page, so the
+// FAQ does not re-explain "what is Khajuri".
 export const FAQS = [
-  {
-    q: "What is Khajuri?",
-    a: "Khajuri is a traditional handcrafted food from the Mithila and Terai region — a savory-sweet snack tied to family, celebration and festivals like Chhath. Ours is made in small batches with real ghee, jaggery, whole nuts and warm spices. It is not the dried date fruit — different word, different food entirely.",
-  },
   {
     q: "Where do you deliver?",
     a: "Inside Kathmandu Valley: free delivery, usually same-day and within 24 hours. Outside the Valley: nationwide delivery for a flat NPR 150 fee, typically 1–3 days depending on distance.",
   },
   {
-    q: "How do I order?",
-    a: "Add a pack to your cart and check out, or tap “Order on WhatsApp” anywhere on the page to message us directly. A real person confirms every order.",
+    q: "How long does Khajuri stay fresh?",
+    a: "It's made fresh in small batches with no preservatives. Kept sealed in its pouch in a cool, dry place, it holds its crunch for several weeks.",
+  },
+  {
+    q: "How should I store it?",
+    a: "Keep it in the resealable pouch, in a cool dry place, away from direct sun. Press the seal closed after opening.",
   },
   {
     q: "What ingredients are used?",
     a: "Semolina, wheat flour, ghee, jaggery, fresh coconut, almonds, cashew, peanuts, cardamom, cloves and fennel seeds. Contains nuts, dairy and gluten. Does NOT contain egg. No preservatives.",
-  },
-  {
-    q: "How should I store it?",
-    a: "Keep it in the resealable pouch, in a cool dry place, away from direct sun. Press the seal closed after opening and it stays crisp for weeks.",
   },
   {
     q: "Is gifting available?",
@@ -316,6 +328,6 @@ export const FAQS = [
   },
   {
     q: "Do you supply cafés / wholesale?",
-    a: "Yes. We already stock 35+ cafés and tea shops across Kathmandu. There's zero setup cost — we supply, you sell, and we handle restocking. Message us on WhatsApp to start.",
+    a: "Yes — we already stock 35+ cafés and tea shops across Kathmandu. Zero setup cost: we supply, you sell, we handle restocking. Message us on WhatsApp to start.",
   },
 ];

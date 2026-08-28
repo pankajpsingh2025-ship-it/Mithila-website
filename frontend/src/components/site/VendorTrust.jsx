@@ -8,7 +8,7 @@ export const VendorTrust = () => {
   const { eyebrow, headline, body, vendors, cta, href } = VENDOR_TRUST;
   const { ref, y } = useParallax(34);
   return (
-    <section id="vendors" className="relative bg-creamlight py-20 sm:py-28" data-testid="vendors-section">
+    <section id="vendors" className="relative bg-creamlight py-14 sm:py-20" data-testid="vendors-section">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
         <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
           <Reveal className="lg:col-span-5">

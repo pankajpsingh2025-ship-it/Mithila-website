@@ -12,52 +12,61 @@ const scrollToShop = () => {
 };
 
 /**
- * The one true final CTA — sits directly before the footer, after the FAQ.
- * Two actions only: bring a pack home, or order on WhatsApp. No promotional
- * content, no product imagery reused from gifting / the product cards.
+ * The one true final CTA — comes straight after the product lineup, before the
+ * delivery reassurance and FAQ (spec §16–§18). Compact: an emotional conclusion
+ * plus a clear action. No second promotional CTA follows this anywhere.
  */
 export const Doorstep = () => {
   return (
     <section
       id="order"
-      className="relative overflow-hidden bg-creamlight py-16 text-ink sm:py-20 paper-texture"
+      className="relative overflow-hidden bg-creamlight py-12 text-ink sm:py-16 paper-texture"
       data-testid="doorstep-cta"
     >
       <div className="pointer-events-none absolute -right-24 -top-16 text-maroon/[0.05]">
-        <SunFace className="h-[34rem] w-[34rem]" strokeWidth={2} />
+        <SunFace className="h-[30rem] w-[30rem]" strokeWidth={2} />
       </div>
-      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[26rem] w-[26rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/20 blur-3xl" />
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[22rem] w-[22rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-gold/20 blur-3xl" />
 
       <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
         <Reveal>
-          <p className="text-[11px] uppercase tracking-[0.26em] text-golddeep">{DOORSTEP.eyebrow}</p>
+          <p className="font-heading text-lg italic text-golddeep sm:text-xl">{DOORSTEP.handoff}</p>
         </Reveal>
-        <h2 className="mt-4 font-heading text-[clamp(2.2rem,6.5vw,4.2rem)] font-light leading-[1.03] text-maroon">
+        <h2 className="mt-3 font-heading text-[clamp(2rem,6vw,3.6rem)] font-light leading-[1.04] text-maroon">
           <MaskLines lines={["Tradition, delivered", "to your doorstep."]} lineClass="text-maroon" />
         </h2>
         <Reveal delay={0.12}>
-          <p className="mx-auto mt-5 max-w-md text-base leading-relaxed text-ink/65 sm:text-lg">{DOORSTEP.body}</p>
+          <p className="mx-auto mt-4 max-w-md text-base leading-relaxed text-ink/65 sm:text-lg">{DOORSTEP.body}</p>
         </Reveal>
 
         <Reveal delay={0.2}>
-          <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
+          <div className="mt-7 flex flex-wrap items-center justify-center gap-3">
             <button
               onClick={scrollToShop}
-              className="mo-hover inline-flex items-center gap-3 rounded-full bg-heritage px-9 py-5 text-base font-semibold uppercase tracking-[0.12em] text-paper duration-300 hover:bg-maroon hover:shadow-[0_20px_50px_-12px_rgba(74,31,13,0.5)]"
+              className="mo-hover inline-flex items-center gap-3 rounded-full bg-heritage px-8 py-4 text-base font-semibold uppercase tracking-[0.12em] text-paper duration-300 hover:bg-maroon hover:shadow-[0_20px_50px_-12px_rgba(74,31,13,0.5)]"
               data-testid="doorstep-primary"
             >
               <ShoppingBag className="h-5 w-5" /> {DOORSTEP.primary}
             </button>
-            <a
-              href={WA.order}
-              target="_blank"
-              rel="noreferrer"
-              className="mo-hover inline-flex items-center gap-2 rounded-full border border-maroon/25 px-7 py-5 text-sm font-medium text-maroon hover:bg-maroon hover:text-paper"
-              data-testid="doorstep-whatsapp"
+            <button
+              onClick={scrollToShop}
+              className="mo-hover inline-flex items-center gap-2 rounded-full border border-maroon/25 px-6 py-4 text-sm font-medium text-maroon hover:bg-maroon hover:text-paper"
+              data-testid="doorstep-secondary"
             >
-              <MessageCircle className="h-4 w-4" /> {DOORSTEP.whatsapp}
-            </a>
+              {DOORSTEP.secondary}
+            </button>
           </div>
+        </Reveal>
+        <Reveal delay={0.28}>
+          <a
+            href={WA.order}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-5 inline-flex items-center gap-1.5 text-sm text-ink/55 transition-colors hover:text-golddeep"
+            data-testid="doorstep-whatsapp"
+          >
+            <MessageCircle className="h-4 w-4" /> {DOORSTEP.whatsapp}
+          </a>
         </Reveal>
       </div>
     </section>

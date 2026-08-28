@@ -187,7 +187,7 @@ export const StickyStory = () => {
         {BEATS.map((b) => (
           <article
             key={b.key}
-            className="py-8 lg:flex lg:min-h-[62vh] lg:flex-col lg:justify-center lg:py-10"
+            className="py-7 lg:flex lg:min-h-[54vh] lg:flex-col lg:justify-center lg:py-9"
           >
             {/* edge-to-edge inline image on mobile / reduced-motion */}
             <img
