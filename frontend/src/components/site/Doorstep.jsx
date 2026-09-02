@@ -1,5 +1,5 @@
 import React from "react";
-import { ShoppingBag, MessageCircle, Facebook, Instagram } from "lucide-react";
+import { MessageCircle, Facebook, Instagram } from "lucide-react";
 import { DOORSTEP, WA, CONTACT } from "../../lib/site";
 import { MaskLines, Reveal } from "./motion";
 import { Peacock } from "./Madhubani";
@@ -42,13 +42,16 @@ export const Doorstep = () => {
 
         <Reveal delay={0.2}>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button
-              onClick={scrollToShop}
+            <a
+              href={WA.order}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={CONTACT.whatsappA11y}
               className="mo-hover inline-flex items-center gap-3 rounded-full bg-heritage px-8 py-4 text-base font-semibold uppercase tracking-[0.12em] text-paper duration-300 hover:bg-maroon hover:shadow-[0_20px_50px_-12px_rgba(74,31,13,0.5)]"
-              data-testid="doorstep-primary"
+              data-testid="doorstep-whatsapp"
             >
-              <ShoppingBag className="h-5 w-5" /> {DOORSTEP.primary}
-            </button>
+              <MessageCircle className="h-5 w-5" /> {DOORSTEP.whatsapp}
+            </a>
             <button
               onClick={scrollToShop}
               className="mo-hover inline-flex items-center gap-2 rounded-full border border-maroon/25 px-6 py-4 text-sm font-medium text-maroon hover:bg-maroon hover:text-paper"
@@ -58,19 +61,7 @@ export const Doorstep = () => {
             </button>
           </div>
         </Reveal>
-        <Reveal delay={0.28}>
-          <a
-            href={WA.order}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={CONTACT.whatsappA11y}
-            className="mt-5 inline-flex items-center gap-1.5 text-sm text-ink/55 transition-colors hover:text-golddeep"
-            data-testid="doorstep-whatsapp"
-          >
-            <MessageCircle className="h-4 w-4" /> {DOORSTEP.whatsapp}
-          </a>
-        </Reveal>
-        <Reveal delay={0.34}>
+        <Reveal delay={0.32}>
           <div className="mt-4 flex items-center justify-center gap-5 text-xs text-ink/50">
             <a
               href={CONTACT.facebook}

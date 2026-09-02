@@ -1,17 +1,15 @@
 import React, { useState } from "react";
-import { ArrowUpRight, ShoppingBag, Minus, Plus } from "lucide-react";
+import { MessageCircle, Minus, Plus } from "lucide-react";
 import { PRODUCTS, waProduct } from "../../lib/site";
 import { Reveal } from "./motion";
-import { useCart } from "../../context/CartContext";
 
 /**
- * Static, normal-document-flow product card — no 3D tilt / spring (which made
- * the small text shimmer and "ghost" during motion). A plain CSS hover-lift
- * only. Fixed row structure so IMAGE / NAME+WEIGHT / DESCRIPTION / PRICE+QTY /
- * ADD TO CART / WhatsApp align across all four cards.
+ * Ordering is WhatsApp / Instagram / Facebook only for now — online checkout is
+ * "coming soon". Each card has ONE clear action: Order on WhatsApp, pre-filled
+ * with the pack, weight, live quantity and price. The quantity stepper stays
+ * because it feeds that message.
  */
 const ProductCard = ({ p }) => {
-  const { addItem } = useCart();
   const [qty, setQty] = useState(1);
 
   return (
@@ -58,23 +56,15 @@ const ProductCard = ({ p }) => {
           <span className="text-xs text-ink/50">NPR {p.priceNum * qty}</span>
         </div>
 
-        <button
-          onClick={() => addItem(p, qty)}
-          className="mo-hover mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-maroon px-5 py-3 text-sm font-medium text-paper duration-300 hover:bg-[#3a1708]"
-          data-testid={`product-add-${p.id}`}
-        >
-          <ShoppingBag className="w-4 h-4" /> Add to Cart
-        </button>
         <a
           href={waProduct(p, qty)}
           target="_blank"
           rel="noreferrer"
           aria-label={`Order ${p.name} from Mithila.Foods on WhatsApp`}
-          className="mt-2 inline-flex items-center justify-center gap-1.5 text-xs text-heritage transition-colors hover:text-maroon"
+          className="mo-hover mt-3 inline-flex items-center justify-center gap-2 rounded-full bg-heritage px-5 py-3 text-sm font-medium text-paper duration-300 hover:bg-maroon"
           data-testid={`product-order-${p.id}`}
         >
-          or order on WhatsApp
-          <ArrowUpRight className="w-3.5 h-3.5" />
+          <MessageCircle className="w-4 h-4" /> Order on WhatsApp
         </a>
       </div>
     </div>
@@ -93,7 +83,8 @@ export const Products = () => {
           </Reveal>
           <Reveal delay={0.08}>
             <p className="max-w-xs text-sm leading-relaxed text-ink/60">
-              The same handcrafted recipe — from a first taste, to a full kilo for the house, to a heritage gift.
+              Order on WhatsApp, Instagram or Facebook — a real person confirms every order.
+              Online checkout is coming soon.
             </p>
           </Reveal>
         </div>

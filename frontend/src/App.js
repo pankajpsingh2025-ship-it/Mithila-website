@@ -7,7 +7,6 @@ import "./App.css";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { Nav } from "./components/site/Nav";
-import { CartDrawer } from "./components/site/CartDrawer";
 import { AuthCallback } from "./components/site/AuthCallback";
 import Home from "./pages/Home";
 import Checkout from "./pages/Checkout";
@@ -55,7 +54,6 @@ function AppRouter() {
     <>
       <SmoothScroll />
       <Nav />
-      <CartDrawer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
