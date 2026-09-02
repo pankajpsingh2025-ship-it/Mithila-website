@@ -54,7 +54,7 @@ export default function TermsOfService() {
 
       <H2>Contact</H2>
       <p>
-        Pawan Mithila Foods Pvt. Ltd., Bouddha-6, Kathmandu. Phone +977 984-9453348, or WhatsApp
+        Pawan Mithila Foods Pvt. Ltd., Bouddha-6, Kathmandu. Phone +977 9845993344, or WhatsApp
         via the button in the site footer.
       </p>
     </PolicyPage>

@@ -1,21 +1,44 @@
 // Mithila.Foods — content + constants (all facts per official brief, do not alter)
 
-export const PHONE = "9779849453348";
-export const PHONE_DISPLAY = "+977 984-9453348";
+// Official Mithila.Foods order WhatsApp line.
+export const PHONE = "9779845993344";
+export const PHONE_DISPLAY = "+977 9845993344";
 
 export const wa = (text) =>
   `https://wa.me/${PHONE}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 
+/** Pre-filled WhatsApp order message for a single product. */
+export const waProduct = (p, qty = 1) =>
+  wa(
+    `Hi Mithila.Foods 👋\n\nI'd like to order:\n\n` +
+      `Product: ${p.name}\n` +
+      `Size/Weight: ${p.size || "-"}\n` +
+      `Quantity: ${qty}\n` +
+      `Price: NPR ${p.priceNum ? p.priceNum * qty : p.price}\n\n` +
+      `Please help me confirm delivery and payment.\n\nThank you.`
+  );
+
+/** Pre-filled WhatsApp message for a whole cart. */
+export const waCart = (items = [], subtotal = 0) =>
+  wa(
+    `Hi Mithila.Foods 👋\n\nI'd like to place an order:\n\n` +
+      items
+        .map((it) => `${it.qty} × ${it.name} — NPR ${(it.priceNum || it.price) * it.qty}`)
+        .join("\n") +
+      `\n\nSubtotal: NPR ${subtotal}\n\n` +
+      `Please help me confirm delivery and payment details.\n\nThank you.`
+  );
+
 export const WA = {
-  order: wa(),
-  giftLarge: wa("Hi! I'd like to order the Gift Box Large"),
-  giftSmall: wa("Hi! I'd like to order the Gift Box Small"),
-  pack1kg: wa("Hi! I'd like to order the 1kg pack"),
-  pack500: wa("Hi! I'd like to order the 500gm pack"),
-  corporate: wa("Hi! I'd like to ask about corporate/bulk gifting"),
-  stockist: wa("Hi! I'm interested in stocking Mithila.Foods at my café/store"),
-  // distinct, pre-filled deep links (kept separate from a plain order)
-  wholesale: wa("Hi! I'd like to talk about supplying my café / bulk & corporate orders."),
+  order: wa("Hi Mithila.Foods 👋 I'd like to order some Khajuri. Please help me confirm delivery and payment."),
+  giftLarge: wa("Hi Mithila.Foods 👋 I'd like to order the Gift Box — Large (NPR 1,199). Please help me confirm delivery and payment."),
+  giftSmall: wa("Hi Mithila.Foods 👋 I'd like to order the Gift Box — Small (NPR 699). Please help me confirm delivery and payment."),
+  pack1kg: wa("Hi Mithila.Foods 👋 I'd like to order the Family Pack — 1kg (NPR 999). Please help me confirm delivery and payment."),
+  pack500: wa("Hi Mithila.Foods 👋 I'd like to order the Regular Pack — 500gm (NPR 499). Please help me confirm delivery and payment."),
+  corporate: wa("Hi Mithila.Foods 👋\n\nI'm interested in ordering Khajuri for gifting.\n\nPlease send me the available gift options and pricing.\n\nThank you."),
+  gifting: wa("Hi Mithila.Foods 👋\n\nI'm interested in ordering Khajuri for gifting.\n\nPlease send me the available gift options and pricing.\n\nThank you."),
+  stockist: wa("Hi Mithila.Foods,\n\nI'm interested in café / wholesale Khajuri supply.\n\nPlease send me your available wholesale options and pricing."),
+  wholesale: wa("Hi Mithila.Foods,\n\nI'm interested in café / wholesale Khajuri supply.\n\nPlease send me your available wholesale options and pricing."),
   vip: wa("Add me to the Mithila.Foods VIP list for fresh-batch alerts."),
 };
 
@@ -24,6 +47,19 @@ export const SOCIAL = {
   facebook: "https://www.facebook.com/profile.php?id=61589183761470",
   instagram: "https://www.instagram.com/mithila.foods/",
   tiktok: "https://www.tiktok.com/@mithilafoods",
+};
+
+// Contact-channel hierarchy: WhatsApp is primary, Facebook + Instagram secondary.
+export const CONTACT = {
+  whatsapp: WA.order,
+  whatsappLabel: "Order on WhatsApp",
+  whatsappA11y: "Order Mithila.Foods on WhatsApp",
+  facebook: SOCIAL.facebook,
+  facebookLabel: "Message us on Facebook",
+  facebookA11y: "Message Mithila.Foods on Facebook",
+  instagram: SOCIAL.instagram,
+  instagramLabel: "DM us on Instagram",
+  instagramA11y: "DM Mithila.Foods on Instagram",
 };
 
 // Approved hero video (transparent bowl -> ingredients -> dough).
@@ -226,7 +262,7 @@ export const VENDOR_TRUST = {
     { name: "Janakpur Junction", tag: "Tea shop • Janakpur", img: IMG.cafeJanakpur },
     { name: "Akhi Jhyal Cafe", tag: "Heritage café • Patan", img: IMG.cafeAkhiJhyal },
   ],
-  cta: "For Cafés & Wholesale",
+  cta: "Contact us on WhatsApp",
   href: WA.wholesale,
 };
 
@@ -241,7 +277,7 @@ export const GIFTING = {
     "Delivered across Nepal, ready to hand over",
   ],
   cta: "Send a Taste of Tradition",
-  href: WA.corporate,
+  href: WA.gifting,
   bulkNote: "Corporate or bulk gifting?",
   bulkCta: "Talk to us",
   bulkHref: WA.wholesale,

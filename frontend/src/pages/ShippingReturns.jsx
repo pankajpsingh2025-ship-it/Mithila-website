@@ -49,7 +49,7 @@ export default function ShippingReturns() {
       <H2>Contact</H2>
       <p>
         For any delivery question, contact us at Bouddha-6, Kathmandu, by phone on
-        +977 984-9453348, or on WhatsApp via the button in the site footer.
+        +977 9845993344, or on WhatsApp via the button in the site footer.
       </p>
     </PolicyPage>
   );

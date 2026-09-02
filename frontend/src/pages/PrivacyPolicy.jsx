@@ -59,7 +59,7 @@ export default function PrivacyPolicy() {
 
       <H2>Contact</H2>
       <p>
-        For any privacy request, contact us at Bouddha-6, Kathmandu, by phone on +977 984-9453348,
+        For any privacy request, contact us at Bouddha-6, Kathmandu, by phone on +977 9845993344,
         or on WhatsApp via the button in the site footer.
       </p>
     </PolicyPage>

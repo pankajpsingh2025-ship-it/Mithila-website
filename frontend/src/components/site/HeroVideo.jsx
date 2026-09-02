@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { MessageCircle, ArrowDown } from "lucide-react";
-import { HERO_VIDEO, WA } from "../../lib/site";
+import { HERO_VIDEO, WA, CONTACT } from "../../lib/site";
 
 /**
  * Hero — "Make It".
@@ -101,12 +101,20 @@ export const HeroVideo = () => {
             href={WA.order}
             target="_blank"
             rel="noreferrer"
+            aria-label={CONTACT.whatsappA11y}
             className="mo-hover inline-flex items-center gap-2 rounded-full border border-maroon/25 bg-paper/50 px-7 py-4 text-sm font-medium text-maroon backdrop-blur-sm transition-colors hover:bg-maroon hover:text-paper"
             data-testid="hero-whatsapp-btn"
           >
             <MessageCircle className="h-5 w-5" /> Order on WhatsApp
           </a>
         </div>
+
+        <p className="rise-in rise-in-4 mt-4 text-xs text-ink/55">
+          Prefer another channel?{" "}
+          <a href={CONTACT.facebook} target="_blank" rel="noreferrer" aria-label={CONTACT.facebookA11y} className="underline underline-offset-2 hover:text-maroon">Facebook</a>
+          {" • "}
+          <a href={CONTACT.instagram} target="_blank" rel="noreferrer" aria-label={CONTACT.instagramA11y} className="underline underline-offset-2 hover:text-maroon">Instagram</a>
+        </p>
       </div>
 
       {/* subtle "Shape it" invitation at the base of the hero */}

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { ArrowUpRight, ShoppingBag, Minus, Plus } from "lucide-react";
-import { PRODUCTS } from "../../lib/site";
+import { PRODUCTS, waProduct } from "../../lib/site";
 import { Reveal } from "./motion";
 import { useCart } from "../../context/CartContext";
 
@@ -66,9 +66,10 @@ const ProductCard = ({ p }) => {
           <ShoppingBag className="w-4 h-4" /> Add to Cart
         </button>
         <a
-          href={p.href}
+          href={waProduct(p, qty)}
           target="_blank"
           rel="noreferrer"
+          aria-label={`Order ${p.name} from Mithila.Foods on WhatsApp`}
           className="mt-2 inline-flex items-center justify-center gap-1.5 text-xs text-heritage transition-colors hover:text-maroon"
           data-testid={`product-order-${p.id}`}
         >

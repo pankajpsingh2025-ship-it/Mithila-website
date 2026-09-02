@@ -147,8 +147,18 @@ export const Footer = () => {
                 </a>
               </li>
               <li>
-                <a href={WA.order} target="_blank" rel="noreferrer" className="flex items-center gap-2 transition-colors hover:text-goldbright" data-testid="footer-whatsapp">
-                  <MessageCircle className="h-4 w-4 text-goldbright" /> Order on WhatsApp
+                <a href={WA.order} target="_blank" rel="noreferrer" aria-label="Order Mithila.Foods on WhatsApp" className="flex items-center gap-2 transition-colors hover:text-goldbright" data-testid="footer-whatsapp">
+                  <MessageCircle className="h-4 w-4 text-goldbright" /> WhatsApp
+                </a>
+              </li>
+              <li>
+                <a href={SOCIAL.facebook} target="_blank" rel="noreferrer" aria-label="Message Mithila.Foods on Facebook" className="flex items-center gap-2 transition-colors hover:text-goldbright" data-testid="footer-facebook">
+                  <Facebook className="h-4 w-4 text-goldbright" /> Facebook
+                </a>
+              </li>
+              <li>
+                <a href={SOCIAL.instagram} target="_blank" rel="noreferrer" aria-label="DM Mithila.Foods on Instagram" className="flex items-center gap-2 transition-colors hover:text-goldbright" data-testid="footer-instagram">
+                  <Instagram className="h-4 w-4 text-goldbright" /> Instagram
                 </a>
               </li>
               <li>

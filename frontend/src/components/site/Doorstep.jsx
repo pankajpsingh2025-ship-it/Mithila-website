@@ -1,6 +1,6 @@
 import React from "react";
-import { ShoppingBag, MessageCircle } from "lucide-react";
-import { DOORSTEP, WA } from "../../lib/site";
+import { ShoppingBag, MessageCircle, Facebook, Instagram } from "lucide-react";
+import { DOORSTEP, WA, CONTACT } from "../../lib/site";
 import { MaskLines, Reveal } from "./motion";
 import { Peacock } from "./Madhubani";
 
@@ -63,11 +63,36 @@ export const Doorstep = () => {
             href={WA.order}
             target="_blank"
             rel="noreferrer"
+            aria-label={CONTACT.whatsappA11y}
             className="mt-5 inline-flex items-center gap-1.5 text-sm text-ink/55 transition-colors hover:text-golddeep"
             data-testid="doorstep-whatsapp"
           >
             <MessageCircle className="h-4 w-4" /> {DOORSTEP.whatsapp}
           </a>
+        </Reveal>
+        <Reveal delay={0.34}>
+          <div className="mt-4 flex items-center justify-center gap-5 text-xs text-ink/50">
+            <a
+              href={CONTACT.facebook}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={CONTACT.facebookA11y}
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-maroon"
+              data-testid="doorstep-facebook"
+            >
+              <Facebook className="h-4 w-4" /> {CONTACT.facebookLabel}
+            </a>
+            <a
+              href={CONTACT.instagram}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={CONTACT.instagramA11y}
+              className="inline-flex items-center gap-1.5 transition-colors hover:text-maroon"
+              data-testid="doorstep-instagram"
+            >
+              <Instagram className="h-4 w-4" /> {CONTACT.instagramLabel}
+            </a>
+          </div>
         </Reveal>
       </div>
     </section>

@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { ArrowUpRight } from "lucide-react";
-import { VENDOR_TRUST, IMG } from "../../lib/site";
+import { MessageCircle, Facebook } from "lucide-react";
+import { VENDOR_TRUST, IMG, CONTACT } from "../../lib/site";
 import { Reveal, useParallax } from "./motion";
 
 export const VendorTrust = () => {
@@ -26,15 +26,28 @@ export const VendorTrust = () => {
                 loading="lazy"
               />
             </div>
-            <a
-              href={href}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-6 inline-flex items-center gap-2 rounded-full border border-maroon/25 px-6 py-3 text-sm font-medium text-maroon transition-colors hover:bg-maroon hover:text-paper"
-              data-testid="vendor-cta"
-            >
-              {cta} <ArrowUpRight className="h-4 w-4" />
-            </a>
+            <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+              <a
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Contact Mithila.Foods about café / wholesale supply on WhatsApp"
+                className="mo-hover inline-flex items-center gap-2 rounded-full bg-heritage px-6 py-3 text-sm font-medium text-paper transition-colors hover:bg-maroon"
+                data-testid="vendor-cta"
+              >
+                <MessageCircle className="h-4 w-4" /> {cta}
+              </a>
+              <a
+                href={CONTACT.facebook}
+                target="_blank"
+                rel="noreferrer"
+                aria-label={CONTACT.facebookA11y}
+                className="inline-flex items-center gap-1.5 text-xs text-ink/55 transition-colors hover:text-maroon"
+                data-testid="vendor-facebook"
+              >
+                <Facebook className="h-4 w-4" /> {CONTACT.facebookLabel}
+              </a>
+            </div>
           </Reveal>
 
           <div className="lg:col-span-7">
