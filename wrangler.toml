@@ -5,13 +5,17 @@
 # edge, with unknown paths falling back to index.html for the SPA router.
 #
 # Paste these into the Cloudflare "Create application" dashboard:
-#   Build command:   cd frontend && npm ci && npm run build
+#   Build command:   cd frontend && npm ci --legacy-peer-deps && npm run build
 #   Deploy command:  npx wrangler@3 deploy
 #
-# NOTE: use wrangler@3, not bare "wrangler". This repo's CRA 5 build needs
-# Node 20 (Node 22+ breaks the toolchain), but wrangler v4 requires Node 22+.
-# Wrangler 3 runs fine on Node 20 and fully supports assets-only Workers.
-# Set NODE_VERSION=20 as a build variable (the repo's .node-version pins it too).
+# --legacy-peer-deps: a few UI deps (react-day-picker/date-fns, etc.) have peer
+#   ranges that predate React 19 / date-fns 4. The lockfile is resolved this way;
+#   the flag is passed explicitly here because a frontend/.npmrc was not reliably
+#   picked up by `npm ci` in the Cloudflare build image.
+# wrangler@3 (not bare "wrangler"): this repo's CRA 5 build needs Node 20 (22+
+#   breaks the toolchain) and wrangler v4 requires Node 22+. Wrangler 3 runs on
+#   Node 20 and fully supports assets-only Workers.
+# Also set build variables: NODE_VERSION=20 and NPM_CONFIG_LEGACY_PEER_DEPS=true.
 
 name = "mithila-foods"
 compatibility_date = "2025-01-01"
