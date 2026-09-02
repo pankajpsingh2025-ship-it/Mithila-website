@@ -1,0 +1,11 @@
+# CRA fingerprints everything under /static/ — safe to cache forever.
+/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Photography / video posters — cache hard, they rarely change.
+/real/*
+  Cache-Control: public, max-age=2592000
+/brief/*
+  Cache-Control: public, max-age=2592000
+/gen/*
+  Cache-Control: public, max-age=2592000

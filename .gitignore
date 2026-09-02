@@ -86,3 +86,7 @@ android-sdk/
 credentials.json
 *.key
 .credentials
+
+# Frontend build-config env files — no secrets, needed by CI (Cloudflare Pages).
+!frontend/.env.production
+!frontend/.env.development

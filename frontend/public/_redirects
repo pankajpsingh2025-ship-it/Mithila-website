@@ -1,0 +1,3 @@
+# SPA fallback — every path that isn't a real file serves index.html
+# so react-router deep links (/shop, /privacy-policy, …) and refreshes work.
+/*    /index.html   200

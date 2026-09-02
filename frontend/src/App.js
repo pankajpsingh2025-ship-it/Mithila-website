@@ -7,12 +7,15 @@ import "./App.css";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
 import { Nav } from "./components/site/Nav";
-import { CartDrawer } from "./components/site/CartDrawer";
 import { AuthCallback } from "./components/site/AuthCallback";
 import Home from "./pages/Home";
 import Checkout from "./pages/Checkout";
 import OrderResult from "./pages/OrderResult";
 import Orders from "./pages/Orders";
+import Shop from "./pages/Shop";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import ShippingReturns from "./pages/ShippingReturns";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -51,12 +54,15 @@ function AppRouter() {
     <>
       <SmoothScroll />
       <Nav />
-      <CartDrawer />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order/:id" element={<OrderResult />} />
         <Route path="/orders" element={<Orders />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+        <Route path="/terms-of-service" element={<TermsOfService />} />
+        <Route path="/shipping-returns" element={<ShippingReturns />} />
       </Routes>
     </>
   );

@@ -1,63 +1,74 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 
-const EASE = [0.22, 1, 0.36, 1];
+// One easing curve for the whole site.
+export const EASE = [0.22, 1, 0.36, 1];
 
-// Simple fade + rise reveal on scroll into view.
-export const Reveal = ({ children, delay = 0, y = 30, className = "", once = true }) => (
-  <motion.div
-    className={className}
-    initial={{ opacity: 0, y }}
-    whileInView={{ opacity: 1, y: 0 }}
-    viewport={{ once, margin: "-80px" }}
-    transition={{ duration: 0.85, delay, ease: EASE }}
-  >
+// Reveals start while the element is still ~15% below the fold and finish
+// quickly, so by the time it's comfortably in view the motion is already
+// done — smooth on any scroll speed, never a late "pop", never left hidden.
+const VIEWPORT = { once: true, margin: "0px 0px -12% 0px", amount: 0.15 };
+
+export const Reveal = ({ children, delay = 0, y = 22, className = "" }) => {
+  const reduce = useReducedMotion();
+  if (reduce) return <div className={className}>{children}</div>;
+  return (
+    <motion.div
+      className={className}
+      initial={{ opacity: 0, y }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={VIEWPORT}
+      transition={{ duration: 0.55, delay, ease: EASE }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+export const Stagger = ({ children, className = "" }) => <div className={className}>{children}</div>;
+
+export const StaggerItem = ({ children, className = "", y = 20, delay = 0 }) => (
+  <Reveal className={className} y={y} delay={delay}>
     {children}
-  </motion.div>
+  </Reveal>
 );
 
-// Staggered container helpers.
-export const Stagger = ({ children, className = "", delay = 0, gap = 0.1 }) => (
-  <motion.div
-    className={className}
-    initial="hidden"
-    whileInView="show"
-    viewport={{ once: true, margin: "-80px" }}
-    variants={{ show: { transition: { staggerChildren: gap, delayChildren: delay } } }}
-  >
-    {children}
-  </motion.div>
-);
-
-export const StaggerItem = ({ children, className = "", y = 28 }) => (
-  <motion.div
-    className={className}
-    variants={{ hidden: { opacity: 0, y }, show: { opacity: 1, y: 0 } }}
-    transition={{ duration: 0.8, ease: EASE }}
-  >
-    {children}
-  </motion.div>
-);
-
-// Line-by-line masked reveal for big headings.
+/** Line-by-line masked reveal for big headings. */
 export const MaskLines = ({ lines, className = "", lineClass = "", delay = 0, animate = false }) => {
-  const anim = animate
-    ? { animate: { y: "0%" } }
-    : { whileInView: { y: "0%" }, viewport: { once: true, margin: "-60px" } };
+  const reduce = useReducedMotion();
   return (
     <span className={className}>
       {lines.map((l, i) => (
         <span key={i} className="block overflow-hidden pb-[0.08em]">
-          <motion.span
-            className={`block ${lineClass}`}
-            initial={{ y: "115%" }}
-            {...anim}
-            transition={{ duration: 0.95, delay: delay + i * 0.12, ease: EASE }}
-          >
-            {l}
-          </motion.span>
+          {reduce || animate ? (
+            <span className={`${animate ? "rise-in " : ""}block ${lineClass}`}>{l}</span>
+          ) : (
+            <motion.span
+              className={`block ${lineClass}`}
+              initial={{ y: "110%" }}
+              whileInView={{ y: "0%" }}
+              viewport={{ once: true, margin: "0px 0px -10% 0px" }}
+              transition={{ duration: 0.7, delay: delay + i * 0.08, ease: EASE }}
+            >
+              {l}
+            </motion.span>
+          )}
         </span>
       ))}
     </span>
   );
+};
+
+/**
+ * Shared parallax. Every feature image across the site moves through the same
+ * gentle range in the same direction — one parallax rhythm for the whole page.
+ * `range` = total travel in px across its scroll pass. Degrades to no motion
+ * for reduced-motion users.
+ */
+export const useParallax = (range = 40) => {
+  const ref = useRef(null);
+  const reduce = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
+  const y = useTransform(scrollYProgress, [0, 1], [range / 2, -range / 2]);
+  return { ref, y: reduce ? 0 : y };
 };

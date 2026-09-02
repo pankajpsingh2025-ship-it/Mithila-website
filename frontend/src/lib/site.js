@@ -1,19 +1,76 @@
 // Mithila.Foods — content + constants (all facts per official brief, do not alter)
 
-export const PHONE = "9779849453348";
-export const PHONE_DISPLAY = "+977 984-9453348";
+// Official Mithila.Foods order WhatsApp line.
+export const PHONE = "9779845993344";
+export const PHONE_DISPLAY = "+977 9845993344";
 
 export const wa = (text) =>
   `https://wa.me/${PHONE}${text ? `?text=${encodeURIComponent(text)}` : ""}`;
 
+/** Pre-filled WhatsApp order message for a single product. */
+export const waProduct = (p, qty = 1) =>
+  wa(
+    `Hi Mithila.Foods 👋\n\nI'd like to order:\n\n` +
+      `Product: ${p.name}\n` +
+      `Size/Weight: ${p.size || "-"}\n` +
+      `Quantity: ${qty}\n` +
+      `Price: NPR ${p.priceNum ? p.priceNum * qty : p.price}\n\n` +
+      `Please help me confirm delivery and payment.\n\nThank you.`
+  );
+
+/** Pre-filled WhatsApp message for a whole cart. */
+export const waCart = (items = [], subtotal = 0) =>
+  wa(
+    `Hi Mithila.Foods 👋\n\nI'd like to place an order:\n\n` +
+      items
+        .map((it) => `${it.qty} × ${it.name} — NPR ${(it.priceNum || it.price) * it.qty}`)
+        .join("\n") +
+      `\n\nSubtotal: NPR ${subtotal}\n\n` +
+      `Please help me confirm delivery and payment details.\n\nThank you.`
+  );
+
 export const WA = {
-  order: wa(),
-  giftLarge: wa("Hi! I'd like to order the Gift Box Large"),
-  giftSmall: wa("Hi! I'd like to order the Gift Box Small"),
-  pack1kg: wa("Hi! I'd like to order the 1kg pack"),
-  pack500: wa("Hi! I'd like to order the 500gm pack"),
-  corporate: wa("Hi! I'd like to ask about corporate/bulk gifting"),
-  stockist: wa("Hi! I'm interested in stocking Mithila.Foods at my café/store"),
+  order: wa("Hi Mithila.Foods 👋 I'd like to order some Khajuri. Please help me confirm delivery and payment."),
+  giftLarge: wa("Hi Mithila.Foods 👋 I'd like to order the Gift Box — Large (NPR 1,199). Please help me confirm delivery and payment."),
+  giftSmall: wa("Hi Mithila.Foods 👋 I'd like to order the Gift Box — Small (NPR 699). Please help me confirm delivery and payment."),
+  pack1kg: wa("Hi Mithila.Foods 👋 I'd like to order the Family Pack — 1kg (NPR 999). Please help me confirm delivery and payment."),
+  pack500: wa("Hi Mithila.Foods 👋 I'd like to order the Regular Pack — 500gm (NPR 499). Please help me confirm delivery and payment."),
+  corporate: wa("Hi Mithila.Foods 👋\n\nI'm interested in ordering Khajuri for gifting.\n\nPlease send me the available gift options and pricing.\n\nThank you."),
+  gifting: wa("Hi Mithila.Foods 👋\n\nI'm interested in ordering Khajuri for gifting.\n\nPlease send me the available gift options and pricing.\n\nThank you."),
+  stockist: wa("Hi Mithila.Foods,\n\nI'm interested in café / wholesale Khajuri supply.\n\nPlease send me your available wholesale options and pricing."),
+  wholesale: wa("Hi Mithila.Foods,\n\nI'm interested in café / wholesale Khajuri supply.\n\nPlease send me your available wholesale options and pricing."),
+  vip: wa("Add me to the Mithila.Foods VIP list for fresh-batch alerts."),
+};
+
+// Official social links — open in a new tab.
+export const SOCIAL = {
+  facebook: "https://www.facebook.com/profile.php?id=61589183761470",
+  instagram: "https://www.instagram.com/mithila.foods/",
+  tiktok: "https://www.tiktok.com/@mithilafoods",
+};
+
+// Contact-channel hierarchy: WhatsApp is primary, Facebook + Instagram secondary.
+export const CONTACT = {
+  whatsapp: WA.order,
+  whatsappLabel: "Order on WhatsApp",
+  whatsappA11y: "Order Mithila.Foods on WhatsApp",
+  facebook: SOCIAL.facebook,
+  facebookLabel: "Message us on Facebook",
+  facebookA11y: "Message Mithila.Foods on Facebook",
+  instagram: SOCIAL.instagram,
+  instagramLabel: "DM us on Instagram",
+  instagramA11y: "DM Mithila.Foods on Instagram",
+};
+
+// Approved hero video (transparent bowl -> ingredients -> dough).
+// Served as mp4 for cross-browser autoplay; .mov kept as a fallback source.
+// `c_crop,g_south,h_0.82` drops the top ~18% of every frame so the baked-in
+// "Mithila.Foods" logo near the top is removed at the source (the hero also
+// scales + shifts the media down, and a cream top-fade adds insurance).
+export const HERO_VIDEO = {
+  mp4: "https://res.cloudinary.com/ivgqwrox/video/upload/c_crop,g_south,h_0.82/v1787757893/Web_Video.mp4",
+  mov: "https://res.cloudinary.com/ivgqwrox/video/upload/c_crop,g_south,h_0.82/v1787757893/Web_Video.mov",
+  poster: "https://res.cloudinary.com/ivgqwrox/video/upload/c_crop,g_south,h_0.82,so_2/v1787757893/Web_Video.jpg",
 };
 
 export const IMG = {
@@ -33,12 +90,32 @@ export const IMG = {
   giftSet: "/brief/a14.png",        // jar + branded gold bag + kraft pouch
   giftBag: "/brief/a02.webp",       // branded gold gift bag + kraft pouch (lifestyle)
   lifestyle: "/brief/a04.webp",
+  packsLineup: "/brief/a15.png",    // jar + kraft bag + loose khajuri (family shot)
   // Vendor café environments
   cafeJanakpur: "/brief/a08.png",
   cafeAkhiJhyal: "/brief/a09.png",
   cafeChiyaSamaj: "/brief/a10.png",
   cafeOotalo: "/brief/a11.png",
   cafeChiyaExpress: "/brief/a12.png",
+  // --- Real supplied product / packaging photos (Finalist set) ---
+  packRegular: "/real/pack-regular.jpg",  // Regular pack 500g — single black window pouch
+  packFamily: "/real/pack-family.jpg",    // Family pack 1kg — two black window pouches
+  packGift: "/real/pack-gift.jpg",        // Gift pack — Mithila-art bag + kraft pouch + plate (shop cards)
+  giftHero: "/real/gift-set.jpg",         // Gift set on a carved travertine tray (Gifting section)
+  vendorJar: "/real/pack-vendor.jpg",     // Vendor pack — branded jar in a café setting
+  finalLineup: "/real/product-lineup.jpg",// LINEUP — full labelled product range
+
+  // Shape -> Bake -> Break sequence (ordered; used by the pinned MakingStage)
+  makeShape1: "/real/make-shape-1.jpg",   // dough ball on the square carved mould
+  makeShape2: "/real/make-shape-2.jpg",   // pressing the dough (Khajuri mould, action)
+  makeShape3: "/real/make-shape-3.jpg",   // finished raw floret on the spiral mould
+  makeBake1: "/real/make-bake-1.jpg",     // raw floret on the mould, pale
+  makeBake2: "/real/make-bake-2.jpg",     // lightly baked, pale gold
+  makeBake3: "/real/make-bake-3.jpg",     // baked, medium gold
+  makeBake4: "/real/make-bake-4.jpg",     // fully baked, deep gold
+  makeBreak1: "/real/make-break-1.jpg",   // golden, first crack across the middle
+  makeBreak2: "/real/make-break-2.jpg",   // broken open in two halves, crumbly inside
+  goldenWhole: "/real/khajuri-golden-whole.jpg", // deep-gold whole floret (sensory / packaging)
   // Transparent PNGs used only for the scroll morph
   cookieWhole: "/gen/cookie_whole.png",
   cookieCracked: "/gen/cookie_cracked.png",
@@ -61,21 +138,23 @@ export const TRUST = [
   "Already stocked at tea shops & cafés in Kathmandu",
 ];
 
+// One compressed editorial section: heritage + "what is khajuri" + purpose.
+// Written toward pride and belonging — a Mithila / Madhesi reader should feel
+// spoken to directly, not just informed about a recipe.
 export const STORY = {
-  headline: "A Terai tradition, carried into Kathmandu",
+  eyebrow: "Our story",
+  headline: "Tradition shouldn't have a season.",
+  subheading: "What is Khajuri?",
   paras: [
-    "Khajuri has been made in Mithila households for generations — a recipe passed down, not looked up. We didn't want to modernize it. We wanted to protect it.",
-    "So every batch is still handcrafted in small quantities, using real ghee, real jaggery, and the same fried-to-order method our elders used. Nothing here is mass-produced, and nothing here is rushed.",
+    "If you grew up in Mithila or the Terai, you already know khajuri — the smell of the kitchen before Chhath, the aunties pressing it by hand, one floret at a time, in a wooden mould older than any of us. Family, festival and home in a single bite.",
+    "For most people it shows up once a year. We didn't think a tradition this good should wait for a season — so we make it in small batches, all year, with the same real ghee, jaggery and whole nuts our elders used. For your morning tea, the road, a guest at the door, a gift sent home.",
   ],
-  chapters: [
-    { n: "01", t: "Passed down, not looked up", d: "A recipe carried through generations of Mithila kitchens." },
-    { n: "02", t: "Handcrafted in small batches", d: "Fried-to-order the way our elders did — never mass-produced." },
-    { n: "03", t: "Only the real thing", d: "Real ghee, real jaggery, whole nuts. Nothing rushed, nothing faked." },
-  ],
+  line: "Festival roots. Everyday enjoyment.",
 };
 
 export const INGREDIENTS = [
   { name: "Semolina", sub: "(suji)", note: "The base of every batch", img: "/gen/ing_semolina.jpg" },
+  { name: "Wheat flour", sub: "", note: "For structure and a tender bite", img: "/gen/ing_wheatflour.jpg" },
   { name: "Ghee", sub: "", note: "Real, pure ghee — never vanaspati", img: "/gen/ing_ghee.jpg" },
   { name: "Jaggery", sub: "(gur)", note: "For real sweetness, not syrup", img: "/gen/ing_jaggery.jpg" },
   { name: "Fresh coconut", sub: "", note: "Fresh, not desiccated or sweetened", img: "/gen/ing_coconut.jpg" },
@@ -87,54 +166,139 @@ export const INGREDIENTS = [
   { name: "Fennel seeds", sub: "(saunf)", note: "The quiet, sweet finish", img: "/brief/ing_fennel.jpg" },
 ];
 
-export const ALLERGEN = "Contains nuts, dairy, and gluten. Does NOT contain egg.";
-
-export const PRODUCTS = [
+// Grouped for an elegant, scannable ingredient section (not 11 giant cards).
+export const INGREDIENT_GROUPS = [
   {
-    id: "gift-large",
-    name: "Gift Box — Large",
-    price: "1,199",
-    priceNum: 1199,
-    tag: "Best for gifting",
-    kraft: true,
-    desc: "The full heritage experience. Premium Mithila art gift bag, hand-packed.",
-    img: IMG.giftbags,
-    href: WA.giftLarge,
+    title: "The base",
+    note: "Body, and a tender, crumbly bite.",
+    items: ["Semolina (suji)", "Wheat flour"],
   },
   {
-    id: "gift-small",
-    name: "Gift Box — Small",
-    price: "699",
-    priceNum: 699,
-    tag: "A thoughtful gesture",
-    kraft: true,
-    desc: "Same craftsmanship, smaller size. Perfect for a thoughtful gesture.",
-    img: IMG.packs,
-    href: WA.giftSmall,
+    title: "The richness",
+    note: "Real fat, real sweetness, folded in by hand.",
+    items: ["Ghee", "Jaggery (gur)", "Fresh coconut"],
+  },
+  {
+    title: "The crunch",
+    note: "Whole nuts, broken — never machine-chopped.",
+    items: ["Almonds", "Cashews", "Peanuts"],
+  },
+  {
+    title: "The warmth",
+    note: "The quiet spice line that makes it unmistakably Mithila.",
+    items: ["Cardamom (elaichi)", "Cloves (lwang)", "Fennel seeds (saunf)"],
+  },
+];
+
+export const ALLERGEN = "Contains nuts, dairy, and gluten. Does NOT contain egg.";
+
+// Card order = the customer journey: Discover -> Try -> Commit -> Gift.
+// Names / prices / weights / badges / ids / checkout mappings unchanged.
+export const PRODUCTS = [
+  {
+    id: "regular-500",
+    name: "Regular Pack — 500gm",
+    price: "499",
+    priceNum: 499,
+    size: "500 gm resealable pouch",
+    tag: "The first taste",
+    kraft: false,
+    desc: "The perfect first taste, or your everyday chiya companion.",
+    img: IMG.packRegular,
+    href: WA.pack500,
   },
   {
     id: "family-1kg",
     name: "Family Pack — 1kg",
     price: "999",
     priceNum: 999,
+    size: "1 kg resealable pouch",
     tag: "Best value",
     kraft: false,
     desc: "A full kilogram for the household. Best value for daily enjoyment.",
-    img: IMG.pouches,
+    img: IMG.packFamily,
     href: WA.pack1kg,
   },
   {
-    id: "regular-500",
-    name: "Regular Pack — 500gm",
-    price: "499",
-    priceNum: 499,
-    tag: "The first taste",
-    kraft: false,
-    desc: "The perfect first taste, or your everyday chiya companion.",
-    img: IMG.stack,
-    href: WA.pack500,
+    id: "gift-small",
+    name: "Gift Box — Small",
+    price: "699",
+    priceNum: 699,
+    size: "Compact gift bag",
+    tag: "A thoughtful gesture",
+    kraft: true,
+    desc: "Same craftsmanship, smaller size. Perfect for a thoughtful gesture.",
+    img: IMG.packGift,
+    href: WA.giftSmall,
+  },
+  {
+    id: "gift-large",
+    name: "Gift Box — Large",
+    price: "1,199",
+    priceNum: 1199,
+    size: "Premium Mithila-art gift bag",
+    tag: "Best for gifting",
+    kraft: true,
+    desc: "The full heritage experience. Premium Mithila art gift bag, hand-packed.",
+    // distinct approved gifting photo so Small and Large don't look identical
+    img: IMG.giftHero,
+    href: WA.giftLarge,
   },
 ];
+
+// Personal customer testimonials now live in ./testimonials.js (structured,
+// with provenance + publication-approval fields). Café/vendor trust stays here.
+
+// One clean vendor / café trust section (replaces the old dark + green blocks).
+export const VENDOR_TRUST = {
+  eyebrow: "Trusted across Kathmandu",
+  headline: "Loved by 35+ cafés & tea shops",
+  body:
+    "You'll already find Mithila.Foods khajuri on counters around the valley — poured with chiya, paired with coffee, handed across the counter every day.",
+  vendors: [
+    { name: "Chiya Express", tag: "Tea shop • Kathmandu", img: IMG.cafeChiyaExpress },
+    { name: "Ootalo Café", tag: "Sip. Stay. Belong.", img: IMG.cafeOotalo },
+    { name: "Chiya Samaj", tag: "Community tea house • Kathmandu", img: IMG.cafeChiyaSamaj },
+    { name: "Janakpur Junction", tag: "Tea shop • Janakpur", img: IMG.cafeJanakpur },
+    { name: "Akhi Jhyal Cafe", tag: "Heritage café • Patan", img: IMG.cafeAkhiJhyal },
+  ],
+  cta: "Contact us on WhatsApp",
+  href: WA.wholesale,
+};
+
+export const GIFTING = {
+  eyebrow: "Gifting",
+  headline: "Send a taste of tradition.",
+  body:
+    "Wrapped in real Mithila art, with a story card and space for a hand-written note. Right for festivals, for family, for a thank-you, or for a whole office.",
+  points: [
+    "Premium Mithila-art gift bag, hand-packed",
+    "No strict minimum for corporate & bulk orders",
+    "Delivered across Nepal, ready to hand over",
+  ],
+  cta: "Send a Taste of Tradition",
+  href: WA.gifting,
+  bulkNote: "Corporate or bulk gifting?",
+  bulkCta: "Talk to us",
+  bulkHref: WA.wholesale,
+};
+
+export const LINEUP = {
+  eyebrow: "The Mithila.Foods collection",
+  headline: "Tradition, packed for every occasion.",
+  body:
+    "Everyday packs, family sharing, gifting and café-ready Khajuri — one heritage, made for more moments.",
+};
+
+export const DOORSTEP = {
+  eyebrow: "Freshly made in Kathmandu",
+  handoff: "Made by hand. Packed with care.",
+  headline: "Tradition, delivered to your doorstep.",
+  body: "Handcrafted Khajuri. Rooted in heritage. Made for your everyday.",
+  primary: "Bring Khajuri Home",
+  secondary: "Choose Your Pack",
+  whatsapp: "Order on WhatsApp",
+};
 
 export const CORPORATE = {
   headline: "Corporate & bulk gifting",
@@ -168,28 +332,39 @@ export const DELIVERY = {
     "Inside Kathmandu Valley: free delivery, within 24 hours (usually same-day)",
     "Outside Valley: nationwide, flat NPR 150 fee, 1–3 days depending on distance",
   ],
-  payments: ["Cash on Delivery", "eSewa", "Khalti", "Bank Transfer", "QR Code / Fonepay"],
+  // Only methods that are actually operational today. Digital-wallet gateways
+  // that are still being integrated go in `paymentsSoon` and render as
+  // "Coming soon" — never as active — so we don't imply false payment options.
+  // [owner to confirm which wallets are live before moving them up]
+  paymentsLive: ["Cash on Delivery", "Bank Transfer"],
+  paymentsSoon: ["eSewa", "Khalti", "QR / Fonepay"],
 };
 
+// Kept short and practical — the brand story is told higher up the page, so the
+// FAQ does not re-explain "what is Khajuri".
 export const FAQS = [
   {
     q: "Where do you deliver?",
-    a: "Inside Kathmandu Valley: free delivery, within 24 hours — usually same-day. Need it faster? Instant delivery is available for regular packs. Outside the Valley: nationwide delivery, flat NPR 150 fee, usually next-day to a few days depending on location.",
+    a: "Inside Kathmandu Valley: free delivery, usually same-day and within 24 hours. Outside the Valley: nationwide delivery for a flat NPR 150 fee, typically 1–3 days depending on distance.",
   },
   {
-    q: "What payment methods do you accept?",
-    a: "Cash on Delivery, eSewa, Khalti, Bank Transfer, and QR Code (Fonepay). For any method other than Cash on Delivery, we'll ask you to share a payment screenshot in chat — a real team member checks every payment personally.",
+    q: "How long does Khajuri stay fresh?",
+    a: "It's made fresh in small batches with no preservatives. Kept sealed in its pouch in a cool, dry place, it holds its crunch for several weeks.",
   },
   {
-    q: "Can I cancel or modify my order?",
-    a: "Since everything is freshly handcrafted specifically for your order, we're not able to offer casual cancellations or changes once it's placed — please double check everything before confirming. That said, if something genuinely goes wrong, message us directly and we'll make it right.",
+    q: "How should I store it?",
+    a: "Keep it in the resealable pouch, in a cool dry place, away from direct sun. Press the seal closed after opening.",
   },
   {
-    q: "Do you have any current discounts or offers?",
-    a: "No active discount or promotion right now — but we do run occasional offers around real occasions like Dashain, Tihar/Chhath, or Teej. Keep an eye on our page and we'll let you know the moment something's live.",
+    q: "What ingredients are used?",
+    a: "Semolina, wheat flour, ghee, jaggery, fresh coconut, almonds, cashew, peanuts, cardamom, cloves and fennel seeds. Contains nuts, dairy and gluten. Does NOT contain egg. No preservatives.",
   },
   {
-    q: "Is khajuri the same as dates?",
-    a: "No — khajuri is our handcrafted Terai-style savory-sweet snack, not the dried date fruit. Different word, different food entirely.",
+    q: "Is gifting available?",
+    a: "Yes. The Gift Box comes in Large and Small, wrapped in real Mithila-art packaging with a story card and room for a hand-written note. We also do corporate and bulk gifting with no strict minimum.",
+  },
+  {
+    q: "Do you supply cafés / wholesale?",
+    a: "Yes — we already stock 35+ cafés and tea shops across Kathmandu. Zero setup cost: we supply, you sell, we handle restocking. Message us on WhatsApp to start.",
   },
 ];

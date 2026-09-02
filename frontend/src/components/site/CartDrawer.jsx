@@ -1,8 +1,9 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, MessageCircle } from "lucide-react";
 import { useCart } from "../../context/CartContext";
+import { waCart, SOCIAL } from "../../lib/site";
 
 export const CartDrawer = () => {
   const { items, open, setOpen, setQty, removeItem, subtotal, count } = useCart();
@@ -62,14 +63,31 @@ export const CartDrawer = () => {
               <span>Subtotal</span>
               <span className="font-medium" data-testid="cart-subtotal">NPR {subtotal}</span>
             </div>
-            <p className="mt-1 text-xs text-ink/50">Delivery calculated at checkout (free inside the Valley).</p>
+            <p className="mt-1 text-xs text-ink/50">Delivery confirmed on WhatsApp (free inside the Valley).</p>
+            <a
+              href={waCart(items, subtotal)}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setOpen(false)}
+              aria-label="Order this cart from Mithila.Foods on WhatsApp"
+              className="mo-hover mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-heritage py-3.5 text-sm font-medium text-paper transition-colors hover:bg-maroon"
+              data-testid="cart-whatsapp-btn"
+            >
+              <MessageCircle className="h-4 w-4" /> Order on WhatsApp
+            </a>
             <button
               onClick={goCheckout}
-              className="mt-4 w-full rounded-full bg-heritage py-3.5 text-sm font-medium text-paper transition-colors hover:bg-maroon"
+              className="mt-2 w-full rounded-full border border-maroon/25 py-2.5 text-xs font-medium text-maroon transition-colors hover:bg-maroon hover:text-paper"
               data-testid="cart-checkout-btn"
             >
-              Proceed to Checkout
+              Or proceed to online checkout
             </button>
+            <p className="mt-3 text-center text-[11px] text-ink/45">
+              Need help? Message us on{" "}
+              <a href={SOCIAL.facebook} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-maroon">Facebook</a>
+              {" "}or{" "}
+              <a href={SOCIAL.instagram} target="_blank" rel="noreferrer" className="underline underline-offset-2 hover:text-maroon">Instagram</a>.
+            </p>
           </div>
         )}
       </SheetContent>
