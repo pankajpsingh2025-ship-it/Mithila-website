@@ -1,0 +1,24 @@
+# Cloudflare Workers — static-assets deployment for the React (CRA) frontend.
+#
+# There is no Worker script: this is an "assets-only" Worker. The deploy step
+# uploads the built site in ./frontend/build and Cloudflare serves it from the
+# edge, with unknown paths falling back to index.html for the SPA router.
+#
+# Paste these into the Cloudflare "Create application" dashboard:
+#   Build command:   cd frontend && npm ci && npm run build
+#   Deploy command:  npx wrangler@3 deploy
+#
+# NOTE: use wrangler@3, not bare "wrangler". This repo's CRA 5 build needs
+# Node 20 (Node 22+ breaks the toolchain), but wrangler v4 requires Node 22+.
+# Wrangler 3 runs fine on Node 20 and fully supports assets-only Workers.
+# Set NODE_VERSION=20 as a build variable (the repo's .node-version pins it too).
+
+name = "mithila-foods"
+compatibility_date = "2025-01-01"
+workers_dev = true
+
+[assets]
+directory = "./frontend/build"
+# Any path that isn't a real file serves index.html (react-router deep links:
+# /shop, /privacy-policy, page refreshes).
+not_found_handling = "single-page-application"
