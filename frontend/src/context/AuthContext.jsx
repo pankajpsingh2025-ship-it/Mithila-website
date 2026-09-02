@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { authMe, authLogout } from "../lib/api";
+import { authMe, authLogout, backendConfigured } from "../lib/api";
 
 const AuthContext = createContext(null);
 
@@ -19,6 +19,11 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   useEffect(() => {
+    // No backend in this build (WhatsApp-first ordering) — stay signed-out.
+    if (!backendConfigured) {
+      setLoading(false);
+      return;
+    }
     // CRITICAL: If returning from OAuth callback, skip the /me check.
     // AuthCallback will exchange the session_id and establish the session first.
     if (window.location.hash?.includes("session_id=")) {
